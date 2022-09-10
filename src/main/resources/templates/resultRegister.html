@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册结果</title>
+</head>
+<body>
+
+<script>
+    let pa = location.search.toString().split("=")
+    let a =function (){
+        if (pa[1]==="1"){
+            alert("注册成功,请登录")
+            window.location.replace("/login")
+        } else if (pa[1]==="0"){
+            alert("账号重复，注册失败，请重新注册")
+            window.location.replace("/Registration")
+        }else if (pa[1]==="2"){
+            alert("用户名重复，注册失败，请重新注册")
+            window.location.replace("/Registration")
+        }
+    }
+    document.write(a());
+
+
+</script>
+
+
+
+</body>
+
+</html>
