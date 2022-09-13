@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ public class LoginController {
     @GetMapping("/resultLogin")
     public String resultLogin(){ return "resultLogin"; }
 
-    @GetMapping("/loginuser")
+    @PostMapping("/loginuser")
     public void loginuser(HttpServletRequest request, HttpServletResponse response){
         int number = Integer.parseInt(request.getParameter("number"));
         String password = request.getParameter("password");
