@@ -1,8 +1,19 @@
 body{
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(236, 236, 236);
 }
 .main{
     background-color: #ffffff;
     margin: 40px;
     height: 700px;
+}
+
+.media-object{
+    width: 40px;
+    height: 40px;
+}
+
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
 }

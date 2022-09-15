@@ -1,5 +1,6 @@
-package com.demo.community.entity;
+package com.demo.community.dto;
 
+import com.demo.community.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question {
+public class QuestionDTO {
     private int id;
     private String title;
     private String description;
@@ -18,4 +19,5 @@ public class Question {
     private int view_count;
     private int like_count;
     private String tag;
+    private User user;
 }

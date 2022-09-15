@@ -3,13 +3,11 @@ package com.demo.community.controller;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.mapper.QuestionMapper;
-import com.demo.community.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +20,6 @@ import java.io.IOException;
 public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping("/publish")
     public String Publish(){
@@ -48,7 +44,7 @@ public class PublishController {
             question.setTitle(title);
             question.setDescription(description);
             question.setTag(tag);
-            question.setCreator(user.getName());
+            question.setCreator(user.getUid());
             question.setGmt_create(System.currentTimeMillis());
             question.setGmt_modified(question.getGmt_create());
 
