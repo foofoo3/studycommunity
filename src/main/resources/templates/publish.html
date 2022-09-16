@@ -63,7 +63,7 @@
             <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title">标题(问题简述)</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="标题" required>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="标题" required>
                 </div>
                 <div class="form-group">
                     <label for="description">问题内容(必填)</label>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签并以 ，号分隔" required>
+                    <input name="tag" type="text" class="form-control" id="tag" placeholder="输入标签并以 ，号分隔" required>
                 </div>
                 <button type="submit" class="btn btn-success" style="float: right;margin-right: 10px">发布</button>
             </form>
