@@ -61,17 +61,17 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr>
-<!--            <div class="media" th:each="question : ${questions}">-->
-            <div class="media">
+            <div class="media" th:each="question : ${questions}">
                 <div class="media-left">
                     <a href="#">
-<!--                        <img class="media-object img-circle" th:src="${https://tva1.sinaimg.cn/large/007E7MVRly1h67b5t1g90j30pe19rn8a.jpg}" width="50px" height="50px">-->
-                        <img class="media-object img-circle" src="https://tva1.sinaimg.cn/large/007E7MVRly1h67b5t1g90j30pe19rn8a.jpg">
+                        <img class="media-object img-circle" src="https://tvax2.sinaimg.cn/thumbnail/007E7MVRly1h68sjequvjj310k0n3qjb.jpg" alt="">
                     </a>
+                    <span th:text="${question.user.name}" style="height:auto;width: auto;color: #000000;font-size: large;"></span>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">标题</h4>
-                    <span class="text-desc">2个回复</span>
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>次浏览 · 小时前</span>
                 </div>
             </div>
         </div>
