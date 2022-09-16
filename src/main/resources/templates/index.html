@@ -64,14 +64,16 @@
             <div class="media" th:each="question : ${questions}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-circle" src="https://tvax2.sinaimg.cn/thumbnail/007E7MVRly1h68sjequvjj310k0n3qjb.jpg" alt="">
+                        <img style="width: 70px;height: 70px;" class="media-object img-circle" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
                     </a>
-                    <span th:text="${question.user.name}" style="height:auto;width: auto;color: #000000;font-size: large;"></span>
+                    <span th:text="${question.user.name}" style="color: #000000;font-size: medium;text-align: center;display: block"></span>
                 </div>
-                <div class="media-body">
+                <div class="media-body" style="padding-left: 30px">
                     <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}"></span><br>
-                    <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>次浏览 · 小时前</span>
+                    <span th:text="${question.description}" ></span>
+                    <br>
+                    <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>
+                        次浏览 ·<span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span>
                 </div>
             </div>
         </div>
