@@ -1,7 +1,7 @@
 package com.demo.community.controller;
 
 
-import com.demo.community.dto.QuestionDTO;
+import com.demo.community.dto.PaginationDTO;
 import com.demo.community.sercive.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 
 @Slf4j
@@ -23,8 +21,8 @@ public class IndexController {
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size) {
-        List<QuestionDTO> questionList = questionService.list(page,size);
-        model.addAttribute("questions",questionList);
+        PaginationDTO pagination = questionService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 
