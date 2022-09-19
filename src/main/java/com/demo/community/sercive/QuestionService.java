@@ -21,9 +21,11 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDTO> list() {
+    public List<QuestionDTO> list(Integer page, Integer size) {
 
-        List<Question> questions = questionMapper.list();
+        Integer offset =size *(page - 1);
+
+        List<Question> questions = questionMapper.list(offset,size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
