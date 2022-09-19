@@ -21,6 +21,17 @@ public class PaginationDTO {
         }else {
             totalPage = totalCount / size + 1;
         }
-        
+
+        if (page == 1){
+            showFirstPage = false;
+        }else {
+            showEndPage = true;
+        }
+
+        if (page == totalPage){
+            showEndPage = false;
+        }else {
+            showEndPage = true;
+        }
     }
 }
