@@ -14,24 +14,28 @@ public class PaginationDTO {
     private boolean showEndPage;
     private Integer page;
     private List<Integer> pages = new ArrayList<>();
+    private Integer totalPage;
 
     public void setPagination(Integer totalCount, Integer page, Integer size) {
-        Integer totalPage = 0;
+//        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
         }else {
             totalPage = totalCount / size + 1;
         }
-//        计算页码
+
+        this.page = page;
+//        计算页码列表
         pages.add(page);
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             if (page - i > 0){
-                pages.add(page - i,0);
+                pages.add(0,page - i);
             }
             if (page + i <= totalPage){
                 pages.add(page + i);
             }
         }
+
         //是否显示上一页
         if (page == 1){
             showPrevious = false;
