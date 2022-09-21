@@ -7,16 +7,24 @@
 <link rel="stylesheet" href="/css/community.css">
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 
+<!--<script src="../static/lib/jquery-3.6.1.js"></script>-->
+<!--<link rel="stylesheet" href="../static/css/bootstrap.css">-->
+<!--<link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">-->
+<!--<link rel="stylesheet" href="../static/css/community.css">-->
+<!--<script src="../static/js/bootstrap.min.js" type="application/javascript"></script>-->
+
 <head>
     <meta charset="UTF-8">
-    <title>个人中心</title>
+    <title th:text="${sectionName}"></title>
 </head>
 <body>
+
+<div th:insert="~{navigation :: nav}"></div>
 
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
+            <h2><span th:text="${sectionName}"></span></h2>
             <hr>
             <div class="media" th:each="question : ${pagination.questions}">
                 <div class="media-left">
@@ -38,25 +46,25 @@
                 <ul class="pagination">
                     <!--                    第一页，上一页-->
                     <li th:if="${pagination.showFirstPage}">
-                        <a href="/?page=1" aria-label="First">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="First">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li><li th:if="${pagination.showPrevious}">
-                    <a th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
+                    <a th:href="@{'/profile/'+${section}(page=${pagination.page - 1})}" aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
                     <!--                    页码列表取页码并高亮-->
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page} ? 'active' : ''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}">
+                        <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}">
                         </a></li>
                     <!--                    下一页，最后一页-->
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page + 1})}" aria-label="Next">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.page + 1})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li><li th:if="${pagination.showEndPage}">
-                    <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Last">
+                    <a th:href="@{'/profile/'+${section}(page=${pagination.totalPage})}" aria-label="Last">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                 </li>
@@ -66,7 +74,10 @@
         </div>
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
+            <div class="list-group" style="margin-top: 20px;margin-left: 10px">
+                <a href="/profile/questions" th:class="${section == 'questions'}? 'active list-group-item' : 'list-group-item'">我的提问</a>
+                <a href="/profile/replies" th:class="${section == 'replies'}? 'active list-group-item' : 'list-group-item'">最新回复<span class="badge">14</span></a>
+            </div>
 
         </div>
     </div>

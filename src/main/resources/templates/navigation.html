@@ -7,7 +7,7 @@
 <div th:fragment="nav">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">轻学论坛</span>
@@ -15,7 +15,6 @@
                 <a class="navbar-brand" href="/">轻学论坛</a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <form class="navbar-form navbar-left">
@@ -30,7 +29,8 @@
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width: auto"><span th:text="${session.user.getName()}"></span><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/question">我发起的问题</a></li>
+                            <li><a href="/profile/questions">我的提问</a></li>
+                            <li><a href="/profile/replies">最新回复</a></li>
                             <li><a href="#">个人资料</a></li>
                             <li><a href='/LogOut'>退出登录</a></li>
                         </ul>

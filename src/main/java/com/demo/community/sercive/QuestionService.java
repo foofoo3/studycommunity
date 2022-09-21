@@ -24,9 +24,17 @@ public class QuestionService {
 
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalPage;
         //        搜索总页数
         Integer totalCount = questionMapper.count();
-        paginationDTO.setPagination(totalCount,page,size);
+        if (totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
         //        超出页数范围判断,防止越界
         if (page < 1){
             page = 1;
@@ -48,6 +56,43 @@ public class QuestionService {
         }
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
-
     }
+
+    public PaginationDTO list(int uid, Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalPage;
+        //        搜索总页数
+        Integer totalCount = questionMapper.countByUid(uid);
+        //        计算页码总大小
+        if (totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
+        //        超出页数范围判断,防止越界
+        if (page < 1){
+            page = 1;
+        }
+        if (page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
+        Integer offset =size *(page - 1);
+        List<Question> questions = questionMapper.listByUid(uid,offset,size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        for (Question question : questions) {
+            User user = userMapper.SelectByUid(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        paginationDTO.setQuestions(questionDTOList);
+        return paginationDTO;
+    }
+
+
 }

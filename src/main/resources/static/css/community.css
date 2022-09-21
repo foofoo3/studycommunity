@@ -1,6 +1,7 @@
 body{
     background-color: rgb(236, 236, 236);
 }
+
 .main{
     background-color: #ffffff;
     margin: 40px;
@@ -17,3 +18,4 @@ body{
     font-weight: normal;
     color: #999;
 }
+
