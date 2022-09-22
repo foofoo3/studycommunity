@@ -21,7 +21,7 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
-
+//  查所有问题
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
@@ -57,7 +57,7 @@ public class QuestionService {
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
     }
-
+//    查用户所有问题
     public PaginationDTO list(int uid, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
@@ -94,5 +94,13 @@ public class QuestionService {
         return paginationDTO;
     }
 
-
+//    通过id查问题详情
+    public QuestionDTO getById(int id) {
+        Question question = questionMapper.getQuestionById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.SelectByUid(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
 }
