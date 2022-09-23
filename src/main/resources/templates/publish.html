@@ -25,7 +25,8 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起问题</h2>
+            <h2><span class="glyphicon glyphicon-plus" th:if="${id == 0}" th:text=" 发起问题" aria-hidden="true"></span></h2>
+            <h2><span class="glyphicon glyphicon-pencil" th:if="${id != 0}" th:text=" 修改问题" aria-hidden="true"></span></h2>
             <hr>
 
             <form action="/publish" method="post">
@@ -42,12 +43,14 @@
                     <label for="tag">添加标签</label>
                     <input name="tag" type="text" class="form-control" th:value="${tag}" id="tag" placeholder="输入标签并以 ，号分隔" required>
                 </div>
-                <button type="submit" class="btn btn-success" style="float: right;margin-right: 10px">发布</button>
+                <button type="submit" class="btn btn-success" th:if="${id == 0}" style="float: right;margin-right: 10px">发布</button>
+                <button type="submit" class="btn btn-success" th:if="${id != 0}" style="float: right;margin-right: 10px">确定修改</button>
             </form>
         </div>
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>问题发起指南</h3>
+            <h3 th:if="${id == 0}" th:text="问题发起指南"></h3>
+            <h3 th:if="${id != 0}" th:text="问题修改指南"></h3>
             <hr>
             <br>
             • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
