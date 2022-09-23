@@ -103,4 +103,23 @@ public class QuestionService {
         questionDTO.setUser(user);
         return questionDTO;
     }
+
+//      创建问题
+    public void create(Question question) {
+        question.setGmt_create(System.currentTimeMillis());
+        question.setGmt_modified(question.getGmt_create());
+        questionMapper.create(question);
+    }
+//    修改问题
+    public void update(Question questionById, String title, String description, String tag) {
+        questionById.setGmt_modified(System.currentTimeMillis());
+        questionById.setTitle(title);
+        questionById.setDescription(description);
+        questionById.setTag(tag);
+        questionMapper.update(questionById);
+    }
+//    通过id查找问题
+    public Question getQuestionById(int id) {
+        return questionMapper.getQuestionById(id);
+    }
 }
