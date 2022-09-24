@@ -4,6 +4,8 @@ import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
+import com.demo.community.exception.CustomizeErrorCode;
+import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -97,6 +99,9 @@ public class QuestionService {
 //    通过id查问题详情
     public QuestionDTO getById(int id) {
         Question question = questionMapper.getQuestionById(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.SelectByUid(question.getCreator());
@@ -116,7 +121,10 @@ public class QuestionService {
         questionById.setTitle(title);
         questionById.setDescription(description);
         questionById.setTag(tag);
-        questionMapper.update(questionById);
+        int update = questionMapper.update(questionById);
+        if (update != 1){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+        }
     }
 //    通过id查找问题
     public Question getQuestionById(int id) {

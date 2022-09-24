@@ -1,8 +1,6 @@
 package com.demo.community.controller;
 
 import com.demo.community.dto.QuestionDTO;
-import com.demo.community.entity.User;
-import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.sercive.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
