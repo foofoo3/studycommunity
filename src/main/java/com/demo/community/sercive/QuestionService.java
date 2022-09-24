@@ -130,4 +130,13 @@ public class QuestionService {
     public Question getQuestionById(int id) {
         return questionMapper.getQuestionById(id);
     }
+
+    public void incView(Integer id) {
+        Question question = questionMapper.getQuestionById(id);
+        question.setView_count(question.getView_count());
+        int update = questionMapper.updateViewCount(question);
+        if (update != 1){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
+        }
+    }
 }

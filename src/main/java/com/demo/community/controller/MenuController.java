@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 
 
-@Slf4j
 @Controller
 public class MenuController {
 
