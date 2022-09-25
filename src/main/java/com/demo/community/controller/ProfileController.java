@@ -19,6 +19,7 @@ import java.io.IOException;
 public class ProfileController {
     @Autowired
     private QuestionService questionService;
+
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action")String action, Model model,
                           @RequestParam(name = "page",defaultValue = "1") Integer page,

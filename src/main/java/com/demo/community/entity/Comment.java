@@ -15,4 +15,5 @@ public class Comment {
     private Long gmt_create;
     private Long gmt_modified;
     private Long like_count;
+    private String content;
 }
