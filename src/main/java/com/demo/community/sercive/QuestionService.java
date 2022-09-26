@@ -130,7 +130,7 @@ public class QuestionService {
     public Question getQuestionById(int id) {
         return questionMapper.getQuestionById(id);
     }
-
+//    浏览数加一
     public void incView(Integer id) {
         Question question = questionMapper.getQuestionById(id);
         question.setView_count(question.getView_count());

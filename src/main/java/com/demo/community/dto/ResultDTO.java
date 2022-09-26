@@ -1,7 +1,9 @@
 package com.demo.community.dto;
 
 import com.demo.community.exception.CustomizeErrorCode;
+import com.demo.community.exception.CustomizeException;
 import lombok.Data;
+import org.springframework.web.servlet.ModelAndView;
 
 @Data
 public class ResultDTO {
@@ -23,5 +25,9 @@ public class ResultDTO {
 
     public static ResultDTO errorOf(CustomizeErrorCode errorCode) {
         return errorOf(errorCode.getCode(),errorCode.getMessage());
+    }
+
+    public static ResultDTO errorOf(CustomizeException ex) {
+        return errorOf(ex.getCode(),ex.getMessage());
     }
 }

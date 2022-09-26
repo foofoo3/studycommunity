@@ -55,6 +55,11 @@
             <artifactId>mybatis-generator-maven-plugin</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>cn.bestwu</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2-unwrap</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Comment {
     private Long id;
-    private Long parent_id;
+    private int parent_id;
     private int type;
     private int commentator;
     private Long gmt_create;
