@@ -1,6 +1,10 @@
 function post(){
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
+    if (content === ""){
+        alert("回复不能为空")
+        return false;
+    }
     $.ajax({
         type: "POST",
         url: "/comment",
@@ -14,7 +18,15 @@ function post(){
             if (response.code === 200){
                 $("#comment_section").hide();
             }else {
-                alert(response.message)
+                if (response.code === 2003){
+                    let conf = confirm(response.message);
+                    if (conf){
+                        window.open("/login")
+                        // window.localStorage.setItem("closable","true");
+                    }
+                }else {
+                    alert(response.message)
+                }
             }
             console.log(response)
         },
