@@ -10,9 +10,8 @@ import com.demo.community.mapper.CommentMapper;
 import com.demo.community.mapper.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class CommentService {
@@ -21,6 +20,7 @@ public class CommentService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Transactional
     public void creat(Comment comment) {
         comment.setGmt_create(System.currentTimeMillis());
         comment.setGmt_modified(comment.getGmt_create());
