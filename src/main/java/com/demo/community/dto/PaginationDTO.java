@@ -37,7 +37,7 @@ public class PaginationDTO {
             showPrevious = true;
         }
         //是否显示下一页
-        if (page == totalPage){
+        if (page.equals(totalPage)){
             showNext = false;
         }else {
             showNext = true;

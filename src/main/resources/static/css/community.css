@@ -35,10 +35,16 @@ body{
 }
 
 .menu .ico{
-    margin:0 8px;
+    margin:8px 10px;
     font-size: 18px
 }
 
 .menu .ico:hover{
     color: #3277b0;
+}
+
+.comments{
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
 }

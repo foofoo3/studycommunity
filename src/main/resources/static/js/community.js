@@ -1,10 +1,12 @@
 function post(){
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
-    if (content === ""){
+    // 判断回复是否为空
+    if (content === "" || content.length === 0 || !content){
         alert("回复不能为空")
         return false;
     }
+
     $.ajax({
         type: "POST",
         url: "/comment",
@@ -16,7 +18,7 @@ function post(){
         }),
         success: function (response){
             if (response.code === 200){
-                $("#comment_section").hide();
+                window.location.reload()
             }else {
                 if (response.code === 2003){
                     let conf = confirm(response.message);
