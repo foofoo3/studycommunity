@@ -22,6 +22,11 @@ public interface UserMapper {
     @Select("SELECT name,number,password,uid from user where uid=#{uid}")
     User SelectByUid(@Param("uid")int uid);
 
-    @Select("SELECT name,number,password,uid from user where uid in #{userIds}")
+    @Select("<script> "+
+            "select * from user where uid in "+
+            "<foreach item='item' index='index' collection='userIds' open='(' separator=',' close=')'> "+
+            "   #{item} "+
+            "</foreach>"+
+            "</script> ")
     List<User> SelectByUidInList(@Param("userIds")List<Integer> userIds);
 }
