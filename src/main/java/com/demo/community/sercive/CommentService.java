@@ -78,7 +78,7 @@ public class CommentService {
         List<Integer> userIds = new ArrayList<>(commentators);
 //        获取评论人并转换为Map
         List<User> users = userMapper.SelectByUidInList(userIds);
-        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getUid(), user -> user));
+        Map<Integer,User> userMap = users.stream().collect(Collectors.toMap(user -> user.getUid(), user -> user));
 
 //        转换comment为commentDTO
         List<CommentDTO> commentDTOS = comments.stream().map(comment -> {
