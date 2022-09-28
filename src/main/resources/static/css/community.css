@@ -28,3 +28,17 @@ body{
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.menu{
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .ico{
+    margin:0 8px;
+    font-size: 18px
+}
+
+.menu .ico:hover{
+    color: #3277b0;
+}

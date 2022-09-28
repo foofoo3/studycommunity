@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserMapper {
     @Insert("insert into user values (#{name}, #{number}, #{password},null);")
@@ -20,4 +22,6 @@ public interface UserMapper {
     @Select("SELECT name,number,password,uid from user where uid=#{uid}")
     User SelectByUid(@Param("uid")int uid);
 
+    @Select("SELECT name,number,password,uid from user where uid in #{userIds}")
+    List<User> SelectByUidInList(@Param("userIds")List<Integer> userIds);
 }
