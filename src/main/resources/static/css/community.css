@@ -36,10 +36,14 @@ body{
 
 .menu .ico{
     margin:8px 10px;
-    font-size: 18px
+    font-size: 18px;
 }
 
 .menu .ico:hover{
+    color: #3277b0;
+}
+
+.menu .active{
     color: #3277b0;
 }
 

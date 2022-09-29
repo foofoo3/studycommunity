@@ -1,3 +1,4 @@
+// 提交恢复
 function post(){
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
@@ -34,4 +35,26 @@ function post(){
         },
         dataType: "json"
     });
+}
+
+// 展开二级评论
+function collapseComments(e){
+    let id = e.getAttribute("data-id");
+    let comments = $("#comment-" + id)
+    //获取二级评论展开状态
+    let collapse = e.getAttribute("collapse")
+    if (collapse){
+        //折叠二级评论
+        comments.removeClass("in")
+        //去除标记展开状态
+        e.removeAttribute("collapse")
+        e.classList.remove("active")
+    }else {
+        //展开二级评论
+        comments.addClass("in")
+        //标记展开状态
+        e.setAttribute("collapse","in")
+        e.classList.add("active")
+    }
+
 }
