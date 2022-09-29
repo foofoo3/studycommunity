@@ -1,8 +1,8 @@
 package com.demo.community.controller;
 
-import com.demo.community.dto.CommentCreatDTO;
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.dto.QuestionDTO;
+import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.sercive.CommentService;
 import com.demo.community.sercive.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")Integer id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION);
 //        累加阅读数
         questionService.incView(id);
         model.addAttribute("question",questionDTO);

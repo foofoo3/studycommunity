@@ -1,21 +1,21 @@
 package com.demo.community.controller;
 
 import com.demo.community.dto.CommentCreatDTO;
+import com.demo.community.dto.CommentDTO;
 import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.Comment;
 import com.demo.community.entity.User;
+import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.sercive.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -40,5 +40,12 @@ public class CommentController {
         comment.setCommentator(user.getUid());
         commentService.creat(comment);
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.POST)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") int id){
+        List<CommentDTO> commentDTOS = commentService.listByParentId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 }
