@@ -39,6 +39,7 @@ function comment2target(targetId,type,content){
 function post(){
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
+    debugger
     comment2target(questionId,1,content);
 }
 
@@ -46,6 +47,7 @@ function post(){
 function comment(e){
     let commentId = e.getAttribute("data-id");
     let content = $('#input-'+ commentId).val();
+    debugger
     comment2target(commentId,2,content);
 }
 
@@ -65,15 +67,15 @@ function collapseComments(e){
     }else {
         $.getJSON("/comment/"+id, function(data) {
             console.log(data);
-            // let subCommentContainer = $("#comment-" + id);
-            //
-            // $.each(data.data, function(index,comment) {
-            //     let h = $("<div/>",{
-            //         "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-            //         html: comment.content
-            //     });
-            //     subCommentContainer.prepend(h);
-            // });
+            let subCommentContainer = $("#comment-" + id);
+
+            $.each(data.data, function(index,comment) {
+                let h = $("<div/>",{
+                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                    html: comment.content
+                });
+                subCommentContainer.prepend(h);
+            });
 
             //展开二级评论
             comments.addClass("in");
