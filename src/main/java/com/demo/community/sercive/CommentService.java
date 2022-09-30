@@ -51,6 +51,12 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
             }
             commentMapper.creat(comment);
+//            二级评论数加一
+            dbcomment.setComment_count(dbcomment.getComment_count());
+            int i = commentMapper.updateCommentCount(dbcomment);
+            if (i != 1){
+                throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUNT);
+            }
         }else {
 //            回复问题
             Question question = questionMapper.getQuestionById(comment.getParent_id());

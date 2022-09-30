@@ -2,9 +2,11 @@ package com.demo.community.mapper;
 
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.entity.Comment;
+import com.demo.community.entity.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +21,7 @@ public interface CommentMapper {
 
     @Select("select * from comment where parent_id = #{parent_id} && type = #{type} order by gmt_create desc")
     List<Comment> selectByPidAndType(@Param("parent_id")int parent_id,@Param("type")Integer type);
+
+    @Update("update comment set comment_count = #{comment_count} + 1 where id = #{id}")
+    int updateCommentCount(Comment comment);
 }

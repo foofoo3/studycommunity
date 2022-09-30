@@ -35,14 +35,13 @@ body{
 }
 
 .menu .ico{
-    margin:8px 10px;
+    margin:8px 1px 8px 10px;
     font-size: 18px;
 }
 
-.menu .ico:hover{
+.menu .comments:hover{
     color: #3277b0;
 }
-
 .menu .active{
     color: #3277b0;
 }
@@ -56,5 +55,21 @@ body{
 .sub-comments{
     border: #d6d6d6 1px solid;
     padding-top: 10px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+}
+
+.comment-img{
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-body{
+    padding-left: 10px;
+    padding-top: 13px;
+}
+
+.comment-font{
+    font-size: 17px;
 }
