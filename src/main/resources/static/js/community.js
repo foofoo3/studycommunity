@@ -51,6 +51,7 @@ function comment(e){
 
 // 展开二级评论
 function collapseComments(e){
+    debugger
     let id = e.getAttribute("data-id");
     let comments = $("#comment-" + id);
     //获取二级评论展开状态
@@ -62,24 +63,17 @@ function collapseComments(e){
         e.removeAttribute("collapse");
         e.classList.remove("active");
     }else {
-        $.getJSON('comment/'+id, function(data) {
-            let commentBody = $("comment-body-" + id);
-            let items = [];
-            commentBody.appendChild();
-
-            let html = $.each(data.data, function(comment) {
-                $("<div>",{
-                    "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-                    html: comment.content
-                })
-                items.push(html);
-            });
-
-            $("<div>",{
-                "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
-                "id":'comment-' + id,
-                html: items.join('')
-            }).appendTo(commentBody);
+        $.getJSON("/comment/"+id, function(data) {
+            console.log(data);
+            // let subCommentContainer = $("#comment-" + id);
+            //
+            // $.each(data.data, function(index,comment) {
+            //     let h = $("<div/>",{
+            //         "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+            //         html: comment.content
+            //     });
+            //     subCommentContainer.prepend(h);
+            // });
 
             //展开二级评论
             comments.addClass("in");
@@ -87,6 +81,8 @@ function collapseComments(e){
             e.setAttribute("collapse","in");
             e.classList.add("active");
         });
+
+
 
     }
 
