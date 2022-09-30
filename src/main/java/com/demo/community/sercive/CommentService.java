@@ -45,7 +45,8 @@ public class CommentService {
         }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()){
 //            回复评论
-            Comment dbcomment = commentMapper.selectByParentId(comment.getParent_id());
+            Long commentId = Long.valueOf(comment.getParent_id());
+            Comment dbcomment = commentMapper.selectByParentId(commentId);
             if (dbcomment == null){
                 throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
             }
