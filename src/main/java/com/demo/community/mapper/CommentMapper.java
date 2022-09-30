@@ -14,8 +14,8 @@ public interface CommentMapper {
     @Insert("insert into comment(id,parent_id,type,commentator,gmt_create,gmt_modified,content) values (null,#{parent_id}, #{type},#{commentator}, #{gmt_create},#{gmt_modified},#{content});")
     void creat(Comment comment);
 
-    @Select("select * from comment where parent_id = #{parent_id}")
-    Comment selectByParentId(@Param("parent_id")int parent_id);
+    @Select("select * from comment where id = #{id}")
+    Comment selectByParentId(@Param("id")Long id);
 
     @Select("select * from comment where parent_id = #{parent_id} && type = #{type} order by gmt_create desc")
     List<Comment> selectByPidAndType(@Param("parent_id")int parent_id,@Param("type")Integer type);
