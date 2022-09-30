@@ -43,7 +43,7 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/comment/{id}",method = RequestMethod.POST)
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
     public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") int id){
         List<CommentDTO> commentDTOS = commentService.listByParentId(id, CommentTypeEnum.COMMENT);
         return ResultDTO.okOf(commentDTOS);
