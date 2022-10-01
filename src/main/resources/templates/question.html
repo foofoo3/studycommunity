@@ -31,10 +31,21 @@
     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="padding-left: 50px;padding-top: 20px;padding-right: 80px">
 <!--            标题栏-->
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!--            标题-->
             <h2><span th:text="${question.title}"></span></h2>
             <span class="text-desc">作者： <span th:text="${question.user.name}"></span>&nbsp&nbsp|&nbsp发布时间： <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span>&nbsp&nbsp|&nbsp阅读数： <span th:text="${question.view_count}"></span></span>
+<!--            描述内容-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size: 17px" th:text="${question.description}"></div>
+<!--            标签-->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span class="label label-info question-tag" th:each="tag : ${question.tag.split('，')}">
+                    <span class="glyphicon glyphicon-tags"></span>
+                    <span class="label label-info" th:text="${tag}"></span>
+                </span>
+            </div>
+<!--            发布人操作栏-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${session.user != null && session.user.uid == question.creator}">
             <div>
                 <a th:href="@{'/publish/'+ ${question.id}}" class="community-menu" th:if="${session.user != null && session.user.uid == question.creator}">
@@ -125,7 +136,13 @@
         </div>
         <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4>相关问题</h4>
+            <h3 style="margin-bottom: 20px">相关问题</h3>
+            <ul class="question-related">
+                <li th:each="related : ${similarQuestions}">
+                    <a th:href="@{'/question/'+ ${related.id}}" th:text="${related.title}"></a>
+                </li>
+            </ul>
+            <a href=""></a>
         </div>
     </div>
 </div>

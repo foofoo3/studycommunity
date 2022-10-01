@@ -8,12 +8,15 @@ import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.mapper.UserMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -138,5 +141,24 @@ public class QuestionService {
         if (update != 1){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }
+    }
+
+    public List<QuestionDTO> selectSimilar(QuestionDTO querynDTO) {
+        if (StringUtils.isBlank(querynDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(querynDTO.getTag(), "，");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(querynDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionMapper.selectSimilarQuestion(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

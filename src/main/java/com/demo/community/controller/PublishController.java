@@ -2,6 +2,8 @@ package com.demo.community.controller;
 
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
+import com.demo.community.exception.CustomizeErrorCode;
+import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.sercive.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,38 +41,41 @@ public class PublishController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user==null){
-            try {
-                response.sendRedirect("/resultLogin?=3");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
         }else {
-//            创建新问题
-            if (id == 0){
-                Question question = new Question();
-                question.setTitle(title);
-                question.setDescription(description);
-                question.setTag(tag);
-                question.setCreator(user.getUid());
-
-                questionService.create(question);
-
+            if(tag.contains(",")){
                 try {
-                    response.sendRedirect("/");
+                    response.sendRedirect("/resultLogin?=3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }else {
-                //     修改问题
-                Question questionById = questionService.getQuestionById(id);
-                questionService.update(questionById, title, description, tag);
-                try {
-                    response.sendRedirect("/");
-                } catch (IOException e) {
-                    e.printStackTrace();
+//                创建新问题
+                if (id == 0){
+                    Question question = new Question();
+                    question.setTitle(title);
+                    question.setDescription(description);
+                    question.setTag(tag);
+                    question.setCreator(user.getUid());
+
+                    questionService.create(question);
+
+                    try {
+                        response.sendRedirect("/");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    //     修改问题
+                    Question questionById = questionService.getQuestionById(id);
+                    questionService.update(questionById, title, description, tag);
+                    try {
+                        response.sendRedirect("/");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-
         }
     }
 

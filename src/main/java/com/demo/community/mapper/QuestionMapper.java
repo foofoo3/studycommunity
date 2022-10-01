@@ -14,13 +14,13 @@ public interface QuestionMapper {
     @Insert("insert into question(id,title,description,gmt_create,gmt_modified,creator,tag) values (null,#{title}, #{description}, #{gmt_create},#{gmt_modified},#{creator},#{tag});")
     void create(Question question);
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question order by gmt_create desc limit #{offset},#{size}")
     List<Question> list(@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question")
     Integer count();
 
-    @Select("select * from question where creator = #{uid} limit #{offset},#{size}")
+    @Select("select * from question where creator = #{uid} order by gmt_create desc limit #{offset},#{size} ")
     List<Question> listByUid(@Param("uid") int uid,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question where creator = #{uid}")
@@ -38,5 +38,6 @@ public interface QuestionMapper {
     @Update("update question set comment_count = #{comment_count} + 1 where id = #{id}")
     int updateCommentCount(Question question);
 
-
+    @Select("select * from question where id != #{id} and tag regexp #{tag}")
+    List<Question> selectSimilarQuestion(Question question);
 }

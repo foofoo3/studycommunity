@@ -23,12 +23,18 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")Integer id, Model model){
+//        问题内容
         QuestionDTO questionDTO = questionService.getById(id);
+//        相似问题列表
+        List<QuestionDTO> similarQuestions = questionService.selectSimilar(questionDTO);
+//        回复列表
         List<CommentDTO> comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION);
 //        累加阅读数
         questionService.incView(id);
+
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",comments);
+        model.addAttribute("similarQuestions",similarQuestions);
         return "question";
     }
 }
