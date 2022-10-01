@@ -113,11 +113,10 @@ function collapseComments(e){
                 e.setAttribute("collapse","in");
                 e.classList.add("active");
             }
-
         });
-
-
-
     }
+}
 
+function selectTag(value){
+    
 }
