@@ -47,20 +47,19 @@
                     <div style="padding: 10px;width: 66%;display: none" id="select-tag">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">1</a></li>
-                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">2</a></li>
-                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">3</a></li>
-                            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">4</a></li>
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat : ${tags}" th:class="${selectCategoryStat.first ? 'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab" data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active tab-style" id="home">
-                                <span class="label label-info label-style" onclick="selectTag('spring')"><a class="glyphicon glyphicon-tags" style="color: #2d2b2b"> Spring</a></span>
-                                <span class="label label-info label-style" onclick="selectTag('Java')"><a class="glyphicon glyphicon-tags" style="color: #2d2b2b"> Java</a></span>
+                            <div role="tabpanel" class="tab-style" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory : ${tags}" th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                <span class="label label-info label-style" th:each="selectTag : ${selectCategory.tags}">
+                                        <a class="glyphicon glyphicon-tags" th:text="${' '+selectTag}" onclick="selectTag(this)"
+                                           th:data-tag="${selectTag}" style="color: #ffffff;"></a>
+                                </span>
                             </div>
-                            <div role="tabpanel" class="tab-pane tab-style" id="profile">...</div>
-                            <div role="tabpanel" class="tab-pane tab-style" id="messages">...</div>
-                            <div role="tabpanel" class="tab-pane tab-style" id="settings">...</div>
                         </div>
                         <div style="padding-left: 10px;margin-top: 5px">
                             <span>点击上方默认标签 自动加入标签栏</span>

@@ -1,5 +1,6 @@
 package com.demo.community.controller;
 
+import com.demo.community.cache.TagCache;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
@@ -29,6 +30,7 @@ public class PublishController {
     @GetMapping("/publish")
     public String Publish(Model model){
         model.addAttribute("id",0);
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -45,7 +47,7 @@ public class PublishController {
         }else {
             if(tag.contains(",")){
                 try {
-                    response.sendRedirect("/resultLogin?=3");
+                    response.sendRedirect("/resultLogin?=false&"+id);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,6 +88,7 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 }
