@@ -34,8 +34,12 @@
                     <span th:text="${question.user.name}" style="color: #000000;font-size: medium;text-align: center;display: block"></span>
                 </div>
                 <div class="media-body" style="padding-left: 30px">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}" ></span>
+                    <h3 class="media-heading">
+                        <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                    </h3>
+                    <span>
+                        <a th:href="@{'/question/'+ ${question.id}}"  th:text="${question.description}" style="color: #0f0f0f;font-size: 16px"></a>
+                    </span>
                     <br>
                     <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>
                         次浏览 ·<span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span> |
