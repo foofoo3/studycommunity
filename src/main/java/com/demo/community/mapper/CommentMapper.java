@@ -1,8 +1,6 @@
 package com.demo.community.mapper;
 
-import com.demo.community.dto.CommentDTO;
 import com.demo.community.entity.Comment;
-import com.demo.community.entity.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

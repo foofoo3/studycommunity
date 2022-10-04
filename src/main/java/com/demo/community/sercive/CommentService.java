@@ -2,12 +2,16 @@ package com.demo.community.sercive;
 
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.entity.Comment;
+import com.demo.community.entity.Notification;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
+import com.demo.community.enums.NotificationStatusEnum;
+import com.demo.community.enums.NotificationTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.CommentMapper;
+import com.demo.community.mapper.NotificationMapper;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,8 @@ public class CommentService {
     private CommentMapper commentMapper;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -51,12 +56,14 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
             }
             commentMapper.creat(comment);
-//            二级评论数加一
+//            评论数加一
             dbcomment.setComment_count(dbcomment.getComment_count());
             int i = commentMapper.updateCommentCount(dbcomment);
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUNT);
             }
+            //    创建通知
+            createNotify(comment, dbcomment.getCommentator(),NotificationTypeEnum.REPLY_COMMENT);
         }else {
 //            回复问题
             Question question = questionMapper.getQuestionById(comment.getParent_id());
@@ -70,10 +77,25 @@ public class CommentService {
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
             }
+            //    创建通知
+            createNotify(comment, question.getCreator(),NotificationTypeEnum.REPLY_QUESTION);
         }
 
     }
 
+//    创建通知方法
+    private void createNotify(Comment comment, int receiver, NotificationTypeEnum notificationType) {
+        Notification notification = new Notification();
+        notification.setGmt_create(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(comment.getId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setReceiver(receiver);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationMapper.insert(notification);
+    }
+
+//    返回评论列表
     public List<CommentDTO> listByParentId(int id, CommentTypeEnum type){
         List<Comment> comments = commentMapper.selectByPidAndType(id, type.getType());
         if (comments.size() == 0){
