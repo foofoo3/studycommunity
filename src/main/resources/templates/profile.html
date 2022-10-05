@@ -52,9 +52,12 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'replies'}">
                 <div class="media" th:each="notification : ${pagination.data}">
                     <div class="media-body" style="padding-left: 30px">
-                        <h3 class="media-heading">
-                            <a th:href="@{'/notification/'+ ${notification.id}}" th:text="${notification.notifierName +' '+ notification.type +' '+ notification.outerTitle}" ></a>
-                        </h3>
+                        <p class="media-heading">
+                            <span th:text="${notification.notifier_name +' '+ notification.typeName +' '}"></span>
+                            <a th:href="@{'/notification/'+ ${notification.id}}"
+                               th:text="${notification.outer_title}">
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>

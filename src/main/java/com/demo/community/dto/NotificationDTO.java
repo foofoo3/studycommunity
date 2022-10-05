@@ -1,6 +1,5 @@
 package com.demo.community.dto;
 
-import com.demo.community.entity.User;
 import lombok.Data;
 
 @Data
@@ -9,7 +8,9 @@ public class NotificationDTO {
     private Long gmt_create;
     private Integer status;
     private int notifier;
-    private String notifierName;
-    private String outerTitle;
-    private String type;
+    private String notifier_name;
+    private String outer_title;
+    private int outerId;
+    private String typeName;
+    private int type;
 }

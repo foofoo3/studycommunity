@@ -58,8 +58,6 @@ public class ProfileController {
                 Long unreadCount = notificationService.unreadCount(user.getUid());
                 model.addAttribute("unreadCount",unreadCount);
             }
-
-
         }
         return "profile";
     }

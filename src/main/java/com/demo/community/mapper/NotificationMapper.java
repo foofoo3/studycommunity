@@ -4,6 +4,7 @@ import com.demo.community.entity.Notification;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +22,11 @@ public interface NotificationMapper {
     Integer countByUid(@Param("uid") int uid);
 
     @Select("select count(1) from notification where receiver = #{uid} && status = 0")
-    Long unreadCountByUid(int uid);
+    Long unreadCountByUid(@Param("uid") int uid);
+
+    @Select("select * from notification where id = #{id}")
+    Notification selectById(@Param("id")Long id);
+
+    @Update("update notification set status = #{status} where id = #{id}")
+    void updateStatus(Notification notification);
 }
