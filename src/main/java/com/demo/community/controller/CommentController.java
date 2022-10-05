@@ -38,7 +38,7 @@ public class CommentController {
         comment.setContent(commentCreatDTO.getContent());
         comment.setType(commentCreatDTO.getType());
         comment.setCommentator(user.getUid());
-        commentService.creat(comment);
+        commentService.creat(comment,user);
         return ResultDTO.okOf();
     }
 

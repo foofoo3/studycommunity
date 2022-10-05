@@ -1,7 +1,9 @@
 package com.demo.community.controller;
 
 import com.demo.community.dto.PaginationDTO;
+import com.demo.community.entity.Notification;
 import com.demo.community.entity.User;
+import com.demo.community.sercive.NotificationService;
 import com.demo.community.sercive.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import java.io.IOException;
 public class ProfileController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action")String action, Model model,
@@ -33,16 +37,30 @@ public class ProfileController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        if ("questions".equals(action)){
+//            我的提问列表
+            model.addAttribute("section","questions");
+            model.addAttribute("sectionName","我的提问");
+            if (user!=null){
+                PaginationDTO paginationDTO = questionService.list(user.getUid(),page,size);
+                model.addAttribute("pagination",paginationDTO);
+            }
+
+        }else if ("replies".equals(action)){
+//            我的回复列表
+            model.addAttribute("section","replies");
+            model.addAttribute("sectionName","最新回复");
+            if (user!=null) {
+                PaginationDTO paginationDTO = notificationService.list(user.getUid(), page, size);
+                model.addAttribute("pagination", paginationDTO);
+                Long unreadCount = notificationService.unreadCount(user.getUid());
+                model.addAttribute("unreadCount",unreadCount);
+            }
 
 
         }
-
-        PaginationDTO paginationDTO = null;
-        if (user != null) {
-            paginationDTO = questionService.list(user.getUid(),page,size);
-        }
-        model.addAttribute("pagination",paginationDTO);
-
         return "profile";
     }
 }

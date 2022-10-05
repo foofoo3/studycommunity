@@ -11,8 +11,10 @@ public class Notification {
     private Long id;
     private int notifier;
     private int receiver;
-    private Long outerId;
+    private int outerId;
     private int type;
     private Long gmt_create;
     private int status;
+    private String notifier_name;
+    private String outer_title;
 }

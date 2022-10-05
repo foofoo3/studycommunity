@@ -29,7 +29,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='/login' th:if="${session.user == null}">登录</a></li>
                     <li th:if="${session.user != null}"><button type="button" onclick="window.location.href='/publish'" class="btn btn-primary" style="margin-right: 10px;margin-top: 10px">发布问题 +</button></li>
-                    <li th:if="${session.user != null}"><a href="#">通知 <span class="badge">42</span></a></li>
+                    <li th:if="${session.user != null}"><a href="/profile/replies">通知 <span class="badge"></span></a></li>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width: auto"><span th:text="${session.user.getName()}"></span><span class="caret"></span></a>
                         <ul class="dropdown-menu">
