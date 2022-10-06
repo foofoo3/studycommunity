@@ -5,9 +5,13 @@
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="/css/community.css">
+<link rel="stylesheet" href="/css/editormd.preview.min.css">
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 <script src="/js/moment.js" type="application/javascript"></script>
 <script src="/js/community.js" type="application/javascript"></script>
+<script src="/js/editormd.min.js" type="application/javascript"></script>
+<script src="/js/lib/marked.min.js"></script>
+<script src="/js/lib/prettify.min.js"></script>
 
 
 
@@ -36,7 +40,14 @@
             <span class="text-desc">作者： <span th:text="${question.user.name}"></span>&nbsp&nbsp|&nbsp发布时间： <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span>&nbsp&nbsp|&nbsp阅读数： <span th:text="${question.view_count}"></span></span>
 <!--            描述内容-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size: 17px" th:text="${question.description}"></div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view" style="font-size: 17px">
+                <textarea style="display: none;" th:text="${question.description}"></textarea>
+            </div>
+            <script type="text/javascript">
+                $(function (){
+                    editormd.markdownToHTML("question-view",{});
+                });
+            </script>
 <!--            标签-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
