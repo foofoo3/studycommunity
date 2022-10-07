@@ -47,11 +47,14 @@
                     $(function() {
                         let editor = editormd("question-editor", {
                             width  : "100%",
-                            height : 400,
+                            height : 450,
                             path   : "/js/lib/",
                             delay  : 0,
                             watch  : false,
-                            placeholder : "请输入问题描述"
+                            placeholder : "请输入问题描述",
+                            imageUpload    : true,
+                            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                            imageUploadURL : "/file/upload",
                         });
                     });
                 </script>
