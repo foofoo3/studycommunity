@@ -2,6 +2,7 @@ package com.demo.community.sercive;
 
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
+import com.demo.community.dto.QuestionQueryDTO;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
@@ -27,11 +28,24 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 //  查所有问题
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+        if (StringUtils.isNoneBlank(search)){
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays.stream(tags)
+                    .filter(StringUtils::isNotBlank)
+//                    .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
+                    .collect(Collectors.joining(""));
+        }
+
+
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
-        //        搜索总页数
-        Integer totalCount = questionMapper.count();
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        //        总页数
+        Integer totalCount = questionMapper.countBySearch(questionQueryDTO);
+
         if (totalCount % size == 0){
             totalPage = totalCount / size;
         }else {
@@ -48,8 +62,15 @@ public class QuestionService {
             page = paginationDTO.getTotalPage();
         }
 
-        Integer offset =size *(page - 1);
-        List<Question> questions = questionMapper.list(offset,size);
+        Integer offset = 0;
+        if (page != 0 ) {
+            offset = size * (page - 1);
+        }
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+
+        List<Question> questions = questionMapper.list(questionQueryDTO);
+
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -142,15 +163,15 @@ public class QuestionService {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }
     }
-
-    public List<QuestionDTO> selectSimilar(QuestionDTO querynDTO) {
-        if (StringUtils.isBlank(querynDTO.getTag())){
+//    搜索相似问题
+    public List<QuestionDTO> selectSimilar(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())){
             return new ArrayList<>();
         }
-        String[] tags = StringUtils.split(querynDTO.getTag(), "，");
+        String[] tags = StringUtils.split(queryDTO.getTag(), "，");
         String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
         Question question = new Question();
-        question.setId(querynDTO.getId());
+        question.setId(queryDTO.getId());
         question.setTag(regexpTag);
 
         List<Question> questions = questionMapper.selectSimilarQuestion(question);
