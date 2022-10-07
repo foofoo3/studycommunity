@@ -13,14 +13,6 @@
 <script src="/js/lib/marked.min.js"></script>
 <script src="/js/lib/prettify.min.js"></script>
 
-
-
-<!--<script src="../static/lib/jquery-3.6.1.js"></script>-->
-<!--<link rel="stylesheet" href="../static/css/bootstrap.css">-->
-<!--<link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">-->
-<!--<link rel="stylesheet" href="../static/css/community.css">-->
-<!--<script src="../static/js/bootstrap.min.js" type="application/javascript"></script>-->
-
 <head>
     <meta charset="UTF-8">
     <title th:text="${question.title}"></title>
@@ -157,6 +149,6 @@
     </div>
 </div>
 
-
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

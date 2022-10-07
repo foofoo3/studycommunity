@@ -96,3 +96,10 @@ body{
     line-height: 30px;
     white-space: normal;
 }
+
+.footer{
+    padding-top: 10px;
+    padding-bottom: 15px;
+    text-align: center;
+    color: #666;
+}
