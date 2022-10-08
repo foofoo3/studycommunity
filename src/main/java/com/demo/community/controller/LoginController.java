@@ -21,7 +21,7 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping("/Registration")
-    public String Registration(){ return "Registration"; }
+    public String registration(){ return "Registration"; }
 
     @GetMapping("/resultLogin")
     public String resultLogin(){ return "resultLogin"; }
