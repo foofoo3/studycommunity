@@ -4,7 +4,9 @@ import com.demo.community.dto.FileDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+/**
+ * @author foofoo3
+ */
 @Controller
 public class FileController {
     @RequestMapping("/file/upload")

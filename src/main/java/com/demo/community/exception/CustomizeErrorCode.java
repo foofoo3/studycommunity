@@ -1,5 +1,7 @@
 package com.demo.community.exception;
-
+/**
+ * @author foofoo3
+ */
 public enum CustomizeErrorCode implements ICustomizeErrorCode{
 
     QUESTION_NOT_FOUNT(2001,"问题不存在，要不然换一个试试？"),

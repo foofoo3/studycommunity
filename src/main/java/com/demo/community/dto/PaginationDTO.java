@@ -4,7 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author foofoo3
+ */
 @Data
 public class PaginationDTO<T> {
     private List<T> data;

@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * @author foofoo3
+ */
 @Controller
 public class CustomizeErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";

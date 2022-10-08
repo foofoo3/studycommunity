@@ -4,7 +4,9 @@ import com.demo.community.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * @author foofoo3
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

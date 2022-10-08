@@ -1,5 +1,7 @@
 package com.demo.community.enums;
-
+/**
+ * @author foofoo3
+ */
 public enum CommentTypeEnum {
     QUESTION(1),
     COMMENT(2);

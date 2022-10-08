@@ -15,6 +15,10 @@ import java.io.PrintWriter;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * @author foofoo3
+ */
+
 @ControllerAdvice
 public class CustomizeExceptionHandler {
 
@@ -23,7 +27,7 @@ public class CustomizeExceptionHandler {
 
         String contentType = request.getContentType();
         if ("application.json".equals(contentType)) {
-            ResultDTO resultDTO = null;
+            ResultDTO resultDTO;
 
             if (ex instanceof CustomizeException) {
                 resultDTO = ResultDTO.errorOf((CustomizeException) ex);

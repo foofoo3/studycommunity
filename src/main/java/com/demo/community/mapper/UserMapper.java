@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+/**
+ * @author foofoo3
+ */
 @Repository
 public interface UserMapper {
     @Insert("insert into user values (#{name}, #{number}, #{password},null);")

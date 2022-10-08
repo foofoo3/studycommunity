@@ -4,7 +4,9 @@ import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import lombok.Data;
 import org.springframework.web.servlet.ModelAndView;
-
+/**
+ * @author foofoo3
+ */
 @Data
 public class ResultDTO<T> {
     private Integer code;

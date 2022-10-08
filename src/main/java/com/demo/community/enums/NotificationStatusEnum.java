@@ -1,5 +1,7 @@
 package com.demo.community.enums;
-
+/**
+ * @author foofoo3
+ */
 public enum NotificationStatusEnum {
     UNREAD(0),
     READ(1);

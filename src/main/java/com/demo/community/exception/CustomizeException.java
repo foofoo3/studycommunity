@@ -1,5 +1,7 @@
 package com.demo.community.exception;
-
+/**
+ * @author foofoo3
+ */
 public class CustomizeException extends RuntimeException{
 
     private String message;

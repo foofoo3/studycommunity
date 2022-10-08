@@ -2,7 +2,9 @@ package com.demo.community.dto;
 
 import com.demo.community.entity.User;
 import lombok.Data;
-
+/**
+ * @author foofoo3
+ */
 @Data
 public class CommentDTO {
     private Long id;

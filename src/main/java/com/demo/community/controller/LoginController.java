@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * @author foofoo3
+ */
 @Slf4j
 @Controller
 public class LoginController {

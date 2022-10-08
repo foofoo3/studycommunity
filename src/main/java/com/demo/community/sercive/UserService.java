@@ -5,7 +5,9 @@ import com.demo.community.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * @author foofoo3
+ */
 
 @Slf4j
 @Service
