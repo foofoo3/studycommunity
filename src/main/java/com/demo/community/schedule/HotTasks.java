@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Component
 @Slf4j
-public class HotTagTasks {
+public class HotTasks {
     @Scheduled(fixedRate = 5000)
     @Scheduled(cron = "0 0 1 * * *")
     public void hotTagScheduled() {
