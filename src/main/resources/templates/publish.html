@@ -38,6 +38,7 @@
                               style="display: none;" class="form-control" required></textarea>
                 </div>
                 <script type="text/javascript">
+<!--                    添加图片-->
                     $(function() {
                         let editor = editormd("question-editor", {
                             width  : "100%",
@@ -52,11 +53,12 @@
                         });
                     });
                 </script>
+
                 <div class="form-group">
                     <label for="tag">添加标签</label>
                     <input name="tag" type="text" class="form-control" autocomplete="off" th:value="${tag}" id="tag" onclick="showSelectTag()"
                            placeholder="输入标签并以 ，号分隔" required>
-                    <div style="padding: 10px;width: 66%;display: none" id="select-tag">
+                    <div style="padding: 10px;width: 77%;display: none" id="select-tag">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" th:each="selectCategory,selectCategoryStat : ${tags}" th:class="${selectCategoryStat.first ? 'active':''}">
@@ -92,7 +94,7 @@
             <br>
             • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
             <br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号（中文）隔开，每个标签不超过10个字<br>
+            • 选择标签: 选择一个或者多个合适的标签（可以自定义标签），用逗号（中文）隔开，每个标签不超过10个字<br>
             <br>
         </div>
     </div>
