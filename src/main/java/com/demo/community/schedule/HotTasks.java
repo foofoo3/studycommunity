@@ -33,10 +33,10 @@ public class HotTasks {
 
         List<Question> list = new ArrayList<>();
         Map<String, Integer> priorities = new HashMap<>();
-
+//        获得问题
         while (offset == 0 || list.size() == limit){
             list = questionMapper.selectByRowbounds(offset,limit);
-
+//            循环问题标签并放入map集合
             for (Question question : list){
                 String tagString = question.getTag();
                 String[] tags;
