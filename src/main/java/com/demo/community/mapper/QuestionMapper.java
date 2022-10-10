@@ -58,4 +58,7 @@ public interface QuestionMapper {
 
     @Select("select * from question where id != #{id} and tag regexp #{tag}")
     List<Question> selectSimilarQuestion(Question question);
+
+    @Select("select * from question limit #{offset},#{size}")
+    List<Question> selectByRowbounds(@Param("offset") int offset,@Param("size") int size);
 }
