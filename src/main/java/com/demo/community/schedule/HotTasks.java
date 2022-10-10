@@ -64,9 +64,7 @@ public class HotTasks {
             offset += limit;
         }
 
-        hotTagCache.setTags(priorities);
-
-        hotTagCache.getTags().forEach(
+        priorities.forEach(
                 (k,v)->{
                     System.out.print(k);
                     System.out.print(":");
@@ -74,6 +72,8 @@ public class HotTasks {
                     System.out.println();
                 }
         );
+
+        hotTagCache.updateTags(priorities);
 
     }
 }
