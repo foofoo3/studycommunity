@@ -23,6 +23,9 @@ public interface QuestionMapper {
             "   <if test= \"search != null\"> " +
             "       and title regexp #{search} " +
             "   </if> " +
+            "   <if test= \"tag != null\"> " +
+            "      and tag regexp #{tag} " +
+            "   </if> " +
             "</where>" +
             " order by gmt_create desc limit #{page},#{size}" +
             "</script>")
@@ -33,6 +36,9 @@ public interface QuestionMapper {
             "<where> " +
             "   <if test= \"search != null\"> " +
             "      and title regexp #{search} " +
+            "   </if> " +
+            "   <if test= \"tag != null\"> " +
+            "      and tag regexp #{tag} " +
             "   </if> " +
             "</where>" +
             "</script>")

@@ -23,9 +23,8 @@ public class HotTasks {
     private QuestionMapper questionMapper;
     @Autowired
     private HotTagCache hotTagCache;
-//    定时获取标签热度
-//    @Scheduled(cron = "0 0 1 * * *")
-    @Scheduled(fixedRate = 5000)
+//    定时获取标签热度 （每7小时更新一次）
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 7)
     public void hotTagScheduled() {
         int offset = 0;
         int limit = 5;
@@ -63,15 +62,6 @@ public class HotTasks {
             }
             offset += limit;
         }
-
-        priorities.forEach(
-                (k,v)->{
-                    System.out.print(k);
-                    System.out.print(":");
-                    System.out.print(v);
-                    System.out.println();
-                }
-        );
 
         hotTagCache.updateTags(priorities);
 

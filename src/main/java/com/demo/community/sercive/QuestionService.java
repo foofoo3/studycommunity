@@ -30,7 +30,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 //  查所有问题
-    public PaginationDTO list(String search, Integer page, Integer size) {
+    public PaginationDTO list(String tag, String search, Integer page, Integer size) {
         if (StringUtils.isNoneBlank(search)){
             String[] tags = StringUtils.split(search, " ");
             search = Arrays.stream(tags)
@@ -39,12 +39,12 @@ public class QuestionService {
                     .collect(Collectors.joining(""));
         }
 
-
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
 
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
         questionQueryDTO.setSearch(search);
+        questionQueryDTO.setTag(tag);
         //        总页数
         Integer totalCount = questionMapper.countBySearch(questionQueryDTO);
 

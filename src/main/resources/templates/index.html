@@ -53,39 +53,53 @@
                 <ul class="pagination">
 <!--                    第一页，上一页-->
                     <li th:if="${pagination.showFirstPage}">
-                        <a th:if="${search == null}" href="/?page=1" aria-label="First">
+                        <a th:if="${search == null} and ${tag == null}" href="/?page=1" aria-label="First">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                         <a th:if="${search != null}" href="/?page=1&search=search" aria-label="First">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
+                        <a th:if="${tag != null}" href="/?page=1&tag=tag" aria-label="First">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
                     </li>
                     <li th:if="${pagination.showPrevious}">
-                        <a th:if="${search == null}" th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
+                        <a th:if="${search == null} and ${tag == null}" th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                         <a th:if="${search != null}" th:href="@{/(page=${pagination.page - 1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
+                        <a th:if="${tag != null}" th:href="@{/(page=${pagination.page - 1},tag=${tag})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
                     </li>
 <!--                    页码列表取页码并高亮-->
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page} ? 'active' : ''">
-                        <a th:if="${search == null}" th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        <a th:if="${search == null} and ${tag == null}" th:href="@{/(page=${page})}" th:text="${page}"></a>
                         <a th:if="${search != null}" th:href="@{/(page=${page},search=${search})}" th:text="${page}"></a>
+                        <a th:if="${tag != null}" th:href="@{/(page=${page},tag=${tag})}" th:text="${page}"></a>
                     </li>
 <!--                    下一页，最后一页-->
                     <li th:if="${pagination.showNext}" >
-                        <a th:if="${search == null}" th:href="@{/(page=${pagination.page + 1})}" aria-label="Next">
+                        <a th:if="${search == null} and ${tag == null}" th:href="@{/(page=${pagination.page + 1})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                         <a th:if="${search != null}" th:href="@{/(page=${pagination.page + 1},search=${search})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
-                    </li><li th:if="${pagination.showEndPage}">
-                    <a th:if="${search == null}" th:href="@{/(page=${pagination.totalPage})}" aria-label="Last">
+                        <a th:if="${tag != null}" th:href="@{/(page=${pagination.page + 1},tag=${tag})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.showEndPage}">
+                    <a th:if="${search == null} and ${tag == null}" th:href="@{/(page=${pagination.totalPage})}" aria-label="Last">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                     <a th:if="${search != null}" th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Last">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                    <a th:if="${tag != null}" th:href="@{/(page=${pagination.totalPage},tag=${tag})}" aria-label="Last">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                 </li>
@@ -97,7 +111,16 @@
 <!--        右边-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热门话题</h3>
-
+<!--            相关问题-->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3 style="margin-bottom: 20px">热门标签</h3>
+                <ul class="question-related">
+                    <li th:each="tag : ${tags}">
+                        <a th:href="@{/(page=${page},search=${search},tag=${tag})}" th:text="${tag}"></a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
