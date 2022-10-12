@@ -9,7 +9,7 @@ import lombok.Data;
 public class LikeStar {
     private int type;
     private int uid;
-    private int target_id;
+    private Long target_id;
     private int id;
     private Long gmt_create;
 }

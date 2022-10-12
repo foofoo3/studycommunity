@@ -81,7 +81,7 @@
                         </span>
 <!--                        登录状态点赞-->
                         <span th:if="${session.user != null}" th:data-id="${comment.id}" onclick=like(this) th:value="${session.user.uid}" class="like">
-                            <span class="glyphicon glyphicon-heart-empty ico" th:id="${'like-'+comment.id}"></span>
+                            <span th:class="${#lists.contains(likesId,comment.id)} ? 'glyphicon glyphicon-heart ico liked' : 'glyphicon glyphicon-heart-empty ico'" th:id="${'like-'+comment.id}"></span>
                             <span th:text="${comment.like_count}" style="font-size: 16px;"></span>
                         </span>
 

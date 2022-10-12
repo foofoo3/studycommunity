@@ -10,6 +10,8 @@ import com.demo.community.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: foofoo3
  */
@@ -21,15 +23,15 @@ public class LikeService {
     private LikeStarMapper likeStarMapper;
     @Autowired
     private UserMapper userMapper;
-    public int commentLikePlus(int commentId,int uid){
+    public int commentLikePlus(Long commentId,int uid){
         User user = userMapper.SelectByUid(uid);
-        Comment comment = commentMapper.selectById((long) commentId);
+        Comment comment = commentMapper.selectById(commentId);
         comment.setLike_count(comment.getLike_count());
         int i = commentMapper.likePlus(comment);
         int success = 0;
         LikeStar likeStar = new LikeStar();
         likeStar.setUid(user.getUid());
-        likeStar.setTarget_id(Math.toIntExact(comment.getId()));
+        likeStar.setTarget_id(comment.getId());
         likeStar.setType(LikeOrStarTypeEnum.COMMENT_LIKE.getType());
         likeStar.setGmt_create(System.currentTimeMillis());
         if (i !=0){
@@ -44,4 +46,10 @@ public class LikeService {
     public void commentLikeReduce(Comment comment){
 
     }
+
+
+    public List<Long> selectCommentLike(User user) {
+        return likeStarMapper.selectCommentLikeByUid(user.getUid(), LikeOrStarTypeEnum.COMMENT_LIKE.getType());
+    }
+
 }

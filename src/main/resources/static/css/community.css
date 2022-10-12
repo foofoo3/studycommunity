@@ -59,6 +59,9 @@ body{
 .like{
     margin-right: 10px;
 }
+.liked{
+    color: #ff000a;
+}
 
 .sub-comments{
     border: #d6d6d6 1px solid;

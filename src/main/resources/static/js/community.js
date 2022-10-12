@@ -142,8 +142,8 @@ function noLogin(){
 function like(e){
     debugger
     let id = e.getAttribute("data-id");
+    let uid = e.getAttribute("value");
     let like = $("#like-" + id);
-    let uid = e.getAttribute("value")
 
     if (like.hasClass("glyphicon-heart-empty")){
         $.ajax({
