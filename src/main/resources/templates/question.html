@@ -74,8 +74,18 @@
                     <div th:text="${comment.content}"></div>
                     <div class="menu">
 
-                        <span class="glyphicon glyphicon-thumbs-up ico"></span>
+<!--                        未登录状态点赞-->
+                        <span th:if="${session.user == null}" onclick="noLogin()" class="like">
+                            <span class="glyphicon glyphicon-heart-empty ico"></span>
+                            <span th:text="${comment.like_count}" style="font-size: 16px;"></span>
+                        </span>
+<!--                        登录状态点赞-->
+                        <span th:if="${session.user != null}" th:data-id="${comment.id}" onclick=like(this) th:value="${session.user.uid}" class="like">
+                            <span class="glyphicon glyphicon-heart-empty ico" th:id="${'like-'+comment.id}"></span>
+                            <span th:text="${comment.like_count}" style="font-size: 16px;"></span>
+                        </span>
 
+<!--                        回复-->
                         <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comments">
                             <span class="glyphicon glyphicon-comment ico"></span>
                             <span th:text="${comment.comment_count}" style="font-size: 16px;"></span>

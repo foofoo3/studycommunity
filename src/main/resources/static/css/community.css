@@ -52,6 +52,14 @@ body{
     padding-bottom: 10px;
 }
 
+.menu .like:hover{
+    color: #3277b0;
+}
+
+.like{
+    margin-right: 10px;
+}
+
 .sub-comments{
     border: #d6d6d6 1px solid;
     padding-top: 10px;

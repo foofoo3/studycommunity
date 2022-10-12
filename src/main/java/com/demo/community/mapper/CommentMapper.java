@@ -17,11 +17,14 @@ public interface CommentMapper {
     void creat(Comment comment);
 
     @Select("select * from comment where id = #{id}")
-    Comment selectByParentId(@Param("id")Long id);
+    Comment selectById(@Param("id")Long id);
 
     @Select("select * from comment where parent_id = #{parent_id} && type = #{type} order by gmt_create desc")
     List<Comment> selectByPidAndType(@Param("parent_id")int parent_id,@Param("type")Integer type);
 
     @Update("update comment set comment_count = #{comment_count} + 1 where id = #{id}")
     int updateCommentCount(Comment comment);
+
+    @Update("update comment set like_count = #{like_count} + 1 where id = #{id}")
+    int likePlus(Comment comment);
 }

@@ -20,11 +20,12 @@ function comment2target(targetId,type,content){
                 window.location.reload();
             }else {
                 if (response.code === 2003){
-                    let conf = confirm(response.message);
-                    if (conf){
-                        window.open("/login");
+                    alert(response.message);
+                    // let conf = confirm(response.message);
+                    // if (conf){
+                    //     window.open("/login");
                         // window.localStorage.setItem("closable","true");
-                    }
+                    // }
                 }else {
                     alert(response.message);
                 }
@@ -131,4 +132,44 @@ function selectTag(e){
 
 function showSelectTag(){
     $("#select-tag").show();
+}
+
+function noLogin(){
+    alert("用户未登录，请登录后操作");
+    return false;
+}
+
+function like(e){
+    debugger
+    let id = e.getAttribute("data-id");
+    let like = $("#like-" + id);
+    let uid = e.getAttribute("value")
+
+    if (like.hasClass("glyphicon-heart-empty")){
+        $.ajax({
+            type: "POST",
+            url: "/commentLike",
+            contentType:"application/json",
+            data: JSON.stringify({
+                "uid":uid,
+                "target_id":id
+            }),
+            success: function (response){
+                if (response.code === 200){
+                    window.location.reload();
+                }else {
+                    if (response.code === 5200){
+                        alert(response.message);
+                    }else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            },
+            dataType: "json"
+        });
+    }
+
+
+
 }

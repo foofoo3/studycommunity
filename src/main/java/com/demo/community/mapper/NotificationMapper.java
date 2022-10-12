@@ -17,7 +17,7 @@ public interface NotificationMapper {
     @Insert("insert into notification(id,notifier,receiver,outerId,type,gmt_create,status,notifier_name,outer_title) values (null,#{notifier}, #{receiver},#{outerId},#{type}, #{gmt_create},#{status},#{notifier_name},#{outer_title});")
     void insert(Notification notification);
 
-    @Select("select * from notification where receiver = #{uid} order by gmt_create desc limit #{offset},#{size} ")
+    @Select("select * from notification where receiver = #{uid} order by gmt_create desc limit #{offset},#{size}")
     List<Notification> listByUid(@Param("uid") int uid, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from notification where receiver = #{uid}")
