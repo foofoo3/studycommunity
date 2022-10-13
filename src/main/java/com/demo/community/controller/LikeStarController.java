@@ -33,4 +33,15 @@ public class LikeStarController {
             return ResultDTO.errorOf(5200,"点赞失败");
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/commentLikeReduce",method = RequestMethod.POST)
+    public Object likeReduce(@RequestBody LikeStar likeStar){
+        int i = likeService.commentLikeReduce(likeStar.getTarget_id(),likeStar.getUid());
+        if (i == 1){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(5201,"取消点赞失败");
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.demo.community.mapper;
 
 
 import com.demo.community.entity.LikeStar;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,4 +21,7 @@ public interface LikeStarMapper {
 
     @Select("select target_id from like_and_star where uid = #{uid} and type = #{type}")
     List<Long> selectCommentLikeByUid(@Param("uid") int uid,@Param("type") int type);
+
+    @Delete("delete from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
+    int deleteByCommentId(@Param("target_id") Long target_id,@Param("uid") int uid,@Param("type") int type);
 }

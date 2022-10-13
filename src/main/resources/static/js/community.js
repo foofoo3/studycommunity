@@ -144,7 +144,7 @@ function like(e){
     let id = e.getAttribute("data-id");
     let uid = e.getAttribute("value");
     let like = $("#like-" + id);
-
+    //如果显示未点赞
     if (like.hasClass("glyphicon-heart-empty")){
         $.ajax({
             type: "POST",
@@ -168,8 +168,31 @@ function like(e){
             },
             dataType: "json"
         });
+        //如果显示已点赞
+    }else if (like.hasClass("glyphicon-heart")) {
+        $.ajax({
+            type: "POST",
+            url: "/commentLikeReduce",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "uid": uid,
+                "target_id": id
+            }),
+            success: function (response) {
+                if (response.code === 200) {
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            },
+            dataType: "json"
+        });
     }
-
 
 
 }

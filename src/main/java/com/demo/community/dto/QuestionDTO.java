@@ -21,5 +21,6 @@ public class QuestionDTO {
     private int view_count;
     private int like_count;
     private String tag;
+    private int star_count;
     private User user;
 }
