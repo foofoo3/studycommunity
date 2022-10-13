@@ -12,4 +12,5 @@ public class LikeStar {
     private Long target_id;
     private int id;
     private Long gmt_create;
+    private int parent_id;
 }

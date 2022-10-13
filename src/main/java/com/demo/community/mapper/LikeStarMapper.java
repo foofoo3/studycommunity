@@ -16,12 +16,16 @@ import java.util.List;
 @Repository
 public interface LikeStarMapper {
 
-    @Insert("insert into like_and_star values (#{type},#{uid},#{target_id},null,#{gmt_create});")
+    @Insert("insert into like_and_star values (#{type},#{uid},#{target_id},null,#{gmt_create},#{parent_id});")
     int insert(LikeStar likeStar);
 
-    @Select("select target_id from like_and_star where uid = #{uid} and type = #{type}")
-    List<Long> selectCommentLikeByUid(@Param("uid") int uid,@Param("type") int type);
+    @Select("select target_id from like_and_star where uid = #{uid} and type = #{type} and parent_id = #{parent_id}")
+    List<Long> selectCommentLikeByUid(@Param("uid") int uid,@Param("type") int type,@Param("parent_id") int parent_id);
 
     @Delete("delete from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
-    int deleteByCommentId(@Param("target_id") Long target_id,@Param("uid") int uid,@Param("type") int type);
+    int deleteLike(@Param("target_id") Long target_id,@Param("uid") int uid,@Param("type") int type);
+
+    @Select("select target_id from like_and_star where uid = #{uid} and type = #{type}")
+    List<Integer> selectQuestionLikeByUid(@Param("uid")int uid, @Param("type")int type);
+
 }

@@ -44,4 +44,27 @@ public class LikeStarController {
             return ResultDTO.errorOf(5201,"取消点赞失败");
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/questionLike",method = RequestMethod.POST)
+    public Object questionLike(@RequestBody LikeStar likeStar){
+        int i = likeService.questionLikePlus(likeStar.getTarget_id(),likeStar.getUid());
+        if (i == 1){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(5200,"点赞失败");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/questionLikeReduce",method = RequestMethod.POST)
+    public Object questionLikeReduce(@RequestBody LikeStar likeStar){
+        int i = likeService.questionLikeReduce(likeStar.getTarget_id(),likeStar.getUid());
+        if (i == 1){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(5201,"取消点赞失败");
+        }
+    }
+
 }

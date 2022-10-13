@@ -114,3 +114,14 @@ body{
     text-align: center;
     color: #666;
 }
+
+.question-like .ico{
+    font-size: 28px;
+}
+
+.question-like .ico:hover{
+    color: #2C7EEA;
+}
+.question-liked{
+    color: #2C7EEA;
+}

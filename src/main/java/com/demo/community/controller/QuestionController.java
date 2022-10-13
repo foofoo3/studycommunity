@@ -41,8 +41,10 @@ public class QuestionController {
         List<CommentDTO> comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION);
 //        查询用户喜欢评论id
         if (user != null){
-            List<Long> likesId = likeService.selectCommentLike(user);
+            List<Long> likesId = likeService.selectCommentLike(user,id);
             model.addAttribute("likesId",likesId);
+            List<Integer> questionLikesId = likeService.selectQuestionLike(user);
+            model.addAttribute("questionLikesId",questionLikesId);
         }
 //        累加阅读数
         questionService.incView(id);

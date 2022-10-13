@@ -67,4 +67,10 @@ public interface QuestionMapper {
 
     @Select("select * from question limit #{offset},#{size}")
     List<Question> selectByRowbounds(@Param("offset") int offset,@Param("size") int size);
+
+    @Update("update question set like_count = #{like_count} + 1 where id = #{id}")
+    int likePlus(Question question);
+
+    @Update("update question set like_count = #{like_count} - 1 where id = #{id}")
+    int likeReduce(Question question);
 }
