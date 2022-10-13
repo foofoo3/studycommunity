@@ -244,6 +244,60 @@ function like(e){
             });
         }
     }
+}
 
-
+function star(e){
+    debugger
+    let id = e.getAttribute("data-id");
+    let uid = e.getAttribute("value");
+    let star = $("#star-" + id);
+    //如果显示问题未收藏
+    if (star.hasClass("glyphicon-star-empty")){
+        $.ajax({
+            type: "POST",
+            url: "/questionStar",
+            contentType:"application/json",
+            data: JSON.stringify({
+                "uid":uid,
+                "target_id":id
+            }),
+            success: function (response){
+                if (response.code === 200){
+                    window.location.reload();
+                }else {
+                    if (response.code === 5200){
+                        alert(response.message);
+                    }else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            },
+            dataType: "json"
+        });
+        //如果显示问题已收藏
+    }else if (star.hasClass("glyphicon-star")) {
+        $.ajax({
+            type: "POST",
+            url: "/questionStarCancel",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "uid": uid,
+                "target_id": id
+            }),
+            success: function (response) {
+                if (response.code === 200) {
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            },
+            dataType: "json"
+        });
+    }
 }

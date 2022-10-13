@@ -23,9 +23,9 @@ public interface LikeStarMapper {
     List<Long> selectCommentLikeByUid(@Param("uid") int uid,@Param("type") int type,@Param("parent_id") int parent_id);
 
     @Delete("delete from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
-    int deleteLike(@Param("target_id") Long target_id,@Param("uid") int uid,@Param("type") int type);
+    int deleteLikeOrStar(@Param("target_id") Long target_id, @Param("uid") int uid, @Param("type") int type);
 
     @Select("select target_id from like_and_star where uid = #{uid} and type = #{type}")
-    List<Integer> selectQuestionLikeByUid(@Param("uid")int uid, @Param("type")int type);
+    List<Integer> selectQuestionLikeOrStarByUid(@Param("uid")int uid, @Param("type")int type);
 
 }

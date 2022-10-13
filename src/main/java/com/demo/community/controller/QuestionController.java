@@ -7,6 +7,7 @@ import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.sercive.CommentService;
 import com.demo.community.sercive.LikeService;
 import com.demo.community.sercive.QuestionService;
+import com.demo.community.sercive.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,8 @@ public class QuestionController {
     private CommentService commentService;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private StarService starService;
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")Integer id, Model model, HttpServletRequest request){
@@ -45,6 +48,8 @@ public class QuestionController {
             model.addAttribute("likesId",likesId);
             List<Integer> questionLikesId = likeService.selectQuestionLike(user);
             model.addAttribute("questionLikesId",questionLikesId);
+            List<Integer> questionStarsId = starService.selectQuestionStar(user);
+            model.addAttribute("questionStarsId",questionStarsId);
         }
 //        累加阅读数
         questionService.incView(id);

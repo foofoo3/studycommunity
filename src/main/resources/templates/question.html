@@ -64,8 +64,8 @@
                         <span class="glyphicon glyphicon-star-empty ico"><span style="font-size: 19px">收藏</span></span>
                         <span th:text="${question.star_count}" style="font-size: 19px;"></span>
                     </span>
-                    <span th:if="${session.user != null}"  class="question-like" style="float: right" onclick="">
-                        <span class="glyphicon glyphicon-star-empty ico"><span style="font-size: 19px">收藏</span></span>
+                    <span th:if="${session.user != null}" th:data-id="${question.id}" class="question-like" style="float: right" onclick="star(this)" th:value="${session.user.uid}">
+                        <span th:class="${#lists.contains(questionStarsId,question.id)} ? 'glyphicon glyphicon-star ico question-liked' : 'glyphicon glyphicon-star-empty ico'" th:id="${'star-'+question.id}"><span style="font-size: 19px">收藏</span></span>
                         <span th:text="${question.star_count}" style="font-size: 19px;"></span>
                     </span>
                 </div>

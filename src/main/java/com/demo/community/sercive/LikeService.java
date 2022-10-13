@@ -56,7 +56,7 @@ public class LikeService {
         int i = commentMapper.likeReduce(comment);
         int success = 0;
         if (i != 0){
-            int delete = likeStarMapper.deleteLike(commentId,uid, LikeOrStarTypeEnum.COMMENT_LIKE.getType());
+            int delete = likeStarMapper.deleteLikeOrStar(commentId,uid, LikeOrStarTypeEnum.COMMENT_LIKE.getType());
             if (delete != 0){
                 success = 1;
             }
@@ -99,7 +99,7 @@ public class LikeService {
         int i = questionMapper.likeReduce(question);
         int success = 0;
         if (i != 0){
-            int delete = likeStarMapper.deleteLike(questionId,uid, LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+            int delete = likeStarMapper.deleteLikeOrStar(questionId,uid, LikeOrStarTypeEnum.QUESTION_LIKE.getType());
             if (delete != 0){
                 success = 1;
             }
@@ -108,7 +108,7 @@ public class LikeService {
     }
 
     public List<Integer> selectQuestionLike(User user) {
-        return likeStarMapper.selectQuestionLikeByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+        return likeStarMapper.selectQuestionLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_LIKE.getType());
     }
 
 

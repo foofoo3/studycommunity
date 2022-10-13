@@ -73,4 +73,10 @@ public interface QuestionMapper {
 
     @Update("update question set like_count = #{like_count} - 1 where id = #{id}")
     int likeReduce(Question question);
+
+    @Update("update question set star_count = #{star_count} + 1 where id = #{id}")
+    int StarPlus(Question question);
+
+    @Update("update question set star_count = #{star_count} - 1 where id = #{id}")
+    int starCancel(Question question);
 }

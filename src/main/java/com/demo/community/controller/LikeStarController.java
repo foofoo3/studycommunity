@@ -6,6 +6,7 @@ import com.demo.community.entity.Comment;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.User;
 import com.demo.community.sercive.LikeService;
+import com.demo.community.sercive.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 public class LikeStarController {
     @Autowired
     private LikeService likeService;
-
+    @Autowired
+    private StarService starService;
     @ResponseBody
     @RequestMapping(value = "/commentLike",method = RequestMethod.POST)
     public Object like(@RequestBody LikeStar likeStar){
@@ -67,4 +69,25 @@ public class LikeStarController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/questionStar",method = RequestMethod.POST)
+    public Object questionStar(@RequestBody LikeStar likeStar){
+        int i = starService.questionStar(likeStar.getTarget_id(),likeStar.getUid());
+        if (i == 1){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(5200,"点赞失败");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/questionStarCancel",method = RequestMethod.POST)
+    public Object questionStarCancel(@RequestBody LikeStar likeStar){
+        int i = starService.questionStarCancel(likeStar.getTarget_id(),likeStar.getUid());
+        if (i == 1){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(5201,"取消点赞失败");
+        }
+    }
 }
