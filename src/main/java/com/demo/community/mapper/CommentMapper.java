@@ -30,4 +30,7 @@ public interface CommentMapper {
 
     @Update("update comment set like_count = #{like_count} - 1 where id = #{id}")
     int likeReduce(Comment comment);
+
+    @Select("select * from comment where parent_id = #{parent_id} && type = #{type} order by like_count desc")
+    List<Comment> selectByPidAndTypeLike(@Param("parent_id") int parent_id, @Param("type") Integer type);
 }

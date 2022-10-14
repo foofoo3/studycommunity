@@ -104,8 +104,13 @@ public class CommentService {
     }
 
 //    返回评论列表
-    public List<CommentDTO> listByParentId(int id, CommentTypeEnum type){
-        List<Comment> comments = commentMapper.selectByPidAndType(id, type.getType());
+    public List<CommentDTO> listByParentId(int id, CommentTypeEnum type,Integer like) {
+        List<Comment> comments;
+        if (like == 1) {
+            comments = commentMapper.selectByPidAndTypeLike(id, type.getType());
+        } else{
+            comments = commentMapper.selectByPidAndType(id, type.getType());
+        }
         if (comments.size() == 0){
             return new ArrayList<>();
         }
@@ -127,4 +132,6 @@ public class CommentService {
 
         return commentDTOS;
     };
+
+
 }

@@ -301,3 +301,13 @@ function star(e){
         });
     }
 }
+
+function commentTime(e){
+    let id = e.getAttribute('value')
+    location.href=("/question/"+id);
+}
+
+function commentLike(e){
+    let id = e.getAttribute('value')
+    location.href=("/question/"+id+"?like=1");
+}
