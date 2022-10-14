@@ -66,6 +66,7 @@ public class QuestionController {
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",comments);
         model.addAttribute("similarQuestions",similarQuestions);
+        model.addAttribute("like",like);
         return "question";
     }
 }
