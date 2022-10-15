@@ -28,4 +28,6 @@ public interface LikeStarMapper {
     @Select("select target_id from like_and_star where uid = #{uid} and type = #{type}")
     List<Integer> selectQuestionLikeOrStarByUid(@Param("uid")int uid, @Param("type")int type);
 
+    @Select("select * from like_and_star where uid = #{uid} and type = #{type}")
+    List<LikeStar> selectLikeOrStarByUid(int uid, int type);
 }

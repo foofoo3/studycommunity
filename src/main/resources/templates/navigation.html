@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
 <script src="/js/community.js" type="application/javascript"></script>
 
 <body>
@@ -27,7 +32,8 @@
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href='/login' th:if="${session.user == null}">登录</a></li>
+                    <script></script>
+                    <li><a href='/login' th:if="${session.user == null}" style="font-size: 18px" >登录</a></li>
                     <li th:if="${session.user != null}"><button type="button" onclick="window.location.href='/publish'" class="btn btn-primary" style="margin-right: 10px;margin-top: 10px">发布问题 +</button></li>
                     <li th:if="${session.user != null}"><a href="/profile/replies"><span class="glyphicon glyphicon-bell"></span> 通知 </span><span class="badge" th:text="${session.unreadCount}"></span></a></li>
                     <li class="dropdown" th:if="${session.user != null}">
@@ -37,7 +43,7 @@
                             <li><a href="/stars">我的收藏</a></li>
                             <li><a href="/profile/questions">我的提问</a></li>
                             <li><a href="/profile/replies">最新回复</a></li>
-                            <li><a href='/LogOut'>退出登录</a></li>
+                            <li><a href='/logOut'>退出登录</a></li>
                         </ul>
                     </li>
                 </ul>

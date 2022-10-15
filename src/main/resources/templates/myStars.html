@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>我的收藏</title>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span class="glyphicon glyphicon-star" th:text=" ' '+'我的收藏'" aria-hidden="true"></span></h2>
+            <hr>
+            <div class="media" th:each="question : ${stars}">
+                <div style="padding: 5px 10px 20px;border-bottom: 1px solid #e8e8e8;">
+                    <div class="media-left">
+                        <a href="#">
+                            <img style="width: 70px;height: 70px;" class="media-object img-circle" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
+                        </a>
+                        <span th:text="${question.user.name}" style="color: #000000;font-size: medium;text-align: center;display: block"></span>
+                    </div>
+                    <div class="media-body " style="padding-left: 30px;">
+                        <h3 class="media-heading">
+                            <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                        </h3>
+                        <a th:href="@{'/question/'+ ${question.id}}"  th:text="${question.description}" style="color: #0f0f0f;font-size: 16px"></a>
+                        <br>
+                        <br>
+                        <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>
+                        次浏览 · <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        右边-->
+        <div th:insert="~{profileRight :: pr}"></div>
+    </div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>

@@ -122,6 +122,11 @@ body{
 .question-like .ico:hover{
     color: #2C7EEA;
 }
+
 .question-liked{
     color: #2C7EEA;
+}
+
+.pointer{
+    cursor:pointer;
 }

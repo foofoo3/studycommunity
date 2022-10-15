@@ -20,8 +20,8 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/Registration")
-    public String registration(){ return "Registration"; }
+    @GetMapping("/registration")
+    public String registration(){ return "registration"; }
 
     @GetMapping("/resultLogin")
     public String resultLogin(){ return "resultLogin"; }

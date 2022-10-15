@@ -52,11 +52,18 @@ public class UserService {
         return 1;
     }
 
-//    查询用户
+//    账号查询用户
     public User getUserByNumber(int number){
-        User CurrentUser = userMapper.SelectByNumber(number);
-        log.info("CurrentUser:{}",CurrentUser);
-        return CurrentUser;
+        User currentUser = userMapper.SelectByNumber(number);
+        log.info("currentUser:{}",currentUser);
+        return currentUser;
+    }
+
+//    uid查找用户
+    public User getUserByUid(int uid){
+        User currentUser = userMapper.SelectByUid(uid);
+        log.info("currentUser:{}",currentUser);
+        return currentUser;
     }
 
 

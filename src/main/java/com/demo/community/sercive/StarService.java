@@ -62,4 +62,8 @@ public class StarService {
     public List<Integer> selectQuestionStar(User user) {
         return likeStarMapper.selectQuestionLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_STAR.getType());
     }
+
+    public List<LikeStar> selectStar(User user) {
+        return likeStarMapper.selectLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_STAR.getType());
+    }
 }

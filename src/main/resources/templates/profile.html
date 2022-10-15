@@ -18,7 +18,7 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span th:text="${sectionName}"></span></h2>
+            <h2><span th:class="${sectionName == '最新回复'}? 'glyphicon glyphicon-bullhorn' : 'glyphicon glyphicon-pencil' " th:text=" ' ' + ${sectionName}"></span></h2>
             <hr>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'questions'}">
                 <div class="media" th:each="question : ${pagination.data}">
@@ -86,19 +86,9 @@
                     </ul>
                 </nav>
             </div>
-
         </div>
-
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <div class="list-group" style="margin-top: 20px;margin-left: 10px">
-                <a href="/profile/questions" th:class="${section == 'questions'}? 'active list-group-item' : 'list-group-item'">我的提问</a>
-                <a href="/profile/replies" th:class="${section == 'replies'}? 'active list-group-item' : 'list-group-item'">
-                    最新回复
-                    <span class="badge" th:text="${session.unreadCount}"></span>
-                </a>
-            </div>
-
-        </div>
+<!--        右边-->
+        <div th:insert="~{profileRight :: pr}"></div>
     </div>
 </div>
 <div th:insert="~{footer :: foot}"></div>

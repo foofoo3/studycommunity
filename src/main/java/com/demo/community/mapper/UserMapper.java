@@ -15,13 +15,13 @@ public interface UserMapper {
     @Insert("insert into user values (#{name}, #{number}, #{password},null);")
     int InsertUser(@Param("name") String name,@Param("number") int number,@Param("password") String password);
 
-    @Select("SELECT name,number,password,uid from user where number=#{number}")
+    @Select("SELECT * from user where number=#{number}")
     User SelectByNumber(@Param("number")int number);
 
-    @Select("SELECT name,number,password,uid from user where name=#{name}")
+    @Select("SELECT * from user where name=#{name}")
     User SelectByName(@Param("name")String name);
 
-    @Select("SELECT name,number,password,uid from user where uid=#{uid}")
+    @Select("SELECT * from user where uid=#{uid}")
     User SelectByUid(@Param("uid")int uid);
 
     @Select("<script> "+

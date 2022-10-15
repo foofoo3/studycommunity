@@ -51,20 +51,20 @@
                 </div>
                 <div style="width: 20%;float: right">
 <!--                    问题点赞-->
-                    <span th:if="${session.user == null}"  class="question-like" onclick="noLogin()">
+                    <span th:if="${session.user == null}"  class="question-like pointer" onclick="noLogin()">
                         <span class="glyphicon glyphicon-ok ico"><span style="font-size: 19px">好问题</span></span>
                         <span th:text="${question.like_count}" style="font-size: 19px;"></span>
                     </span>
-                    <span th:if="${session.user != null}" th:data-id="${question.id}" class="question-like" onclick="like(this)" th:value="${session.user.uid}">
+                    <span th:if="${session.user != null}" th:data-id="${question.id}" class="question-like pointer" onclick="like(this)" th:value="${session.user.uid}">
                         <span th:class="${#lists.contains(questionLikesId,question.id)} ? 'glyphicon glyphicon-ok ico question-liked' : 'glyphicon glyphicon-ok ico'" th:id="${'like-'+question.id}"><span style="font-size: 19px">好问题</span></span>
                         <span th:text="${question.like_count}" style="font-size: 19px;"></span>
                     </span>
 <!--                    问题收藏-->
-                    <span th:if="${session.user == null}"  class="question-like" style="float: right" onclick="noLogin()">
+                    <span th:if="${session.user == null}"  class="question-like pointer" style="float: right" onclick="noLogin()">
                         <span class="glyphicon glyphicon-star-empty ico"><span style="font-size: 19px">收藏</span></span>
                         <span th:text="${question.star_count}" style="font-size: 19px;"></span>
                     </span>
-                    <span th:if="${session.user != null}" th:data-id="${question.id}" class="question-like" style="float: right" onclick="star(this)" th:value="${session.user.uid}">
+                    <span th:if="${session.user != null}" th:data-id="${question.id}" class="question-like pointer" style="float: right" onclick="star(this)" th:value="${session.user.uid}">
                         <span th:class="${#lists.contains(questionStarsId,question.id)} ? 'glyphicon glyphicon-star ico question-liked' : 'glyphicon glyphicon-star-empty ico'" th:id="${'star-'+question.id}"><span style="font-size: 19px">收藏</span></span>
                         <span th:text="${question.star_count}" style="font-size: 19px;"></span>
                     </span>
@@ -102,18 +102,18 @@
                     <div class="menu">
 
 <!--                        未登录状态点赞-->
-                        <span th:if="${session.user == null}" onclick="noLogin()" class="like">
+                        <span th:if="${session.user == null}" onclick="noLogin()" class="like pointer">
                             <span class="glyphicon glyphicon-heart-empty ico"></span>
                             <span th:text="${comment.like_count}" style="font-size: 16px;"></span>
                         </span>
 <!--                        登录状态点赞-->
-                        <span th:if="${session.user != null}" th:data-id="${comment.id}" onclick="like(this)" th:value="${session.user.uid}" class="like">
+                        <span th:if="${session.user != null}" th:data-id="${comment.id}" onclick="like(this)" th:value="${session.user.uid}" class="like pointer">
                             <span th:class="${#lists.contains(likesId,comment.id)} ? 'glyphicon glyphicon-heart ico liked' : 'glyphicon glyphicon-heart-empty ico'" th:id="${'like-'+comment.id}"></span>
                             <span th:text="${comment.like_count}" style="font-size: 16px;"></span>
                         </span>
 
 <!--                        回复-->
-                        <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comments">
+                        <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comments pointer">
                             <span class="glyphicon glyphicon-comment ico"></span>
                             <span th:text="${comment.comment_count}" style="font-size: 16px;"></span>
                         </span>

@@ -58,7 +58,6 @@ public class HotTasks {
                         priorities.put(tagString, 5 * question.getComment_count());
                     }
                 }
-                log.info("list question : {}",question.getId());
             }
             offset += limit;
         }
