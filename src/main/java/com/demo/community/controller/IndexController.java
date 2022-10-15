@@ -32,21 +32,31 @@ public class IndexController {
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size,
                         @RequestParam(name = "search",required = false) String search,
-                        @RequestParam(name = "tag",required = false) String tag) {
+                        @RequestParam(name = "tag",required = false) String tag,
+                        @RequestParam(name = "type",required = false) Integer type) {
         if (search == ""){
             search = null;
         }
-        PaginationDTO pagination = questionService.list(tag,search,page,size);
+        if (tag == ""){
+            tag = null;
+        }
+
+        PaginationDTO pagination;
+
+        if (type == null || type == 1){
+            pagination = questionService.list(tag,search,page,size,1);
+        }else {
+            pagination = questionService.list(tag,search,page,size,type);
+        }
         List<String> tags = hotTagCache.getHots();
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);
         model.addAttribute("tags",tags);
         model.addAttribute("tag",tag);
+        model.addAttribute("type",type);
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(){ return "login"; }
 
 }
 

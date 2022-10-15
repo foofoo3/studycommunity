@@ -303,11 +303,29 @@ function star(e){
 }
 
 function commentTime(e){
-    let id = e.getAttribute('value')
+    let id = e.getAttribute('value');
     location.href=("/question/"+id);
 }
 
 function commentLike(e){
-    let id = e.getAttribute('value')
+    let id = e.getAttribute('value');
     location.href=("/question/"+id+"?like=1");
+}
+
+function questionsort(e){
+    let type = e.getAttribute("type");
+    let search = e.getAttribute("search");
+    let tag = e.getAttribute("tag");
+    if (search == null && tag == null){
+        location.href=("/?type="+type);
+    }else if (search != null && tag == null){
+        location.href=("/?type="+type+"&search="+search);
+    }else if (search == null && tag != null){
+        location.href=("/?type="+type+"&tag="+tag);
+    }else if (search != null && tag != null){
+        location.href=("/?type="+type+"&search="+search+"&tag="+tag);
+    }else {
+        location.href=("/?type="+type);
+    }
+
 }

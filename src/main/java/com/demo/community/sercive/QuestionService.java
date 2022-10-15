@@ -30,7 +30,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 //  查所有问题
-    public PaginationDTO list(String tag, String search, Integer page, Integer size) {
+    public PaginationDTO list(String tag, String search, Integer page, Integer size,Integer type) {
         if (StringUtils.isNoneBlank(search)){
             String[] tags = StringUtils.split(search, " ");
             search = Arrays.stream(tags)
@@ -71,7 +71,16 @@ public class QuestionService {
         questionQueryDTO.setSize(size);
         questionQueryDTO.setPage(offset);
 
-        List<Question> questions = questionMapper.list(questionQueryDTO);
+        List<Question> questions;
+        if (type == 2){
+            questions = questionMapper.listLike(questionQueryDTO);
+        }else if (type == 3){
+            questions = questionMapper.listStar(questionQueryDTO);
+        }else if (type == 1){
+            questions = questionMapper.listTime(questionQueryDTO);
+        }else {
+            questions = questionMapper.listTime(questionQueryDTO);
+        }
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 

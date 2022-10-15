@@ -11,5 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MenuController {
+    //    登录
+    @GetMapping("/login")
+    public String login(){ return "login"; }
 
 }

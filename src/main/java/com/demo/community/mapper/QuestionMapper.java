@@ -29,7 +29,35 @@ public interface QuestionMapper {
             "</where>" +
             " order by gmt_create desc limit #{page},#{size}" +
             "</script>")
-    List<Question> list(QuestionQueryDTO questionQueryDTO);
+    List<Question> listTime(QuestionQueryDTO questionQueryDTO);
+
+    @Select("<script>" +
+            "select * from question" +
+            "<where> " +
+            "   <if test= \"search != null\"> " +
+            "       and title regexp #{search} " +
+            "   </if> " +
+            "   <if test= \"tag != null\"> " +
+            "      and tag regexp #{tag} " +
+            "   </if> " +
+            "</where>" +
+            " order by like_count desc limit #{page},#{size}" +
+            "</script>")
+    List<Question> listLike(QuestionQueryDTO questionQueryDTO);
+
+    @Select("<script>" +
+            "select * from question" +
+            "<where> " +
+            "   <if test= \"search != null\"> " +
+            "       and title regexp #{search} " +
+            "   </if> " +
+            "   <if test= \"tag != null\"> " +
+            "      and tag regexp #{tag} " +
+            "   </if> " +
+            "</where>" +
+            " order by star_count desc limit #{page},#{size}" +
+            "</script>")
+    List<Question> listStar(QuestionQueryDTO questionQueryDTO);
 
     @Select("<script>" +
             "select count(*) from question" +

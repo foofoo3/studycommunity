@@ -31,7 +31,10 @@ public class PaginationDTO<T> {
                 pages.add(page + i);
             }
         }
-
+//        如果总页数为0 则总页码数为1
+        if (totalPage == 0){
+            totalPage = 1;
+        }
         //是否显示上一页
         if (page == 1){
             showPrevious = false;
@@ -44,7 +47,7 @@ public class PaginationDTO<T> {
         }else {
             showNext = true;
         }
-        //是否显示第一页
+        //是否显示最前页
         if (pages.contains(1)){
             showFirstPage = false;
         }else {
