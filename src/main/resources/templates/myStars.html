@@ -16,7 +16,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-star" th:text=" ' '+'我的收藏'" aria-hidden="true"></span></h2>
             <hr>
-            <div class="media" th:each="question : ${stars}">
+            <div class="media" th:each="question : ${pagination.data}">
                 <div style="padding: 5px 10px 20px;border-bottom: 1px solid #e8e8e8;">
                     <div class="media-left">
                         <a href="#">
@@ -35,6 +35,36 @@
                         次浏览 · <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <nav aria-label="Page navigation" style="display: block;text-align: center">
+                    <ul class="pagination">
+                        <!--                    第一页，上一页-->
+                        <li th:if="${pagination.showFirstPage}">
+                            <a th:href="@{'/'+${section}(page=${1})}" aria-label="First">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li><li th:if="${pagination.showPrevious}">
+                        <a th:href="@{'/'+${section}(page=${pagination.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                        <!--                    页码列表取页码并高亮-->
+                        <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page} ? 'active' : ''">
+                            <a th:href="@{'/'+${section}(page=${page})}" th:text="${page}">
+                            </a></li>
+                        <!--                    下一页，最后一页-->
+                        <li th:if="${pagination.showNext}">
+                            <a th:href="@{'/'+${section}(page=${pagination.page + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li><li th:if="${pagination.showEndPage}">
+                        <a th:href="@{'/'+${section}(page=${pagination.totalPage})}" aria-label="Last">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <!--        右边-->

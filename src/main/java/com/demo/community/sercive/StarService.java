@@ -1,14 +1,21 @@
 package com.demo.community.sercive;
 
+import com.demo.community.dto.NotificationDTO;
+import com.demo.community.dto.PaginationDTO;
+import com.demo.community.dto.QuestionDTO;
+import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.enums.LikeOrStarTypeEnum;
 import com.demo.community.mapper.LikeStarMapper;
 import com.demo.community.mapper.QuestionMapper;
+import com.demo.community.mapper.UserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +27,8 @@ public class StarService {
     private QuestionMapper questionMapper;
     @Autowired
     private LikeStarMapper likeStarMapper;
+    @Autowired
+    private UserMapper userMapper;
 
 //    收藏问题
     public int questionStar(Long questionId, int uid) {
@@ -63,7 +72,43 @@ public class StarService {
         return likeStarMapper.selectQuestionLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_STAR.getType());
     }
 
-    public List<LikeStar> selectStar(User user) {
-        return likeStarMapper.selectLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_STAR.getType());
+
+    public PaginationDTO userStarList(int uid, Integer page, Integer size) {
+        PaginationDTO<UserStarsDTO> paginationDTO = new PaginationDTO<>();
+        Integer totalPage;
+        //        搜索总数
+        Integer totalCount = likeStarMapper.starCountByUid(uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        //        计算页码总大小
+        if (totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
+        //        超出页数范围判断,防止越界
+        if (page < 1){
+            page = 1;
+        }
+        if (page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
+        Integer offset =size *(page - 1);
+        List<Question> starquestions = likeStarMapper.starQuestionByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType(),offset,size);
+        List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
+
+        for (Question question : starquestions){
+            User creator = userMapper.SelectByUid(question.getCreator());
+            UserStarsDTO userStarsDTO = new UserStarsDTO();
+            BeanUtils.copyProperties(question,userStarsDTO);
+            userStarsDTO.setUser(creator);
+            Long starTime = likeStarMapper.selectStarTime((long) question.getId(),uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
+            userStarsDTO.setStar_time(starTime);
+
+            userStarsDTOs.add(userStarsDTO);
+        }
+        paginationDTO.setData(userStarsDTOs);
+        return paginationDTO;
     }
 }

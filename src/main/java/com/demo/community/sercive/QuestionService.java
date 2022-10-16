@@ -98,7 +98,7 @@ public class QuestionService {
     public PaginationDTO list(int uid, Integer page, Integer size) {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
-        //        搜索总页数
+        //        搜索总数
         Integer totalCount = questionMapper.countByUid(uid);
         //        计算页码总大小
         if (totalCount % size == 0){

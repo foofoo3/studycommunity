@@ -2,6 +2,8 @@ package com.demo.community.mapper;
 
 
 import com.demo.community.entity.LikeStar;
+import com.demo.community.entity.Question;
+import com.demo.community.enums.LikeOrStarTypeEnum;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -29,5 +31,14 @@ public interface LikeStarMapper {
     List<Integer> selectQuestionLikeOrStarByUid(@Param("uid")int uid, @Param("type")int type);
 
     @Select("select * from like_and_star where uid = #{uid} and type = #{type}")
-    List<LikeStar> selectLikeOrStarByUid(int uid, int type);
+    List<LikeStar> selectLikeOrStarByUid(@Param("uid")int uid,@Param("type")int type);
+
+    @Select("select count(1) from like_and_star a join question b on a.uid = #{uid} and a.type = #{type} and a.target_id = b.id")
+    Integer starCountByUid(@Param("uid")int uid, @Param("type")int type);
+
+    @Select("select b.* from like_and_star a join question b on a.uid = #{uid} and a.type = #{type} and a.target_id = b.id limit #{offset},#{size}")
+    List<Question> starQuestionByUid(@Param("uid")int uid, @Param("type")int type,@Param("offset") Integer offset,@Param("size") Integer size);
+
+    @Select("select gmt_create from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
+    Long selectStarTime(@Param("target_id") Long target_id, @Param("uid") int uid, @Param("type") int type);
 }

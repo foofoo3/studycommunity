@@ -72,7 +72,7 @@ public interface QuestionMapper {
             "</script>")
     Integer countBySearch(QuestionQueryDTO questionQueryDTO);
 
-    @Select("select * from question where creator = #{uid} order by gmt_create desc limit #{offset},#{size} ")
+    @Select("select * from question where creator = #{uid} order by gmt_create desc limit #{offset},#{size}")
     List<Question> listByUid(@Param("uid") int uid,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question where creator = #{uid}")
