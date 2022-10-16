@@ -25,6 +25,8 @@ public class UserService {
             return 0;
         }else if (userMapper.SelectByName(name)!=null){
             return 2;
+        }else if (password.length() < 6){
+            return 3;
         }else {
             int result = userMapper.InsertUser(name, number, password);
             if (result == 1) {
@@ -66,5 +68,11 @@ public class UserService {
         return currentUser;
     }
 
+    //    名字查询用户
+    public User getUserByName(String name){
+        User currentUser = userMapper.SelectByName(name);
+        log.info("currentUser:{}",currentUser);
+        return currentUser;
+    }
 
 }
