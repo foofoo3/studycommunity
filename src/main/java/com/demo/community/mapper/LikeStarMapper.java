@@ -36,7 +36,7 @@ public interface LikeStarMapper {
     @Select("select count(1) from like_and_star a join question b on a.uid = #{uid} and a.type = #{type} and a.target_id = b.id")
     Integer starCountByUid(@Param("uid")int uid, @Param("type")int type);
 
-    @Select("select b.* from like_and_star a join question b on a.uid = #{uid} and a.type = #{type} and a.target_id = b.id limit #{offset},#{size}")
+    @Select("select b.* from like_and_star a join question b on a.uid = #{uid} and a.type = #{type} and a.target_id = b.id order by a.gmt_create desc limit #{offset},#{size}")
     List<Question> starQuestionByUid(@Param("uid")int uid, @Param("type")int type,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select gmt_create from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
