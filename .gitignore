@@ -36,3 +36,4 @@ logs/community.log
 *.gz
 logs/community.log.2022-10-08.0.gz
 *.gz
+*.gz
