@@ -50,7 +50,6 @@ public class MenuController {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
 
-
         model.addAttribute("section","personal");
         return "myProfile";
     }

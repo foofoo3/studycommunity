@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="/lib/jquery-3.6.1.js"></script>
-<link rel="stylesheet" href="/css/bootstrap.css">
-<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="/css/community.css">
-<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<!--<script src="/lib/jquery-3.6.1.js"></script>-->
+<!--<link rel="stylesheet" href="/css/bootstrap.css">-->
+<!--<link rel="stylesheet" href="/css/bootstrap-theme.min.css">-->
+<!--<link rel="stylesheet" href="/css/community.css">-->
+<!--<script src="/js/bootstrap.min.js" type="application/javascript"></script>-->
+
+<script src="../lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.css">
+<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../css/community.css">
+<script src="../js/bootstrap.min.js" type="application/javascript"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>我的信息</title>
@@ -17,7 +24,18 @@
             <h2><span class="glyphicon glyphicon-user" th:text=" ' '+'我的信息'" aria-hidden="true"></span></h2>
             <hr>
 
+            <div style="width: 60%">
+                <form action="/personal" method="post">
+                    <div>
+                        <span>头像：</span>
+                    </div>
+                    <div>
+                        <span>账号： </span>
+                        <br>
 
+                    </div>
+                </form>
+            </div>
 
         </div>
         <!--        右边-->

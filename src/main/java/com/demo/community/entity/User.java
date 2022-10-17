@@ -15,5 +15,7 @@ public class User {
     private int number;
     private String password;
     private int uid ;
+    private String description;
+    private String face;
 
 }
