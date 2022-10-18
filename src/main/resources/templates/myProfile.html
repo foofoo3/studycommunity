@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="/css/community.css">
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -22,32 +23,70 @@
                 <form action="/personal" method="post">
                     <div style="margin-top: 30px;margin-bottom: 10px">
                         <span style="font-size: 20px">头像：</span>
-                        <img style="width: 70px;height: 70px;margin-left: 40%;margin-bottom: 10px" class="media-object img-circle" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
-                        <a onclick="" class="pointer" style="float: right;font-size: 17px">修改头像</a>
+                        <img style="width: 70px;height: 70px;margin-left: 40%;margin-bottom: 10px" class="media-object img-circle" th:src="${user.face}" alt="">
+                        <a onclick="modifyFace()" class="pointer" style="float: right;font-size: 17px">修改头像</a>
+                        <script>
+                            function modifyFace() {
+                                document.querySelector('#face').hidden = "";
+                                document.querySelector('#submit').hidden = "";
+                            }
+                        </script>
+                        <div id="face" hidden="hidden">
+                        </div>
                     </div>
                     <div style="padding-top: 30px;margin-bottom: 30px">
                         <div style="margin-bottom: 10px;padding-top: 25px;">
                             <span style="font-size: 20px;float: none;margin-right: 30%;">账号：</span>
-                            <span style="font-size: 25px;">1234567</span>
+                            <span style="font-size: 25px;" th:text="${user.number}"></span>
                         </div>
                         <br>
                         <div style="margin-bottom: 10px">
                             <span style="font-size: 20px;float: none;margin-right: 30%">名字： </span>
-                            <span style="font-size: 25px;">test1</span>
-                            <a onclick="" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改姓名</a>
-                            <input name="name" id="name" type="hidden" class="form-control" placeholder="请输入新名字" aria-describedby="basic-addon1">
+                            <span style="font-size: 25px;" th:text="${user.name}"></span>
+                            <a onclick="modifyName()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改姓名</a>
+                            <script>
+                                function modifyName() {
+                                    document.querySelector('#name').type = "text";
+                                    document.querySelector('#submit').hidden = "";
+                                }
+                            </script>
+                            <input name="name" id="name" type="hidden" class="form-control" style="width: 50%;margin-left: 25%" placeholder="请输入新名字" aria-describedby="basic-addon1" required>
                         </div>
                         <br>
                         <div style="margin-bottom: 10px">
                             <span style="font-size: 20px;">自我描述：</span>
                             <div style="padding-left: 30px;padding-right: 30px;padding-top:5px;font-size: 22px">
-                                <span>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
-                                    啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
-                                </span>
+                                <span th:text="${user.description}"></span>
+                                <a onclick="modifyDescription()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改简介</a>
+                                <script>
+                                    function modifyDescription() {
+                                        document.querySelector('#description').hidden = "";
+                                        document.querySelector('#submit').hidden = "";
+                                    }
+                                </script>
+                                <div>
+                                    <textarea hidden="hidden" name="description" id="description" cols="60" rows="5" placeholder="请输入新简介" required></textarea>
+                                </div>
                             </div>
                         </div>
                         <br>
-                        <a class="pointer" style="font-size: 20px;margin-bottom: 10px">修改密码</a>
+                        <div>
+                            <a class="pointer" onclick="modifyPassword()" style="font-size: 20px;margin-bottom: 10px">修改密码</a>
+                            <script>
+                                function modifyPassword() {
+                                    document.querySelector('#password').hidden = ""
+                                    document.querySelector('#submit').hidden = "";
+                                }
+                            </script>
+                            <div id="password" hidden="hidden">
+                                <input name="oldPassword" id="oldPassword" type="password" class="form-control" style="width: 50%;margin-left: 25%;margin-bottom: 5px" placeholder="请输入旧密码" aria-describedby="basic-addon1" required>
+                                <input name="newPassword1" id="newPassword1" type="password" class="form-control" style="width: 50%;margin-left: 25%;margin-bottom: 5px" placeholder="请输入旧密码（不小于6位）" aria-describedby="basic-addon1" required>
+                                <input name="newPassword2" id="newPassword2'" type="password" class="form-control" style="width: 50%;margin-left: 25%;margin-bottom: 5px" placeholder="请输入旧密码（不小于6位）" aria-describedby="basic-addon1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden="hidden" id="submit">
+                    <button style="float: right;margin-bottom: 10px;margin-right: 20px" type="submit" class="btn btn-success">提交修改</button>
                     </div>
                 </form>
             </div>

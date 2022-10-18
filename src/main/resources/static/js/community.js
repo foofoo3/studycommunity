@@ -327,5 +327,5 @@ function questionsort(e){
     }else {
         location.href=("/?type="+type);
     }
-
 }
+

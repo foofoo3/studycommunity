@@ -49,7 +49,7 @@ public class MenuController {
     public String personal(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-
+        model.addAttribute("user",user);
         model.addAttribute("section","personal");
         return "myProfile";
     }
