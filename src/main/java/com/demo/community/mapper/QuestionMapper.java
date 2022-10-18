@@ -76,6 +76,9 @@ public interface QuestionMapper {
     List<Question> listByUid(@Param("uid") int uid,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question where creator = #{uid}")
+    int selectListCountByUid(@Param("uid") int uid);
+
+    @Select("select count(1) from question where creator = #{uid}")
     Integer countByUid(@Param("uid") int uid);
 
     @Select("select * from question where id = #{id}")
@@ -107,4 +110,5 @@ public interface QuestionMapper {
 
     @Update("update question set star_count = #{star_count} - 1 where id = #{id}")
     int starCancel(Question question);
+
 }

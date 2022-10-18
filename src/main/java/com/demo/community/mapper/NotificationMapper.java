@@ -21,6 +21,9 @@ public interface NotificationMapper {
     List<Notification> listByUid(@Param("uid") int uid, @Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("select count(1) from notification where receiver = #{uid}")
+    int selectListCountByUid(@Param("uid") int uid);
+
+    @Select("select count(1) from notification where receiver = #{uid}")
     Integer countByUid(@Param("uid") int uid);
 
     @Select("select count(1) from notification where receiver = #{uid} && status = 0")
@@ -31,4 +34,5 @@ public interface NotificationMapper {
 
     @Update("update notification set status = #{status} where id = #{id}")
     void updateStatus(Notification notification);
+
 }

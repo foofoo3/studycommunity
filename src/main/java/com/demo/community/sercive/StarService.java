@@ -95,20 +95,30 @@ public class StarService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        List<Question> starquestions = likeStarMapper.starQuestionByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType(),offset,size);
-        List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
+        int starCount = likeStarMapper.selectLikeOrStarCountByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        if (starCount != 0) {
+            List<Question> starquestions = likeStarMapper.starQuestionByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType(), offset, size);
+            List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
 
-        for (Question question : starquestions){
-            User creator = userMapper.SelectByUid(question.getCreator());
-            UserStarsDTO userStarsDTO = new UserStarsDTO();
-            BeanUtils.copyProperties(question,userStarsDTO);
-            userStarsDTO.setUser(creator);
-            Long starTime = likeStarMapper.selectStarTime((long) question.getId(),uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
-            userStarsDTO.setStar_time(starTime);
+            for (Question question : starquestions) {
+                User creator = userMapper.SelectByUid(question.getCreator());
+                UserStarsDTO userStarsDTO = new UserStarsDTO();
+                BeanUtils.copyProperties(question, userStarsDTO);
+                userStarsDTO.setUser(creator);
+                Long starTime = likeStarMapper.selectStarTime((long) question.getId(), uid, LikeOrStarTypeEnum.QUESTION_STAR.getType());
+                userStarsDTO.setStar_time(starTime);
 
-            userStarsDTOs.add(userStarsDTO);
+                userStarsDTOs.add(userStarsDTO);
+            }
+
+            paginationDTO.setData(userStarsDTOs);
+
+            return paginationDTO;
+
+        }else {
+            paginationDTO.setData(new ArrayList<>());
+
+            return paginationDTO;
         }
-        paginationDTO.setData(userStarsDTOs);
-        return paginationDTO;
     }
 }

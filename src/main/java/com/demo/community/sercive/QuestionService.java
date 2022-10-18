@@ -5,6 +5,7 @@ import com.demo.community.dto.QuestionDTO;
 import com.demo.community.dto.QuestionQueryDTO;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
+import com.demo.community.enums.LikeOrStarTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.QuestionMapper;
@@ -117,18 +118,28 @@ public class QuestionService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        List<Question> questions = questionMapper.listByUid(uid,offset,size);
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        int count = questionMapper.selectListCountByUid(uid);
+        if (count != 0){
+            List<Question> questions = questionMapper.listByUid(uid,offset,size);
+            List<QuestionDTO> questionDTOList = new ArrayList<>();
 
-        for (Question question : questions) {
-            User user = userMapper.SelectByUid(question.getCreator());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question,questionDTO);
-            questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);
+            for (Question question : questions) {
+                User user = userMapper.SelectByUid(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question,questionDTO);
+                questionDTO.setUser(user);
+                questionDTOList.add(questionDTO);
+            }
+
+            paginationDTO.setData(questionDTOList);
+
+            return paginationDTO;
+
+        }else {
+            paginationDTO.setData(new ArrayList<>());
+
+            return paginationDTO;
         }
-        paginationDTO.setData(questionDTOList);
-        return paginationDTO;
     }
 
 //    通过id查问题详情

@@ -41,4 +41,8 @@ public interface LikeStarMapper {
 
     @Select("select gmt_create from like_and_star where target_id = #{target_id} and uid = #{uid} and type = #{type}")
     Long selectStarTime(@Param("target_id") Long target_id, @Param("uid") int uid, @Param("type") int type);
+
+    @Select("select count(1) from like_and_star where uid = #{uid} and type = #{type}")
+    int selectLikeOrStarCountByUid(@Param("uid")int uid, @Param("type")int type);
+
 }
