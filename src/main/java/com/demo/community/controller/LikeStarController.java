@@ -1,10 +1,7 @@
 package com.demo.community.controller;
 
-import com.demo.community.dto.CommentCreatDTO;
 import com.demo.community.dto.ResultDTO;
-import com.demo.community.entity.Comment;
 import com.demo.community.entity.LikeStar;
-import com.demo.community.entity.User;
 import com.demo.community.sercive.LikeService;
 import com.demo.community.sercive.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: foofoo3

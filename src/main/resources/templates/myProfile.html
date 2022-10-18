@@ -20,7 +20,7 @@
             <hr>
 
             <div style="width: 60%;margin-left: 25%">
-                <form action="/personal" method="post">
+                <form action="/userProfile" method="post">
                     <div style="margin-top: 30px;margin-bottom: 10px">
                         <span style="font-size: 20px">头像：</span>
                         <img style="width: 70px;height: 70px;margin-left: 40%;margin-bottom: 10px" class="media-object img-circle" th:src="${user.face}" alt="">
@@ -32,6 +32,7 @@
                             }
                         </script>
                         <div id="face" hidden="hidden">
+
                         </div>
                     </div>
                     <div style="padding-top: 30px;margin-bottom: 30px">
@@ -86,7 +87,13 @@
                         </div>
                     </div>
                     <div hidden="hidden" id="submit">
-                    <button style="float: right;margin-bottom: 10px;margin-right: 20px" type="submit" class="btn btn-success">提交修改</button>
+                    <button style="float: right;margin-bottom: 10px;margin-right: 20px" onclick="submit()" type="submit" class="btn btn-success">提交修改</button>
+                        <script>
+                            function submit(){
+                                var form = document.getElementById("form")
+                                form.submit();
+                            }
+                        </script>
                     </div>
                 </form>
             </div>

@@ -29,11 +29,8 @@ import java.util.List;
 @Controller
 public class MenuController {
     @Autowired
-    private QuestionService questionService;
-    @Autowired
     private StarService starService;
-    @Autowired
-    private UserService userService;
+
 //  登录
     @GetMapping("/login")
     public String login(){ return "login"; }

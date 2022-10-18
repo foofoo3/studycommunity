@@ -1,10 +1,17 @@
 package com.demo.community.sercive;
 
 import com.demo.community.entity.User;
+import com.demo.community.exception.CustomizeErrorCode;
+import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Objects;
+
 /**
  * @author foofoo3
  */
@@ -77,4 +84,78 @@ public class UserService {
         return currentUser;
     }
 
+    public int updateUser(User user, String name, String description, String oldPassword, String newPassword1, String newPassword2, HttpServletResponse response) {
+
+        if (oldPassword  == ""){
+            oldPassword = null;
+        }else if (!Objects.equals(oldPassword, user.getPassword())){
+            try {
+                response.sendRedirect("resultRegister?=4");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        if (newPassword1  == ""){
+            newPassword1  = null;
+        }else if (newPassword1.length() < 6){
+            try {
+                response.sendRedirect("resultRegister?=5");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }else if (oldPassword == null || !oldPassword.equals(user.getPassword())){
+            try {
+                response.sendRedirect("resultRegister?=4");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }else if (!newPassword1.equals(newPassword2)){
+            try {
+                response.sendRedirect("resultRegister?=6");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }else if (newPassword1.equals(oldPassword)){
+            try {
+                response.sendRedirect("resultRegister?=8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        if (newPassword2  == ""){
+            newPassword2  = null;
+        }else if (!newPassword2.equals(newPassword1)){
+            try {
+                response.sendRedirect("resultRegister?=6");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }else {
+            user.setPassword(newPassword2);
+        }
+
+        if (name == ""){
+            user.setName(user.getName());
+        }else {
+            user.setName(name);
+        }
+
+        if (description  == ""){
+            user.setDescription(user.getDescription());
+        }else {
+            user.setDescription(description);
+        }
+
+        int i = userMapper.updateUser(user);
+
+        return i;
+    }
 }

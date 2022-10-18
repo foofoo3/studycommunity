@@ -4,6 +4,7 @@ import com.demo.community.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +32,7 @@ public interface UserMapper {
             "</foreach>"+
             "</script> ")
     List<User> SelectByUidInList(@Param("userIds")List<Integer> userIds);
+
+    @Update("update user set name = #{name},description = #{description},password = #{password} where uid = #{uid}")
+    int updateUser(User user);
 }
