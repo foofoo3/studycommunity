@@ -27,6 +27,7 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-list" th:text=" ' '+'发现'" aria-hidden="true"></span></h2>
+            <h3><span th:if="${tag} != null" th:text="'当前标签：'+ ${tag}"></span></h3>
             <div class="btn-group" role="group" aria-label="..." style="float: right">
                 <button type="button" onclick=questionsort(this) th:type="1" th:search="${search}" th:tag="${tag}" th:style="${type == null || type == 1} ? 'color: #2aabd2' : '' " class="btn btn-default">按时间排序</button>
                 <button type="button" onclick=questionsort(this) th:type="2" th:search="${search}" th:tag="${tag}" th:style="${type == 2} ? 'color: #2aabd2' : '' " class="btn btn-default">按喜欢数排序</button>
@@ -95,16 +96,29 @@
 <!--            相关问题-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3 style="margin-bottom: 20px">热门标签</h3>
+                <h3 style="margin-bottom: 20px">热门问题（每天更新）</h3>
                 <ul class="question-related">
-                    <li th:each="tag : ${tags}">
-                        <a th:href="@{/(page=${page},tag=${tag})}" th:text="${tag}"></a>
+<!--                    <li th:each="tag : ${tags}">-->
+<!--                        <span class="label label-info question-tag" style="margin: 10px">-->
+<!--                            <span class="glyphicon glyphicon-tag"></span>-->
+<!--                            <a th:href="@{/(page=${page},tag=${tag})}" class="label label-info" th:text="${tag}"></a>-->
+<!--                        </span>-->
+<!--                    </li>-->
+                </ul>
+                <h3 style="margin-bottom: 20px">热门标签（每天更新）</h3>
+                <ul class="question-related">
+                    <li th:each="tag : ${tags}" style="margin: 10px">
+                        <span class="label label-info question-tag">
+                            <span class="glyphicon glyphicon-tag"></span>
+                            <a th:href="@{/(page=${page},tag=${tag})}" class="label label-info" th:text="${tag}"></a>
+                        </span>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+
 <div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

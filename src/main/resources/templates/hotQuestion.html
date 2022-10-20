@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>热门问题</title>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <div>
+                <h2><span class="glyphicon glyphicon-fire" th:text=" ' '+'热门问题'" style="float: left" aria-hidden="true"></span></h2>
+                <ul class="nav nav-tabs" style="float: right;margin-top: 20px;margin-right: 40px">
+                    <li role="presentation" th:class="${byTime} == 1 ? 'active' : '' "><a href="/hotQuestion/1">按当天</a></li>
+                    <li role="presentation" th:class="${byTime} == 2 ? 'active' : '' "><a href="/hotQuestion/2">按三天</a></li>
+                    <li role="presentation" th:class="${byTime} == 3 ? 'active' : '' "><a href="/hotQuestion/3">按一周</a></li>
+                </ul>
+            </div>
+            <hr style="margin-top: 81px">
+
+
+
+
+            <div class="media" th:each="question : ${questions}">
+                <div style="padding: 5px 10px 20px;border-bottom: 1px solid #e8e8e8;">
+                    <div class="media-left">
+                        <a href="#">
+                            <img style="width: 70px;height: 70px;" class="media-object img-circle" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
+                        </a>
+                        <span th:text="${question.user.name}" style="color: #000000;font-size: medium;text-align: center;display: block"></span>
+                    </div>
+                    <div class="media-body " style="padding-left: 30px;">
+                        <h3 class="media-heading">
+                            <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                        </h3>
+                        <a th:href="@{'/question/'+ ${question.id}}"  th:text="${question.description}" style="color: #0f0f0f;font-size: 16px"></a>
+                        <br>
+                        <br>
+                        <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>
+                        次浏览 · <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!--        右边-->
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热门话题</h3>
+            <!--            相关问题-->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3 style="margin-bottom: 20px">热门问题（每天更新）</h3>
+                <ul class="question-related">
+                    <!--                    <li th:each="tag : ${tags}">-->
+                    <!--                        <span class="label label-info question-tag" style="margin: 10px">-->
+                    <!--                            <span class="glyphicon glyphicon-tag"></span>-->
+                    <!--                            <a th:href="@{/(page=${page},tag=${tag})}" class="label label-info" th:text="${tag}"></a>-->
+                    <!--                        </span>-->
+                    <!--                    </li>-->
+                </ul>
+                <h3 style="margin-bottom: 20px">热门标签（每天更新）</h3>
+                <ul class="question-related">
+                    <li th:each="tag : ${tags}" style="margin: 10px">
+                        <span class="label label-info question-tag">
+                            <span class="glyphicon glyphicon-tag"></span>
+                            <a th:href="@{/(page=${page},tag=${tag})}" class="label label-info" th:text="${tag}"></a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>

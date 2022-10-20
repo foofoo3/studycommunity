@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,5 +66,14 @@ public class MenuController {
         model.addAttribute("pagination",paginationDTO);
         model.addAttribute("section","star");
         return "myStars";
+    }
+
+    @GetMapping("/hotQuestion/{byTime}")
+    public String hotQuestion(@PathVariable(name = "byTime",required = false) Integer byTime, Model model){
+
+
+
+        model.addAttribute("byTime",byTime);
+        return "hotQuestion";
     }
 }
