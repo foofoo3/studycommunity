@@ -23,8 +23,8 @@ public class HotTasks {
     private QuestionMapper questionMapper;
     @Autowired
     private HotTagCache hotTagCache;
-//    定时获取标签热度 （每7小时更新一次）
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 7)
+//    定时获取标签热度 （每4小时更新一次）
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 4)
     public void hotTagScheduled() {
         int offset = 0;
         int limit = 5;

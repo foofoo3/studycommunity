@@ -1,6 +1,8 @@
 package com.demo.community.controller;
 
+import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.dto.PaginationDTO;
+import com.demo.community.dto.QuestionDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
@@ -11,6 +13,7 @@ import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.StarService;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +34,10 @@ import java.util.List;
 public class MenuController {
     @Autowired
     private StarService starService;
+    @Autowired
+    private HotQuestionCache hotQuestionCache;
+    @Autowired
+    private UserService userService;
 
 //  登录
     @GetMapping("/login")
@@ -70,9 +77,18 @@ public class MenuController {
 
     @GetMapping("/hotQuestion/{byTime}")
     public String hotQuestion(@PathVariable(name = "byTime",required = false) Integer byTime, Model model){
+        List<QuestionDTO> dayHotQuestionDTOs = new ArrayList<>();
+        List<Question> dayHotQuestions = hotQuestionCache.getDayHotQuestions();
 
+        for (Question question : dayHotQuestions) {
+            User user = userService.getUserByUid(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,questionDTO);
+            questionDTO.setUser(user);
+            dayHotQuestionDTOs.add(questionDTO);
+        }
 
-
+        model.addAttribute("dayHotQuestions",dayHotQuestionDTOs);
         model.addAttribute("byTime",byTime);
         return "hotQuestion";
     }

@@ -22,8 +22,8 @@
                 <h2><span class="glyphicon glyphicon-fire" th:text=" ' '+'热门问题'" style="float: left" aria-hidden="true"></span></h2>
                 <ul class="nav nav-tabs" style="float: right;margin-top: 20px;margin-right: 40px">
                     <li role="presentation" th:class="${byTime} == 1 ? 'active' : '' "><a href="/hotQuestion/1">按当天</a></li>
-                    <li role="presentation" th:class="${byTime} == 2 ? 'active' : '' "><a href="/hotQuestion/2">按三天</a></li>
-                    <li role="presentation" th:class="${byTime} == 3 ? 'active' : '' "><a href="/hotQuestion/3">按一周</a></li>
+                    <li role="presentation" th:class="${byTime} == 2 ? 'active' : '' "><a href="/hotQuestion/2">上一周</a></li>
+                    <li role="presentation" th:class="${byTime} == 3 ? 'active' : '' "><a href="/hotQuestion/3">上个月</a></li>
                 </ul>
             </div>
             <hr style="margin-top: 81px">
@@ -31,7 +31,7 @@
 
 
 
-            <div class="media" th:each="question : ${questions}">
+            <div class="media" th:each="question : ${dayHotQuestions}">
                 <div style="padding: 5px 10px 20px;border-bottom: 1px solid #e8e8e8;">
                     <div class="media-left">
                         <a href="#">
