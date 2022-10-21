@@ -1,5 +1,6 @@
 package com.demo.community.dto;
 
+import com.demo.community.entity.Question;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -7,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
  * @Author: foofoo3
  */
 @Data
-public class HotTagDTO implements Comparable {
-    private String name;
+public class HotQuestionDTO implements Comparable {
+    private Question question;
     private Integer priority;
 
     @Override

@@ -111,6 +111,6 @@ public interface QuestionMapper {
     @Update("update question set star_count = #{star_count} - 1 where id = #{id}")
     int starCancel(Question question);
 
-    @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,15")
+    @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10")
     List<Question> selectHotQuestionByDay();
 }
