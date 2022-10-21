@@ -50,4 +50,63 @@ public class HotQuestionCache {
         dayHotQuestions = sortedQuestions;
         System.out.println(dayHotQuestions);
     }
+
+    public void updateWeekQuestions(Map<Question, Integer> questionMap) {
+        PriorityQueue<HotQuestionDTO> priorityQueue = new PriorityQueue<>(10);
+
+        questionMap.forEach((question,hot)->{
+            HotQuestionDTO hotQuestionDTO = new HotQuestionDTO();
+            hotQuestionDTO.setQuestion(question);
+            hotQuestionDTO.setPriority(hot);
+            if (priorityQueue.size() < 10){
+                priorityQueue.add(hotQuestionDTO);
+            }else {
+                HotQuestionDTO minHotQuestion = priorityQueue.peek();
+                if (hotQuestionDTO.compareTo(minHotQuestion) > 0){
+                    priorityQueue.poll();
+                    priorityQueue.add(hotQuestionDTO);
+                }
+            }
+        });
+
+        List<Question>  sortedQuestions = new ArrayList<>();
+        HotQuestionDTO poll = priorityQueue.poll();
+
+        while (poll != null){
+            sortedQuestions.add(0,poll.getQuestion());
+            poll = priorityQueue.poll();
+        }
+        weekHotQuestions = sortedQuestions;
+        System.out.println(weekHotQuestions);
+    }
+
+    public void updateMonthQuestions(Map<Question, Integer> questionMap) {
+        PriorityQueue<HotQuestionDTO> priorityQueue = new PriorityQueue<>(10);
+
+        questionMap.forEach((question,hot)->{
+            HotQuestionDTO hotQuestionDTO = new HotQuestionDTO();
+            hotQuestionDTO.setQuestion(question);
+            hotQuestionDTO.setPriority(hot);
+            if (priorityQueue.size() < 10){
+                priorityQueue.add(hotQuestionDTO);
+            }else {
+                HotQuestionDTO minHotQuestion = priorityQueue.peek();
+                if (hotQuestionDTO.compareTo(minHotQuestion) > 0){
+                    priorityQueue.poll();
+                    priorityQueue.add(hotQuestionDTO);
+                }
+            }
+        });
+
+        List<Question>  sortedQuestions = new ArrayList<>();
+        HotQuestionDTO poll = priorityQueue.poll();
+
+        while (poll != null){
+            sortedQuestions.add(0,poll.getQuestion());
+            poll = priorityQueue.poll();
+        }
+
+        monthHotQuestions = sortedQuestions;
+        System.out.println(monthHotQuestions);
+    }
 }

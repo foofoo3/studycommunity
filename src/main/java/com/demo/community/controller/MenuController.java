@@ -1,6 +1,7 @@
 package com.demo.community.controller;
 
 import com.demo.community.cache.HotQuestionCache;
+import com.demo.community.cache.HotTagCache;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
 import com.demo.community.dto.UserStarsDTO;
@@ -38,6 +39,8 @@ public class MenuController {
     private HotQuestionCache hotQuestionCache;
     @Autowired
     private UserService userService;
+    @Autowired
+    private HotTagCache hotTagCache;
 
 //  登录
     @GetMapping("/login")
@@ -77,18 +80,44 @@ public class MenuController {
 
     @GetMapping("/hotQuestion/{byTime}")
     public String hotQuestion(@PathVariable(name = "byTime",required = false) Integer byTime, Model model){
-        List<QuestionDTO> dayHotQuestionDTOs = new ArrayList<>();
+        List<QuestionDTO> hotQuestionDTOs = new ArrayList<>();
         List<Question> dayHotQuestions = hotQuestionCache.getDayHotQuestions();
+        List<Question> weekHotQuestions = hotQuestionCache.getWeekHotQuestions();
+        List<Question> monthHotQuestions = hotQuestionCache.getMonthHotQuestions();
+        List<String> tags = hotTagCache.getHots();
 
-        for (Question question : dayHotQuestions) {
-            User user = userService.getUserByUid(question.getCreator());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question,questionDTO);
-            questionDTO.setUser(user);
-            dayHotQuestionDTOs.add(questionDTO);
+        if (byTime == 1){
+            for (Question question : dayHotQuestions) {
+                User user = userService.getUserByUid(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question,questionDTO);
+                questionDTO.setUser(user);
+                hotQuestionDTOs.add(questionDTO);
+            }
+            model.addAttribute("hotQuestions",hotQuestionDTOs);
+        }else if (byTime == 2){
+            for (Question question : weekHotQuestions) {
+                User user = userService.getUserByUid(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question,questionDTO);
+                questionDTO.setUser(user);
+                hotQuestionDTOs.add(questionDTO);
+            }
+            model.addAttribute("hotQuestions",hotQuestionDTOs);
+        }else if (byTime == 3){
+            for (Question question : monthHotQuestions) {
+                User user = userService.getUserByUid(question.getCreator());
+                QuestionDTO questionDTO = new QuestionDTO();
+                BeanUtils.copyProperties(question,questionDTO);
+                questionDTO.setUser(user);
+                hotQuestionDTOs.add(questionDTO);
+            }
+            model.addAttribute("hotQuestions",hotQuestionDTOs);
+        }else {
+            model.addAttribute("hotQuestions",hotQuestionDTOs);
         }
 
-        model.addAttribute("dayHotQuestions",dayHotQuestionDTOs);
+        model.addAttribute("tags",tags);
         model.addAttribute("byTime",byTime);
         return "hotQuestion";
     }

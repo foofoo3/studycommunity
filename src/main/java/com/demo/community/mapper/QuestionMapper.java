@@ -113,4 +113,10 @@ public interface QuestionMapper {
 
     @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10")
     List<Question> selectHotQuestionByDay();
+
+    @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10")
+    List<Question> selectHotQuestionByWeek();
+
+    @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10")
+    List<Question> selectHotQuestionByMonth();
 }

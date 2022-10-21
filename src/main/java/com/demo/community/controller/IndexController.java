@@ -1,19 +1,24 @@
 package com.demo.community.controller;
 
 
+import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.cache.HotTagCache;
-import com.demo.community.dto.HotTagDTO;
 import com.demo.community.dto.PaginationDTO;
+import com.demo.community.dto.QuestionDTO;
+import com.demo.community.entity.Question;
+import com.demo.community.entity.User;
 import com.demo.community.sercive.QuestionService;
+import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author foofoo3
@@ -26,6 +31,8 @@ public class IndexController {
     private QuestionService questionService;
     @Autowired
     private HotTagCache hotTagCache;
+    @Autowired
+    private HotQuestionCache hotQuestionCache;
 
     @GetMapping("/")
     public String index(Model model,
@@ -48,7 +55,18 @@ public class IndexController {
         }else {
             pagination = questionService.list(tag,search,page,size,type);
         }
+//        一周热门问题前五
+        List<Question> hotQuestions;
+        List<Question> weekHotQuestions = hotQuestionCache.getWeekHotQuestions();
+        if (weekHotQuestions.size() <= 5){
+            hotQuestions = weekHotQuestions;
+        }else {
+            hotQuestions = weekHotQuestions.subList(0, 5);
+        }
+//        热门标签
         List<String> tags = hotTagCache.getHots();
+
+        model.addAttribute("hotQuestions",hotQuestions);
         model.addAttribute("pagination",pagination);
         model.addAttribute("search",search);
         model.addAttribute("tags",tags);

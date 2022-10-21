@@ -1,7 +1,6 @@
 package com.demo.community.schedule;
 
 import com.demo.community.cache.HotQuestionCache;
-import com.demo.community.dto.QuestionDTO;
 import com.demo.community.entity.Question;
 import com.demo.community.mapper.QuestionMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -42,15 +41,35 @@ public class HotQuestions {
     }
 
 //    上一周查询 每周一更新
-    @Scheduled(cron = "0 0 0 ? * MON")
+//    @Scheduled(cron = "0 0 0 ? * MON")
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
     public void hotQuestionsScheduledByWeek() {
 
+        List<Question> questions= questionMapper.selectHotQuestionByWeek();
+        Map<Question, Integer> priorities = new HashMap<>();
+
+        for (Question question : questions){
+            Integer hot = question.getComment_count() + (question.getStar_count() * 2) + (question.getLike_count() * 3);
+            priorities.put(question,hot);
+        }
+
+        hotQuestionCache.updateWeekQuestions(priorities);
     }
 
 //    上个月查询 每月1号更新
-    @Scheduled(cron = "0 0 0 1 * ?")
+//    @Scheduled(cron = "0 0 0 1 * ?")
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
     public void hotQuestionsScheduledByMonth() {
 
+        List<Question> questions= questionMapper.selectHotQuestionByMonth();
+        Map<Question, Integer> priorities = new HashMap<>();
+
+        for (Question question : questions){
+            Integer hot = question.getComment_count() + (question.getStar_count() * 2) + (question.getLike_count() * 3);
+            priorities.put(question,hot);
+        }
+
+        hotQuestionCache.updateMonthQuestions(priorities);
     }
 
 }

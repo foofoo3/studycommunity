@@ -14,7 +14,7 @@ public class HotQuestionDTO implements Comparable {
 
     @Override
     public int compareTo(@NotNull Object o) {
-        return this.getPriority() - ((HotTagDTO) o).getPriority();
+        return this.getPriority() - ((HotQuestionDTO) o).getPriority();
 
     }
 }
