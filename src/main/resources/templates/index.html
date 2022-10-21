@@ -92,18 +92,19 @@
 
 <!--        右边-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3 style="color: red">热门话题</h3>
+            <h3 style="color: #ff2e4b;margin-left: 10px;margin-top: 30px;">热门话题</h3>
 <!--            相关问题-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3 style="margin-bottom: 20px">一周热门问题</h3>
-                <ul class="question-related">
+                <ul class="question-related" style="margin-bottom: 20px;">
                     <li th:each="question : ${hotQuestions}" style="font-size: 20px;margin: 10px;">
                         <a th:href="@{'/question/'+ ${question.id}}"  th:text="${question.title}"></a>
                     </li>
                 </ul>
+                <hr>
                 <h3 style="margin-bottom: 20px">热门标签</h3>
-                <ul class="question-related">
+                <ul class="question-related" style="margin-bottom: 20px;">
                     <li th:each="tag : ${tags}" style="margin: 10px">
                         <span class="label label-info question-tag">
                             <span class="glyphicon glyphicon-tag"></span>

@@ -32,11 +32,31 @@
                 </form>
 
 
-                <a class="btn btn-default" style="font-size: 17px;margin-top: 6px;margin-left: 200px;color: red" href="/hotQuestion/1" role="button">
+                <a class="btn btn-default" style="font-size: 17px;margin-top: 6px;margin-left: 200px;color: #ff2e4b" href="/hotQuestion/1" role="button">
                     <span class="glyphicon glyphicon-fire pointer"></span>
                     热门问题
                 </a>
 
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info dropdown-toggle" style="padding-top: 7px;padding-bottom: 7px;margin-top: 5px;margin-left: 50px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        学科分区 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="margin-left: 50px">
+                        <li><a href="/?tag=哲学">哲学</a></li>
+                        <li><a href="/?tag=经济学">经济学</a></li>
+                        <li><a href="/?tag=法学">法学</a></li>
+                        <li><a href="/?tag=教育学">教育学</a></li>
+                        <li><a href="/?tag=文学">文学</a></li>
+                        <li><a href="/?tag=历史学">历史学</a></li>
+                        <li><a href="/?tag=理学">理学</a></li>
+                        <li><a href="/?tag=工学">工学</a></li>
+                        <li><a href="/?tag=农学">农学</a></li>
+                        <li><a href="/?tag=医学">医学</a></li>
+                        <li><a href="/?tag=管理学">管理学</a></li>
+                        <li><a href="/?tag=艺术学">艺术学</a></li>
+                        <li><a href="/?tag=军事学">军事学</a></li>
+                    </ul>
+                </div>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='/login' th:if="${session.user == null}" style="font-size: 18px" >登录</a></li>
@@ -49,7 +69,8 @@
                             <li><a href="/star">我的收藏</a></li>
                             <li><a href="/profile/questions">我的提问</a></li>
                             <li><a href="/profile/replies">最新回复</a></li>
-                            <li><a style="color: red" href='/logOut'>退出登录</a></li>
+                            <li role="separator" class="divider" style="margin-top: 2px;margin-bottom: 2px"></li>
+                            <li><a style="color: blue" href='/logOut'>退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
