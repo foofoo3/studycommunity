@@ -1,5 +1,6 @@
 package com.demo.community.sercive;
 
+import com.demo.community.mapper.CommentMapper;
 import com.demo.community.mapper.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class CountService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    public CommentMapper commentMapper;
 
     public int getQuestionCountByUser(int uid) {
         return questionMapper.countByUid(uid);
@@ -34,5 +37,14 @@ public class CountService {
             stars += star;
         }
         return stars;
+    }
+
+    public int getCommentLikeCountByUser(int uid) {
+        int likes = 0;
+        List<Integer> integers = commentMapper.selectListLikeCountByUid(uid);
+        for (Integer like : integers){
+            likes += like;
+        }
+        return likes;
     }
 }

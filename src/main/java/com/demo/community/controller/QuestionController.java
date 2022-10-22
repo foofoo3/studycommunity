@@ -13,12 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 /**
  * @author foofoo3
  */
@@ -39,18 +42,35 @@ public class QuestionController {
                            @RequestParam(name = "like",required = false)Integer like){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+
 //        问题内容
         QuestionDTO questionDTO = questionService.getById(id);
+
 //        相似问题列表
-        List<QuestionDTO> similarQuestions = questionService.selectSimilar(questionDTO);
+        List<QuestionDTO> similarQuestions = new ArrayList<>();
+        List<QuestionDTO> questions = questionService.selectSimilar(questionDTO);
+        if (questions.size() <= 10){
+            similarQuestions = questions;
+        }else {
+//            如果相似问题大于10个则随机抽取10个
+            for(int i = 0; i < 10; i++ ) {
+                Random random = new Random();
+                int index = random.nextInt(questions.size());
+                similarQuestions.add(questions.get(index));
+                questions.remove(index);
+            }
+        }
+
 //        回复列表
         List<CommentDTO> comments;
+
 //        判断是否按喜欢排序
         if (like != null) {
             comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION, like);
         }else {
             comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION,0);
         }
+
 //        查询用户喜欢评论id
         if (user != null){
             List<Long> likesId = likeService.selectCommentLike(user,id);
@@ -60,6 +80,7 @@ public class QuestionController {
             List<Integer> questionStarsId = starService.selectQuestionStar(user);
             model.addAttribute("questionStarsId",questionStarsId);
         }
+
 //        累加阅读数
         questionService.incView(id);
 
@@ -68,5 +89,10 @@ public class QuestionController {
         model.addAttribute("similarQuestions",similarQuestions);
         model.addAttribute("like",like);
         return "question";
+    }
+
+    @PostMapping("/deleteQuestion/{id}")
+    public void deleteQuestion(@PathVariable(name = "id")Integer id){
+        questionService.deleteQuestionById(id);
     }
 }

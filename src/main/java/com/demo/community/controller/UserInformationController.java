@@ -44,9 +44,10 @@ public class UserInformationController {
 //        查用户问题数 获赞数 被收藏数
         int questionCountByUser = countService.getQuestionCountByUser(user.getUid());
         int questionLikeCountByUser = countService.getQuestionLikeCountByUser(user.getUid());
+        int commentLikeCountByUser = countService.getCommentLikeCountByUser(user.getUid());
         int questionStarCountByUser = countService.getQuestionStarCountByUser(user.getUid());
         userCountDTO.setQuestionCount(questionCountByUser);
-        userCountDTO.setQuestionLikedCount(questionLikeCountByUser);
+        userCountDTO.setQuestionLikedCount(questionLikeCountByUser + commentLikeCountByUser);
         userCountDTO.setQuestionStaredCount(questionStarCountByUser);
 
         model.addAttribute("pagination",paginationDTO);

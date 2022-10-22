@@ -329,3 +329,23 @@ function questionsort(e){
     }
 }
 
+function trash(e,type){
+    let id = e.getAttribute('value');
+    let res = confirm('确定删除此问题吗？')
+    if (res){
+        $.ajax({
+            url: "/deleteQuestion/"+id,
+            type: "post",
+            success: function(data){
+            }
+        });
+        if (type === 'q'){
+            alert("删除成功")
+            window.location.replace("/");
+        }else if (type === 'p'){
+            alert("删除成功")
+            window.location.reload();
+        }
+
+    }
+}

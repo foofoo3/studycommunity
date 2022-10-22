@@ -33,4 +33,7 @@ public interface CommentMapper {
 
     @Select("select * from comment where parent_id = #{parent_id} && type = #{type} order by like_count desc")
     List<Comment> selectByPidAndTypeLike(@Param("parent_id") int parent_id, @Param("type") Integer type);
+
+    @Select("select like_count from comment where commentator = #{uid}")
+    List<Integer> selectListLikeCountByUid(int uid);
 }

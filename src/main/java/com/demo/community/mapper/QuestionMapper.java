@@ -2,10 +2,7 @@ package com.demo.community.mapper;
 
 import com.demo.community.dto.QuestionQueryDTO;
 import com.demo.community.entity.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -122,4 +119,7 @@ public interface QuestionMapper {
 
     @Select("select star_count from question where creator = #{uid}")
     List<Integer> selectListStarCountByUid(int uid);
+
+    @Delete("delete from question where id = #{id}")
+    void deleteById(@Param("id")int id);
 }
