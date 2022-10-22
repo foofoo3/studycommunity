@@ -21,7 +21,7 @@
 
             <div style="width: 60%;margin-left: 25%">
                 <form action="/userProfile" method="post">
-                    <div style="margin-top: 30px;margin-bottom: 10px">
+                    <div style="margin-top: 30px;margin-bottom: 20px">
                         <span style="font-size: 20px">头像：</span>
                         <img style="width: 70px;height: 70px;margin-left: 40%;margin-bottom: 10px" class="media-object img-circle" th:src="${user.face}" alt="">
                         <a onclick="modifyFace()" class="pointer" style="float: right;font-size: 17px">修改头像</a>
@@ -41,7 +41,7 @@
                             <span style="font-size: 25px;" th:text="${user.number}"></span>
                         </div>
                         <br>
-                        <div style="margin-bottom: 10px">
+                        <div style="margin-bottom: 20px">
                             <span style="font-size: 20px;float: none;margin-right: 30%">名字： </span>
                             <span style="font-size: 25px;" th:text="${user.name}"></span>
                             <a onclick="modifyName()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改姓名</a>
@@ -54,7 +54,7 @@
                             <input name="name" id="name" type="hidden" class="form-control" style="width: 50%;margin-left: 25%" placeholder="请输入新名字" aria-describedby="basic-addon1" required>
                         </div>
                         <br>
-                        <div style="margin-bottom: 10px">
+                        <div style="margin-bottom: 20px">
                             <span style="font-size: 20px;">自我描述：</span>
                             <div style="padding-left: 30px;padding-right: 30px;padding-top:5px;font-size: 22px">
                                 <span th:text="${user.description}"></span>
@@ -68,6 +68,18 @@
                                 <div>
                                     <textarea hidden="hidden" name="description" id="description" cols="60" rows="5" placeholder="请输入新简介" required></textarea>
                                 </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div style="margin-bottom: 20px">
+                            <div style="margin-top: 20px;margin-left: 10px">
+                                <span th:text="'问题数：' + ${userCount.questionCount}" style="font-size: 20px"></span>
+                            </div>
+                            <div style="margin-top: 20px;margin-left: 10px">
+                                <span th:text="'获赞数：' + ${userCount.questionLikedCount}" style="font-size: 20px"></span>
+                            </div>
+                            <div style="margin-top: 20px;margin-left: 10px">
+                                <span th:text="'被收藏数：' + ${userCount.questionStaredCount}" style="font-size: 20px"></span>
                             </div>
                         </div>
                         <br>

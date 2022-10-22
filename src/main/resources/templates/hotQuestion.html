@@ -34,10 +34,10 @@
             <div class="media" th:each="question : ${hotQuestions}">
                 <div style="padding: 5px 10px 20px;border-bottom: 1px solid #e8e8e8;">
                     <div class="media-left">
-                        <a href="#">
-                            <img style="width: 70px;height: 70px;" class="media-object img-circle" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
+                        <a th:href="@{'/information/'+ ${question.user.uid}}">
+                            <img style="width: 70px;height: 70px;" class="media-object img-circle" th:src="${question.user.face}" alt="">
                         </a>
-                        <span th:text="${question.user.name}" style="color: #000000;font-size: medium;text-align: center;display: block"></span>
+                        <a th:text="${question.user.name}" th:href="@{'/information/'+ ${question.user.uid}}" style="color: #000000;font-size: medium;text-align: center;display: block"></a>
                     </div>
                     <div class="media-body " style="padding-left: 30px;">
                         <h3 class="media-heading">

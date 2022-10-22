@@ -118,7 +118,7 @@ public class QuestionService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        int count = questionMapper.selectListCountByUid(uid);
+        int count = questionMapper.countByUid(uid);
         if (count != 0){
             List<Question> questions = questionMapper.listByUid(uid,offset,size);
             List<QuestionDTO> questionDTOList = new ArrayList<>();

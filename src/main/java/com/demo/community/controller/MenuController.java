@@ -4,12 +4,14 @@ import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.cache.HotTagCache;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
+import com.demo.community.dto.UserCountDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
+import com.demo.community.sercive.CountService;
 import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.StarService;
 import com.demo.community.sercive.UserService;
@@ -41,6 +43,8 @@ public class MenuController {
     private UserService userService;
     @Autowired
     private HotTagCache hotTagCache;
+    @Autowired
+    private CountService countService;
 
 //  登录
     @GetMapping("/login")
@@ -57,6 +61,17 @@ public class MenuController {
     public String personal(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
+        UserCountDTO userCountDTO = new UserCountDTO();
+
+        //        查用户问题数 获赞数 被收藏数
+        int questionCountByUser = countService.getQuestionCountByUser(user.getUid());
+        int questionLikeCountByUser = countService.getQuestionLikeCountByUser(user.getUid());
+        int questionStarCountByUser = countService.getQuestionStarCountByUser(user.getUid());
+        userCountDTO.setQuestionCount(questionCountByUser);
+        userCountDTO.setQuestionLikedCount(questionLikeCountByUser);
+        userCountDTO.setQuestionStaredCount(questionStarCountByUser);
+
+        model.addAttribute("userCount",userCountDTO);
         model.addAttribute("user",user);
         model.addAttribute("section","personal");
         return "myProfile";

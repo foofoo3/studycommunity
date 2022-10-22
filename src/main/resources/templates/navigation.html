@@ -72,8 +72,9 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='/login' th:if="${session.user == null}" style="font-size: 18px" >登录</a></li>
-                    <li th:if="${session.user != null}"><button type="button" onclick="window.location.href='/publish'" class="btn btn-primary" style="margin-right: 10px;margin-top: 10px">发布问题 +</button></li>
+                    <li th:if="${session.user != null}"><button type="button" onclick="window.location.href='/publish'" class="btn btn-primary" style="margin-right: 20px;margin-top: 10px">发布问题 +</button></li>
                     <li th:if="${session.user != null}"><a href="/profile/replies"><span class="glyphicon glyphicon-bell"></span> 通知 </span><span class="badge" th:text="${session.unreadCount}"></span></a></li>
+                    <li th:if="${session.user != null}"><img style="width: 33px;height: 33px;margin-top: 8px;margin-left: 15px;" class="media-object img-circle" th:src="${session.user.face}" alt=""></li>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width: auto"><span th:text="${session.user.getName()}"></span><span class="caret"></span></a>
                         <ul class="dropdown-menu">

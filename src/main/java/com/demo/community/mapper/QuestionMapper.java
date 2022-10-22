@@ -76,9 +76,6 @@ public interface QuestionMapper {
     List<Question> listByUid(@Param("uid") int uid,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select count(1) from question where creator = #{uid}")
-    int selectListCountByUid(@Param("uid") int uid);
-
-    @Select("select count(1) from question where creator = #{uid}")
     Integer countByUid(@Param("uid") int uid);
 
     @Select("select * from question where id = #{id}")
@@ -119,4 +116,10 @@ public interface QuestionMapper {
 
     @Select("SELECT * FROM question WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10")
     List<Question> selectHotQuestionByMonth();
+
+    @Select("select like_count from question where creator = #{uid}")
+    List<Integer> selectListLikeCountByUid(int uid);
+
+    @Select("select star_count from question where creator = #{uid}")
+    List<Integer> selectListStarCountByUid(int uid);
 }
