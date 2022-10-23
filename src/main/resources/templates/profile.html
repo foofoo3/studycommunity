@@ -57,9 +57,14 @@
                             <a th:href="@{'/notification/'+ ${notification.id}}"
                                th:text="${notification.outer_title}">
                             </a>
+                            <span style="float: right;color: #6e6e6e" th:text="${#dates.format(notification.gmt_create,'yyyy-MM-dd')}"></span>
                             <span class="label label-danger" th:if="${notification.status == 0}"> 未读</span>
                         </p>
+                        <a onclick="trashNotification(this)" class="community-menu pointer" th:value="${notification.id}" th:if="${session.user != null}" style="margin-left: 10px">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除此通知
+                        </a>
                     </div>
+                    <hr>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

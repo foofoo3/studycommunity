@@ -439,11 +439,35 @@ function trashComment(e){
 }
 
 function trashSecondComment(id){
-    let res = confirm('确定删除此评论吗？');
+    let res = confirm('确定删除此二级评论吗？');
     if (res) {
         $.ajax({
             type: "POST",
             url: "/deleteComment/" + id,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("删除成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
+    }
+}
+
+function trashNotification(e){
+    let id = e.getAttribute('value');
+    let res = confirm('确定删除此条通知吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/deleteNotification/" + id,
             success: function (response) {
                 if (response.code === 200) {
                     alert("删除成功")

@@ -93,4 +93,8 @@ public class NotificationService {
         notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
         return notificationDTO;
     }
+
+    public int deleteNotificationById(Integer id) {
+        return notificationMapper.deleteById(id);
+    }
 }
