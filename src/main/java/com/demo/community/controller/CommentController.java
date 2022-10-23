@@ -50,4 +50,15 @@ public class CommentController {
         List<CommentDTO> commentDTOS = commentService.listByParentId(id, CommentTypeEnum.COMMENT,0);
         return ResultDTO.okOf(commentDTOS);
     }
+
+    @ResponseBody
+    @PostMapping("/deleteComment/{id}")
+    public Object deleteComment(@PathVariable(name = "id")Long id){
+        int res = commentService.deleteCommentById(id);
+        if (res != 0){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(6000,"删除问题失败");
+        }
+    }
 }

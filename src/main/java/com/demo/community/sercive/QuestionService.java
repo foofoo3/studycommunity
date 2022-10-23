@@ -205,7 +205,7 @@ public class QuestionService {
         return questionDTOS;
     }
 
-    public void deleteQuestionById(Integer id) {
-        questionMapper.deleteById(id);
+    public int deleteQuestionById(Integer id) {
+        return questionMapper.deleteById(id);
     }
 }

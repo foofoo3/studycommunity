@@ -2,6 +2,7 @@ package com.demo.community.controller;
 
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.dto.QuestionDTO;
+import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.sercive.CommentService;
@@ -11,10 +12,7 @@ import com.demo.community.sercive.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -91,8 +89,14 @@ public class QuestionController {
         return "question";
     }
 
+    @ResponseBody
     @PostMapping("/deleteQuestion/{id}")
-    public void deleteQuestion(@PathVariable(name = "id")Integer id){
-        questionService.deleteQuestionById(id);
+    public Object deleteQuestion(@PathVariable(name = "id")Integer id){
+        int res = questionService.deleteQuestionById(id);
+        if (res != 0){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(6000,"删除问题失败");
+        }
     }
 }

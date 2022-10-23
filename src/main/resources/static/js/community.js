@@ -53,6 +53,7 @@ function comment(e){
 // 展开二级评论
 function collapseComments(e){
     let id = e.getAttribute("data-id");
+    let uid = e.getAttribute("user");
     let comments = $("#comment-" + id);
     //获取二级评论展开状态
     let collapse = e.getAttribute("collapse");
@@ -74,27 +75,51 @@ function collapseComments(e){
                 e.classList.add("active");
             }else {
                 $.each(data.data.reverse(), function(index,comment) {
-
                     let mediaLeftEl = $("<div/>",{
                         "class":"media-left"
                     }).append($("<img/>",{
                         "class":"media-object img-rounded comment-img",
-                        "src":"https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg"
+                        "src":comment.user.face
                     }));
 
-                    let mediaBodyEl = $("<div/>",{
-                        "class":"media-body comment-body",
-                    }).append($("<h5/>",{
-                        "class":"media-heading comment-font",
-                        "html":comment.user.name
-                    })).append($("<div/>",{
-                        "html":comment.content
-                    })).append($("<div/>",{
-                        "class":"menu"
-                    }).append($("<span/>",{
-                        "class":"pull-right",
-                        "html":moment(comment.gmt_create).format('YYYY-MM-DD')
-                    })));
+
+                    let mediaBodyEl;
+                    debugger
+                    if(comment.user.uid == uid){
+                        mediaBodyEl = $("<div/>", {
+                            "class": "media-body comment-body",
+                        }).append($("<h5/>", {
+                            "class": "media-heading comment-font",
+                            "html": comment.user.name
+                        })).append($("<div/>", {
+                            "html": comment.content
+                        })).append($("<div/>", {
+                            "class": "menu"
+                        }).append($("<a/>",{
+                            "class": "community-menu pointer",
+                            "style": "margin-left:10px",
+                            "onclick":"trashSecondComment(" + comment.id + ")",
+                            "html": "&nbsp;删除评论"
+                        })).append($("<span/>", {
+                            "class": "pull-right",
+                            "html": moment(comment.gmt_create).format('YYYY-MM-DD')
+                        })));
+                    }else {
+                        mediaBodyEl = $("<div/>", {
+                            "class": "media-body comment-body",
+                        }).append($("<h5/>", {
+                            "class": "media-heading comment-font",
+                            "html": comment.user.name
+                        })).append($("<div/>", {
+                            "html": comment.content
+                        })).append($("<div/>", {
+                            "class": "menu"
+                        }).append($("<span/>", {
+                            "class": "pull-right",
+                            "html": moment(comment.gmt_create).format('YYYY-MM-DD')
+                        })));
+                    }
+
 
                     let mediaEl = $("<div/>",{
                         "class":"media"
@@ -247,7 +272,6 @@ function like(e){
 }
 
 function star(e){
-    debugger
     let id = e.getAttribute("data-id");
     let uid = e.getAttribute("value");
     let star = $("#star-" + id);
@@ -329,23 +353,110 @@ function questionsort(e){
     }
 }
 
-function trash(e,type){
+function trashQuestion(e,type){
     let id = e.getAttribute('value');
-    let res = confirm('确定删除此问题吗？')
+    let res = confirm('确定删除此问题吗？');
     if (res){
         $.ajax({
             url: "/deleteQuestion/"+id,
             type: "post",
-            success: function(data){
+            success: function(response){
+                if (response.code === 200){
+                    if (type === 'q'){
+                        alert("删除成功")
+                        window.location.replace("/");
+                    }else if (type === 'p'){
+                        alert("删除成功")
+                        window.location.reload();
+                    }
+                }else {
+                    if (response.code === 6000) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
             }
         });
-        if (type === 'q'){
-            alert("删除成功")
-            window.location.replace("/");
-        }else if (type === 'p'){
-            alert("删除成功")
-            window.location.reload();
-        }
 
+
+    }
+}
+
+function trashStar(e){
+    let id = e.getAttribute('value');
+    let userId = e.getAttribute('user');
+    let res = confirm('确定删除此收藏吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/questionStarCancel",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "uid": userId,
+                "target_id": id
+            }),
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("删除成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            },
+            dataType: "json"
+        });
+    }
+}
+
+function trashComment(e){
+    let id = e.getAttribute('value');
+    let res = confirm('确定删除此评论吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/deleteComment/" + id,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("删除成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
+    }
+}
+
+function trashSecondComment(id){
+    let res = confirm('确定删除此评论吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/deleteComment/" + id,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("删除成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
     }
 }

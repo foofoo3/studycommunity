@@ -1,10 +1,7 @@
 package com.demo.community.mapper;
 
 import com.demo.community.entity.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,4 +33,19 @@ public interface CommentMapper {
 
     @Select("select like_count from comment where commentator = #{uid}")
     List<Integer> selectListLikeCountByUid(int uid);
+
+    @Select("select type from comment where id = #{id}")
+    int getTypeById(@Param("id") Long id);
+
+    @Delete("delete from comment where id = #{id}")
+    int deleteComment(Long id);
+
+    @Delete("delete from comment where parent_id = #{parent_id} && type = #{type} ")
+    int deleteByPidAndType(@Param("parent_id") int parent_id, @Param("type") Integer type);
+
+    @Select("select parent_id from comment where id = #{id}")
+    Long selectParentId(@Param("id") Long id);
+
+    @Update("update comment set comment_count = #{comment_count} - 1 where id = #{id}")
+    int reduceCommentCount(Comment comment);
 }

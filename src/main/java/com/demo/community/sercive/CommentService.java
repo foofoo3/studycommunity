@@ -133,6 +133,52 @@ public class CommentService {
         return commentDTOS;
     };
 
+    public int deleteCommentById(Long id) {
+        int type = commentMapper.getTypeById(id);
+//        判断删除评论类型
+        if (type == 1){
+//            如果为评论则删除评论及它的二级评论
+            List<Comment> comments = commentMapper.selectByPidAndType(Math.toIntExact(id), CommentTypeEnum.COMMENT.getType());
+            if (comments.size() != 0){
+                int res = commentMapper.deleteByPidAndType(Math.toIntExact(id),CommentTypeEnum.COMMENT.getType());
+                if (res != 0){
+//                    当前问题评论数减一
+                    Long qustionId = commentMapper.selectParentId(id);
+                    Question parentQuestion = questionMapper.getQuestionById(Math.toIntExact(qustionId));
+                    parentQuestion.setComment_count(parentQuestion.getComment_count());
+                    int qr = questionMapper.reduceCommentCount(parentQuestion);
+//                    删除评论
+                    int resC = commentMapper.deleteComment(id);
+                    if (resC != 0 && qr != 0){
+                        return 1;
+                    }
+                }
+            }else {
+//                    当前问题评论数减一
+                Long qustionId = commentMapper.selectParentId(id);
+                Question parentQuestion = questionMapper.getQuestionById(Math.toIntExact(qustionId));
+                parentQuestion.setComment_count(parentQuestion.getComment_count());
+                int qr = questionMapper.reduceCommentCount(parentQuestion);
+//                删除评论
+                int resC = commentMapper.deleteComment(id);
+                if (resC != 0 && qr != 0){
+                    return 1;
+                }
+            }
+        }if (type == 2){
+//            当前评论评论数减一
+            Long commentId = commentMapper.selectParentId(id);
+            Comment parentComment = commentMapper.selectById(commentId);
+            parentComment.setComment_count(parentComment.getComment_count());
+            int cr = commentMapper.reduceCommentCount(parentComment);
+//            如果为二级评论则直接删除
+            int resS = commentMapper.deleteComment(id);
+            if (resS != 0 && cr != 0){
+                return 1;
+            }
+        }
+        return 0;
+    }
 
 
 }

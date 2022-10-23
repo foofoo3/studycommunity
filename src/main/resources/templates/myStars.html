@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="/css/community.css">
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
 <head>
     <meta charset="UTF-8">
     <title>我的收藏</title>
@@ -33,6 +34,9 @@
                         <br>
                         <span class="text-desc"> <span th:text="${question.comment_count}"></span>个回复 · <span th:text="${question.view_count}"></span>
                         次浏览 · <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd')}"></span> 创建</span>
+                        <a onclick="trashStar(this)" class="community-menu pointer" th:value="${question.id}" th:user="${session.user.uid}" th:if="${session.user != null}" style="margin-left: 10px">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除收藏
+                        </a>
                     </div>
                     <div style="float: right;font-size: 17px;margin:0 10px 10px;color: #2aabd2" th:text="'收藏于： '+${#dates.format(question.star_time,'yyyy-MM-dd')}"></div>
                 </div>

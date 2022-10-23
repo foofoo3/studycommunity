@@ -72,7 +72,7 @@ public class LikeStarController {
         if (i == 1){
             return ResultDTO.okOf();
         }else {
-            return ResultDTO.errorOf(5200,"点赞失败");
+            return ResultDTO.errorOf(5200,"收藏失败");
         }
     }
 
@@ -83,7 +83,7 @@ public class LikeStarController {
         if (i == 1){
             return ResultDTO.okOf();
         }else {
-            return ResultDTO.errorOf(5201,"取消点赞失败");
+            return ResultDTO.errorOf(5201,"取消收藏失败");
         }
     }
 }

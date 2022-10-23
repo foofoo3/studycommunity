@@ -121,5 +121,8 @@ public interface QuestionMapper {
     List<Integer> selectListStarCountByUid(int uid);
 
     @Delete("delete from question where id = #{id}")
-    void deleteById(@Param("id")int id);
+    int deleteById(@Param("id")int id);
+
+    @Update("update question set comment_count = #{comment_count} - 1 where id = #{id}")
+    int reduceCommentCount(Question question);
 }
