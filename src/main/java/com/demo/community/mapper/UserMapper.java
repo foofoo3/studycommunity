@@ -35,4 +35,7 @@ public interface UserMapper {
 
     @Update("update user set name = #{name},description = #{description},password = #{password} where uid = #{uid}")
     int updateUser(User user);
+
+    @Update("update user set face = #{filePath} where uid = #{uid}")
+    void updateUserFace(@Param("uid")int uid, @Param("filePath")String filePath);
 }

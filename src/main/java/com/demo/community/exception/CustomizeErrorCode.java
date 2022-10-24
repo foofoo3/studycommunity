@@ -14,7 +14,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode{
     READ_NOTIFICATION_FAIL(2008,"通知信息获取错误"),
     NOTIFICATION_NOT_FOUND(2009,"消息不翼而飞了或已被删除，请刷新重试"),
     QUESTION_QUERY_NOT_FOUND(2010,"未搜索到问题或已被删除，换个关键词试试？"),
-    USER_NOT_FOUND(2011,"用户不存在，请重试");
+    USER_NOT_FOUND(2011,"用户不存在，请重试"),
+    IMAGE_TYPE_NOT_FOUND(2012,"图片格式错误，请上传正确格式");
 
     private Integer code;
     private String message;
