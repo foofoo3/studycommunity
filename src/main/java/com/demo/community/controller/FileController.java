@@ -25,7 +25,7 @@ public class FileController {
     @Autowired
     private UserService userService;
 
-
+//上传头像
     @PostMapping("/file/uploadFace")
     public void upload(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
@@ -84,8 +84,11 @@ public class FileController {
             });
 
             try {
+//                本地写入磁盘
                 file.transferTo(file1);
+//                开启线程back 跳转回首页
                 back.start();
+//                开启线程update 等待上传完成后刷新数据库session
                 update.start();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -93,7 +96,6 @@ public class FileController {
         }else {
             throw new CustomizeException(CustomizeErrorCode.IMAGE_TYPE_NOT_FOUND);
         }
-
-
+        
     }
 }
