@@ -96,6 +96,6 @@ public class FileController {
         }else {
             throw new CustomizeException(CustomizeErrorCode.IMAGE_TYPE_NOT_FOUND);
         }
-        
+
     }
 }
