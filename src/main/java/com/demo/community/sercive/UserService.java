@@ -156,7 +156,7 @@ public class UserService {
         return i;
     }
 
-    public void updateUserFace(int uid,String filePath) {
-        userMapper.updateUserFace(uid,filePath);
+    public int updateUserFace(int uid,String filePath) {
+       return userMapper.updateUserFace(uid,filePath);
     }
 }

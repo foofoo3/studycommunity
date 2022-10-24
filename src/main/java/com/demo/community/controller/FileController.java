@@ -54,9 +54,39 @@ public class FileController {
             String filePath = "/images/"+fileName;
             String filePathReal = "E:/test/studycommunity/src/main/resources/static/images/" +fileName;
             File file1 = new File(filePathReal);
+
+
+            Thread back = new Thread(() -> {
+//                上传时先跳转回首页
+                try {
+                    response.sendRedirect("/resultRegister?=10");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+
+            Thread update = new Thread(() -> {
+//                等待一分钟 已经上传后刷新数据库与session
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                路径写入数据库
+                int res = userService.updateUserFace(user.getUid(), filePath);
+//                成功写入数据库后刷新session
+                if (res !=0) {
+                    session.removeAttribute("user");
+                    User newUser = userService.getUserByUid(user.getUid());
+                    session.setAttribute("user", newUser);
+                }
+            });
+
             try {
                 file.transferTo(file1);
-                userService.updateUserFace(user.getUid(),filePath);
+                back.start();
+                update.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -64,10 +94,6 @@ public class FileController {
             throw new CustomizeException(CustomizeErrorCode.IMAGE_TYPE_NOT_FOUND);
         }
 
-        try {
-            response.sendRedirect("/");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }
