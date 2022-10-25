@@ -58,7 +58,6 @@ public class FileController {
             String fileName=user.getUid()+"face"+frequency+type;
             String filePath = "/images/"+fileName;
             String filePathReal = System.getProperty("user.dir")+"/src/main/resources/static/images/" +fileName;
-            File file1 = new File(filePathReal);
 
 
             Thread back = new Thread(() -> {
@@ -90,7 +89,7 @@ public class FileController {
 
             try {
 //                本地写入磁盘
-                file.transferTo(file1);
+                file.transferTo(new File(filePathReal));
 //                开启线程back 跳转回首页
                 back.start();
 //                开启线程update 等待上传完成后刷新数据库session
