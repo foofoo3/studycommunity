@@ -21,9 +21,9 @@
             <div>
                 <h2><span class="glyphicon glyphicon-fire" th:text=" ' '+'热门问题'" style="float: left;color: #ff2e4b;" aria-hidden="true"></span></h2>
                 <ul class="nav nav-tabs" style="float: right;margin-top: 20px;margin-right: 40px">
-                    <li role="presentation" th:class="${byTime} == 1 ? 'active' : '' "><a href="/hotQuestion/1">按当天</a></li>
-                    <li role="presentation" th:class="${byTime} == 2 ? 'active' : '' "><a href="/hotQuestion/2">上一周</a></li>
-                    <li role="presentation" th:class="${byTime} == 3 ? 'active' : '' "><a href="/hotQuestion/3">上个月</a></li>
+                    <li role="presentation" th:class="${byTime} == 1 ? 'active' : '' " style="font-weight: 800;"><a href="/hotQuestion/1">按当天</a></li>
+                    <li role="presentation" th:class="${byTime} == 2 ? 'active' : '' " style="font-weight: 800;"><a href="/hotQuestion/2">上一周</a></li>
+                    <li role="presentation" th:class="${byTime} == 3 ? 'active' : '' " style="font-weight: 800;"><a href="/hotQuestion/3">上个月</a></li>
                 </ul>
             </div>
             <hr style="margin-top: 81px">
