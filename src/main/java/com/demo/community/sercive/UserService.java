@@ -168,4 +168,12 @@ public class UserService {
     public int banUser(int uid) {
         return userMapper.banUser(uid);
     }
+
+    public int unbanUser(int uid) {
+        return userMapper.unbanUser(uid);
+    }
+
+    public int cancellationUser(int uid) {
+        return userMapper.cancellationUser(uid);
+    }
 }

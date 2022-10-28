@@ -90,7 +90,7 @@
                             <span th:text="${user.uid}" style="font-size: 15px"></span>
                         </h5>
                         <h5 th:if="${user.type != 1}" style="color: red"> 用户已被封禁</h5>
-                        <a th:if="${session.admin != null && user.type == 1}" class="pointer" onclick="ban(this)" style="color: red" th:value="${user.uid}"> 封禁用户</a>
+                        <a th:if="${session.admin != null && user.type == 1}" class="pointer" onclick="ban(this)" style="color: red" th:value="${user.uid}"> 封禁此用户</a>
                     </div>
                     <hr>
                     <div>

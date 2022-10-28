@@ -1,10 +1,7 @@
 package com.demo.community.mapper;
 
 import com.demo.community.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,4 +41,10 @@ public interface UserMapper {
 
     @Update("update user set type = 0 where uid = #{uid}")
     int banUser(@Param("uid")int uid);
+
+    @Update("update user set type = 1 where uid = #{uid}")
+    int unbanUser(@Param("uid")int uid);
+
+    @Delete("delete from user where uid = #{uid}")
+    int cancellationUser(@Param("uid")int uid);
 }

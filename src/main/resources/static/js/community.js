@@ -497,7 +497,55 @@ function ban(e){
                     alert("封禁成功")
                     window.location.reload();
                 } else {
-                    if (response.code === 5201) {
+                    if (response.code === 9000) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
+    }
+}
+
+function unban(e){
+    let uid = e.getAttribute('value');
+    let res = confirm('确定解封此用户吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/unban/" + uid,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("解封成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 9001) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
+    }
+}
+
+function cancellation(e){
+    let uid = e.getAttribute('value');
+    let res = confirm('确定删除此用户吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/cancellation/" + uid,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("删除用户成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 9002) {
                         alert(response.message);
                     } else {
                         alert(response.message);

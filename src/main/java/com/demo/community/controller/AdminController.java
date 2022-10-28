@@ -89,4 +89,26 @@ public class AdminController {
             return ResultDTO.errorOf(9000,"封禁用户失败");
         }
     }
+
+    @ResponseBody
+    @PostMapping("/unban/{uid}")
+    public Object unbanUser(@PathVariable("uid")int uid){
+        int res = userService.unbanUser(uid);
+        if (res != 0){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(9001,"解封用户失败");
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/cancellation/{uid}")
+    public Object cancellationUser(@PathVariable("uid")int uid){
+        int res = userService.cancellationUser(uid);
+        if (res != 0){
+            return ResultDTO.okOf();
+        }else {
+            return ResultDTO.errorOf(9002,"删除用户失败");
+        }
+    }
 }
