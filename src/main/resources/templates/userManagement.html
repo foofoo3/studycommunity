@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
@@ -8,7 +14,25 @@
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
-
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-minus-sign" th:text=" ' ' + '被封禁的用户'" aria-hidden="true"></span></h2>
+            <hr>
+            <div class="media" th:each="user : ${blockingUsers}">
+                <div style="padding: 10px 250px 30px;border-bottom: 1px solid #b2b2b2;">
+                    <div class="media-left">
+                        <a th:href="@{'/information/'+ ${user.uid}}">
+                            <img style="width: 70px;height: 70px;" class="media-object img-circle" th:src="${user.face}" alt="">
+                        </a>
+                        <a th:text="${user.name}" th:href="@{'/information/'+ ${user.uid}}" style="color: #000000;font-size: large;text-align: center;display: block"></a>
+                    </div>
+                    <div class="media-body " style="padding-left: 20px;">
+                        <p style="float: left;width:60%;padding-top: 30px;font-size: large" class="" th:text="'&emsp;uid： ' + ${user.uid} + ' &emsp;账号：' +${user.number}"></p>
+                        <a style="color: red;padding-top: 30px;font-size: large;float: right;margin-right: 80px" class="pointer" onclick="cancellation(this)" th:value="${user.uid}">用户销号</a>
+                        <a style="color: #2aabd2;padding-top: 30px;font-size: large;float: right;margin-right: 60px" class="pointer" onclick="unban(this)" th:value="${user.uid}">解封用户</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div th:insert="~{footer :: foot}"></div>
