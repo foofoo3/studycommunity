@@ -38,4 +38,10 @@ public interface UserMapper {
 
     @Update("update user set face = #{filePath} where uid = #{uid}")
     int updateUserFace(@Param("uid")int uid, @Param("filePath")String filePath);
+
+    @Select("SELECT * from user where type = 0")
+    List<User> getUserByType();
+
+    @Update("update user set type = 0 where uid = #{uid}")
+    int banUser(@Param("uid")int uid);
 }

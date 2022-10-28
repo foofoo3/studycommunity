@@ -3,20 +3,15 @@ package com.demo.community.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-/**
- * @author foofoo3
- */
 
+/**
+ * @Author: foofoo3
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Admin {
+    private int id;
     private String name;
-    private int number;
     private String password;
-    private int uid ;
-    private String description;
-    private String face;
-    private int type;
-
 }

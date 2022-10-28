@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -158,5 +159,13 @@ public class UserService {
 
     public int updateUserFace(int uid,String filePath) {
        return userMapper.updateUserFace(uid,filePath);
+    }
+
+    public List<User> getUserByType() {
+        return userMapper.getUserByType();
+    }
+
+    public int banUser(int uid) {
+        return userMapper.banUser(uid);
     }
 }

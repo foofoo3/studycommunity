@@ -484,3 +484,27 @@ function trashNotification(e){
         });
     }
 }
+
+function ban(e){
+    let uid = e.getAttribute('value');
+    let res = confirm('确定封禁此用户吗？');
+    if (res) {
+        $.ajax({
+            type: "POST",
+            url: "/ban/" + uid,
+            success: function (response) {
+                if (response.code === 200) {
+                    alert("封禁成功")
+                    window.location.reload();
+                } else {
+                    if (response.code === 5201) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }
+                console.log(response);
+            }
+        });
+    }
+}

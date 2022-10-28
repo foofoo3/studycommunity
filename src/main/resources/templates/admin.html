@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container" style="width:auto;height: 1000px;background-color: #ffffff;
+background-size:1900px,1900px;background-repeat:no-repeat;z-index:1">
+    <div style="width: 500px;margin: 100px auto 0 auto;height: 500px;border: 1px solid #55d2ff;background-color: #e7e6e6;
+        border-radius: 5px;box-shadow:#ccc 0 0 10px;z-index:10;" >
+        <div style="margin-top: 30px;text-align:center;">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h1 class="text-center" style="margin-top:80px;color:rgba(45,43,43,0.84)">管理员登录</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <form action="/loginadmin" method="post">
+                        <div class="form-group">
+                            <label for="exampleInputNumber" style="margin-top:30px;color: rgba(45,43,43,0.84)">管理员名字</label>
+                            <input name="name"  class="form-control" id="exampleInputNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1" style="color: rgba(45,43,43,0.84)">管理员密码</label>
+                            <input  type="password"  name="password" class="form-control" id="exampleInputPassword1"  required>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <button class="btn btn-danger col-sm-6" style="margin-top:10px;margin-left: 60px" type="submit">登录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>

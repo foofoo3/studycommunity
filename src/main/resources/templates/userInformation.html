@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="/css/community.css">
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +17,7 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span class="glyphicon glyphicon-user" th:text=" ' '+'他的提问'" aria-hidden="true"></span></h2>
+            <h2><span class="glyphicon glyphicon-user" th:text=" ' '+ ${user.name} +'的提问'" aria-hidden="true"></span></h2>
             <hr>
             <div class="media" th:each="question : ${pagination.data}">
                 <div style="padding: 5px 10px 30px;border-bottom: 1px solid #e8e8e8;">
@@ -88,6 +89,8 @@
                             <span style="font-size: 15px">uid：</span>
                             <span th:text="${user.uid}" style="font-size: 15px"></span>
                         </h5>
+                        <h5 th:if="${user.type != 1}" style="color: red"> 用户已被封禁</h5>
+                        <a th:if="${session.admin != null && user.type == 1}" class="pointer" onclick="ban(this)" style="color: red" th:value="${user.uid}"> 封禁用户</a>
                     </div>
                     <hr>
                     <div>
@@ -99,7 +102,7 @@
                         </h5>
                     </div>
                     <hr>
-                    <div>
+                    <div style="margin-bottom: 20px">
                         <div style="margin-top: 20px;margin-left: 10px;margin-bottom: 20px">
                             <span th:text="'问题数：' + ${userCount.questionCount}" style="font-size: 20px"></span>
                         </div>
