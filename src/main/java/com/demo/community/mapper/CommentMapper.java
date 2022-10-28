@@ -48,4 +48,7 @@ public interface CommentMapper {
 
     @Update("update comment set comment_count = #{comment_count} - 1 where id = #{id}")
     int reduceCommentCount(Comment comment);
+
+    @Delete("delete from comment where commentator = #{commentator}")
+    void deleteCommentByCommentator(@Param("commentator")int commentator);
 }

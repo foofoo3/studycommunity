@@ -34,4 +34,7 @@ public interface NotificationMapper {
 
     @Delete("delete from notification where id = #{id}")
     int deleteById(@Param("id")int id);
+
+    @Delete("delete from notification where notifier = #{notifier}")
+    void deleteByNotifier(@Param("notifier")int notifier);
 }

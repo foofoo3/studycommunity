@@ -3,7 +3,7 @@ package com.demo.community.sercive;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.mapper.UserMapper;
+import com.demo.community.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,16 @@ import java.util.Objects;
 @Slf4j
 @Service
 public class UserService {
-
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionMapper questionMapper;
+    @Autowired
+    private CommentMapper commentMapper;
+    @Autowired
+    private LikeStarMapper likeStarMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     public int insertUser(String name,int number, String password) {
         log.info("name:{}", name);
@@ -174,6 +181,11 @@ public class UserService {
     }
 
     public int cancellationUser(int uid) {
+        questionMapper.deleteByCreator(uid);
+        commentMapper.deleteCommentByCommentator(uid);
+        likeStarMapper.deleteLikeOrStarByUid(uid);
+        notificationMapper.deleteByNotifier(uid);
+
         return userMapper.cancellationUser(uid);
     }
 }

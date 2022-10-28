@@ -125,4 +125,7 @@ public interface QuestionMapper {
 
     @Update("update question set comment_count = #{comment_count} - 1 where id = #{id}")
     int reduceCommentCount(Question question);
+
+    @Delete("delete from question where creator = #{creator}")
+    void deleteByCreator(@Param("creator")int creator);
 }

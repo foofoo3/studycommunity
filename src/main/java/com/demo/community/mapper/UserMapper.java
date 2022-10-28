@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Repository
 public interface UserMapper {
-    @Insert("insert into user values (#{name}, #{number}, #{password},null,#{description},#{face});")
+    @Insert("insert into user values (#{name}, #{number}, #{password},null,#{description},#{face},1);")
     int InsertUser(@Param("name") String name,@Param("number") int number,@Param("password") String password,@Param("description") String description,@Param("face") String face);
 
     @Select("SELECT * from user where number=#{number}")

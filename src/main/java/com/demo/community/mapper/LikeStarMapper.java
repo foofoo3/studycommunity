@@ -45,4 +45,6 @@ public interface LikeStarMapper {
     @Select("select count(1) from like_and_star where uid = #{uid} and type = #{type}")
     int selectLikeOrStarCountByUid(@Param("uid")int uid, @Param("type")int type);
 
+    @Delete("delete from like_and_star where uid = #{uid}")
+    void deleteLikeOrStarByUid(@Param("uid")int uid);
 }
