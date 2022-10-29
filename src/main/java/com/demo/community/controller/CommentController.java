@@ -58,7 +58,7 @@ public class CommentController {
         if (res != 0){
             return ResultDTO.okOf();
         }else {
-            return ResultDTO.errorOf(6000,"删除问题失败");
+            return ResultDTO.errorOf(6000,"删除评论失败");
         }
     }
 }
