@@ -32,4 +32,18 @@ public class AdminService {
     public Admin selectadminByname(String name){
         return adminMapper.selectAdminByName(name);
     }
+
+    public void updateAnnouncement(int id, String announcement) {
+        Admin admin = adminMapper.selectAdminById(id);
+        admin.setAnnouncement(announcement);
+        adminMapper.updateAnnouncement(admin);
+    }
+
+    public String getAnnouncement(int adminId) {
+        return adminMapper.getAnnouncement(adminId);
+    }
+
+    public Admin selectadminById(int adminId) {
+        return adminMapper.selectAdminById(adminId);
+    }
 }

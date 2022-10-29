@@ -3,10 +3,13 @@ package com.demo.community.controller;
 
 import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.cache.HotTagCache;
+import com.demo.community.dto.AdminAnnouncementDTO;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
+import com.demo.community.entity.Admin;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
+import com.demo.community.sercive.AdminService;
 import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class IndexController {
     private HotTagCache hotTagCache;
     @Autowired
     private HotQuestionCache hotQuestionCache;
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/")
     public String index(Model model,
@@ -65,6 +70,11 @@ public class IndexController {
         }
 //        热门标签
         List<String> tags = hotTagCache.getHots();
+//        管理员公告
+        Admin admin = adminService.selectadminById(1);
+        AdminAnnouncementDTO adminAnnouncementDTO = new AdminAnnouncementDTO();
+        adminAnnouncementDTO.setName(admin.getName());
+        adminAnnouncementDTO.setAnnouncement(admin.getAnnouncement());
 
         model.addAttribute("hotQuestions",hotQuestions);
         model.addAttribute("pagination",pagination);
@@ -72,6 +82,7 @@ public class IndexController {
         model.addAttribute("tags",tags);
         model.addAttribute("tag",tag);
         model.addAttribute("type",type);
+        model.addAttribute("announcement",adminAnnouncementDTO);
         return "index";
     }
 

@@ -111,4 +111,25 @@ public class AdminController {
             return ResultDTO.errorOf(9002,"删除用户失败");
         }
     }
+
+    @GetMapping("/publicAnnouncement")
+    public String publicAnnouncement(HttpServletRequest request){
+        Admin admin = (Admin) request.getSession().getAttribute("admin");
+        if (admin == null){
+            throw new CustomizeException(CustomizeErrorCode.ADMIN_NOT_FOUND);
+        }
+        return "publicAnnouncement";
+    }
+
+    @PostMapping("/publishAnnouncement")
+    public void publishAnnouncement(@RequestParam("id") int id,
+                                    @RequestParam("announcement") String announcement,
+                                    HttpServletResponse response){
+        adminService.updateAnnouncement(id,announcement);
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

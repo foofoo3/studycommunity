@@ -7,6 +7,32 @@
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 <script src="/js/community.js" type="application/javascript"></script>
 
+<script>
+    function modifyFace() {
+        document.querySelector('#face').hidden = "";
+    }
+
+    function modifyName() {
+        document.querySelector('#name').type = "text";
+        document.querySelector('#submit').hidden = "";
+    }
+
+    function modifyDescription() {
+        document.querySelector('#description').hidden = "";
+        document.querySelector('#submit').hidden = "";
+    }
+
+    function modifyPassword() {
+        document.querySelector('#password').hidden = ""
+        document.querySelector('#submit').hidden = "";
+    }
+
+    function submit(){
+        var form = document.getElementById("form")
+        form.submit();
+    }
+</script>
+
 <head>
     <meta charset="UTF-8">
     <title>我的信息</title>
@@ -24,11 +50,6 @@
                         <span style="font-size: 20px">头像：</span>
                         <img style="width: 70px;height: 70px;margin-left: 40%;margin-bottom: 10px" class="media-object img-circle" th:src="${user.face}" alt="">
                         <a onclick="modifyFace()" class="pointer" style="float: right;font-size: 17px">修改头像</a>
-                        <script>
-                            function modifyFace() {
-                                document.querySelector('#face').hidden = "";
-                            }
-                        </script>
                         <div id="face" hidden="hidden">
                             <form method="post" action="/file/uploadFace" enctype="multipart/form-data">
                                 <span>注：文件名不能包含中文 且格式为.jpg .png .jpeg 大小不超过1M 最好为正方形图片</span>
@@ -49,12 +70,6 @@
                             <span style="font-size: 20px;float: none;margin-right: 30%">名字： </span>
                             <span style="font-size: 25px;" th:text="${user.name}"></span>
                             <a onclick="modifyName()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改姓名</a>
-                            <script>
-                                function modifyName() {
-                                    document.querySelector('#name').type = "text";
-                                    document.querySelector('#submit').hidden = "";
-                                }
-                            </script>
                             <input name="name" id="name" type="hidden" class="form-control" style="width: 50%;margin-left: 25%" placeholder="请输入新名字" aria-describedby="basic-addon1" required>
                         </div>
                         <br>
@@ -63,12 +78,6 @@
                             <div style="padding-left: 30px;padding-right: 30px;padding-top:5px;font-size: 22px">
                                 <span th:text="${user.description}"></span>
                                 <a onclick="modifyDescription()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px">修改简介</a>
-                                <script>
-                                    function modifyDescription() {
-                                        document.querySelector('#description').hidden = "";
-                                        document.querySelector('#submit').hidden = "";
-                                    }
-                                </script>
                                 <div>
                                     <textarea hidden="hidden" name="description" id="description" cols="60" rows="5" placeholder="请输入新简介" required></textarea>
                                 </div>
@@ -91,12 +100,6 @@
                         <br>
                         <div>
                             <a class="pointer" onclick="modifyPassword()" style="font-size: 20px;margin-bottom: 10px">修改密码</a>
-                            <script>
-                                function modifyPassword() {
-                                    document.querySelector('#password').hidden = ""
-                                    document.querySelector('#submit').hidden = "";
-                                }
-                            </script>
                             <div id="password" hidden="hidden">
                                 <input name="oldPassword" id="oldPassword" type="password" class="form-control" style="width: 50%;margin-left: 25%;margin-bottom: 5px" placeholder="请输入旧密码" aria-describedby="basic-addon1" required>
                                 <input name="newPassword1" id="newPassword1" type="password" class="form-control" style="width: 50%;margin-left: 25%;margin-bottom: 5px" placeholder="请输入新密码（不小于6位）" aria-describedby="basic-addon1" required>
@@ -106,12 +109,6 @@
                     </div>
                     <div hidden="hidden" id="submit">
                     <button style="float: right;margin-bottom: 10px;margin-right: 20px" onclick="submit()" type="submit" class="btn btn-success">提交修改</button>
-                        <script>
-                            function submit(){
-                                var form = document.getElementById("form")
-                                form.submit();
-                            }
-                        </script>
                     </div>
                 </form>
             </div>

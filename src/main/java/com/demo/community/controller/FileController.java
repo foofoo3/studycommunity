@@ -127,6 +127,7 @@ public class FileController {
 
         //解决文件名字问题：使用uid;
         String filename = "ks-"+ UUID.randomUUID().toString().replaceAll("-", "")+".jpg";
+
         //通过CommonsMultipartFile的方法直接写文件（注意这个时候）
         file.transferTo(new File(realPath +"/"+ filename));
 

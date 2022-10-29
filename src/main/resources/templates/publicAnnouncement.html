@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="/lib/jquery-3.6.1.js"></script>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/community.css">
+<link rel="stylesheet" href="/css/editormd.min.css">
+<script src="/js/bootstrap.min.js" type="application/javascript"></script>
+<script src="/js/community.js" type="application/javascript"></script>
+<script src="/js/editormd.min.js" type="application/javascript"></script>
+
+<script>
+    function modifyAnnouncement() {
+        document.querySelector('#announcement').hidden = "";
+        document.querySelector('#submit').hidden = "";
+    }
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>发布公告</title>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="margin-left: 13%;">
+            <h2><span class="glyphicon glyphicon-volume-up"  th:text=" ' '+发布公告" aria-hidden="true"></span></h2>
+            <hr>
+
+            <form action="/publishAnnouncement" method="post">
+                <input type="hidden" name="id" id="id" th:value="${session.admin.id}">
+
+                <div style="margin-bottom: 20px">
+                    <label for="announcement" style="font-size: large">现公告：</label>
+                    <div style="padding-left: 30px;padding-right: 30px;padding-top:5px;font-size: 22px">
+                        <span th:text="${session.admin.announcement}"></span>
+                        <a onclick="modifyAnnouncement()" class="pointer" style="float: right;font-size: 17px;padding-top: 7px;margin-right: 150px">修改公告</a>
+                        <div>
+                            <textarea style="margin-left: 300px" hidden="hidden" name="announcement" id="announcement" cols="30" rows="10"
+                                      placeholder="请输入新公告" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div hidden="hidden" id="submit">
+                    <button hidden="hidden" type="submit" class="btn btn-success"
+                            style="float: left;margin-left: 600px;margin-bottom: 10px">发布公告</button>
+                </div>
+
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>
