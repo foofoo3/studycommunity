@@ -6,6 +6,7 @@ import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.sercive.AdminService;
+import com.demo.community.sercive.NotificationService;
 import com.demo.community.sercive.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/admin")
     public String admin(){
@@ -134,4 +137,15 @@ public class AdminController {
     }
 
 
+    @GetMapping("/adminDeletes")
+    public String adminDeletes(HttpServletRequest request,Model model){
+        Admin admin = (Admin) request.getSession().getAttribute("admin");
+        if (admin == null){
+            throw new CustomizeException(CustomizeErrorCode.ADMIN_NOT_FOUND);
+        }
+
+//        notificationService.list();
+
+        return "adminDeletes";
+    }
 }

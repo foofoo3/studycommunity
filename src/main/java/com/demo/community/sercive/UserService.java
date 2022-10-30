@@ -44,7 +44,7 @@ public class UserService {
             return 3;
         }else {
             String defaultDescription = "这个人很懒，什么都没留下";
-            String defaultFace = "https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg";
+            String defaultFace = "https://tva3.sinaimg.cn/thumbnail/007E7MVRly1h7ng9bwrwmj30io0iodgw.jpg";
             int result = userMapper.InsertUser(name, number, password,defaultDescription,defaultFace);
             if (result == 1) {
                 return 1;

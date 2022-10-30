@@ -21,20 +21,25 @@ public class PaginationDTO<T> {
     public void setPagination(Integer totalPage, Integer page) {
         this.totalPage =totalPage;
         this.page = page;
-//        计算页码列表
-        pages.add(page);
-        for (int i = 1; i <= 3; i++) {
-            if (page - i > 0){
-                pages.add(0,page - i);
-            }
-            if (page + i <= totalPage){
-                pages.add(page + i);
-            }
-        }
-//        如果总页数为0 则总页码数为1
+//        如果总页数为0 则总页码数和页数为1
         if (totalPage == 0){
             totalPage = 1;
+            page = 1;
+            pages.add(page);
+        }else {
+            //        计算页码列表
+            pages.add(page);
+            for (int i = 1; i <= 3; i++) {
+                if (page - i > 0){
+                    pages.add(0,page - i);
+                }
+                if (page + i <= totalPage){
+                    pages.add(page + i);
+                }
+            }
         }
+
+
         //是否显示上一页
         if (page == 1){
             showPrevious = false;

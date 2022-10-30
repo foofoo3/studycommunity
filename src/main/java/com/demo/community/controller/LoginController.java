@@ -1,5 +1,6 @@
 package com.demo.community.controller;
 
+import com.demo.community.entity.Admin;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
@@ -40,6 +41,11 @@ public class LoginController {
 //            Cookie userCookie = new Cookie("userCookie", user.getName() + "loginCookie");
 //            response.addCookie(userCookie);
             if (user.getType() == 1){
+//                如果管理员用户存在则退出
+                Admin admin = (Admin) request.getSession().getAttribute("admin");
+                if (admin != null){
+                    request.getSession().removeAttribute("admin");
+                }
                 request.getSession().setAttribute("user",user);
             }else {
                 resultLogin = 5;

@@ -78,15 +78,17 @@ function collapseComments(e){
             }else {
                 $.each(data.data.reverse(), function(index,comment) {
                     let mediaLeftEl = $("<div/>",{
-                        "class":"media-left"
+                        "class":"media-left",
+                    }).append($("<a/>",{
+                        "href" : '/information/' + comment.user.uid,
+                        "class":"pointer"
                     }).append($("<img/>",{
                         "class":"media-object img-rounded comment-img",
                         "src":comment.user.face
-                    }));
+                    })));
 
 
                     let mediaBodyEl;
-                    debugger
                     if(comment.user.uid == uid || adminId != null){
                         mediaBodyEl = $("<div/>", {
                             "class": "media-body comment-body",

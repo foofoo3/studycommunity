@@ -88,6 +88,7 @@
             </div>
 <!--            发布人操作栏-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${session.user != null && session.user.uid == question.creator}">
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${session.admin != null}">
             <div>
                 <span>&emsp;</span>
                 <a th:href="@{'/publish/'+ ${question.id}}" class="community-menu" th:if="${session.user != null && session.user.uid == question.creator}">
@@ -114,13 +115,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
-                        <img style="width: 50px;height: 50px;margin-top: 10px;margin-bottom: 10px" class="media-object img-rounded" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
+                    <a th:href="@{'/information/'+ ${comment.user.uid}}">
+                        <img style="width: 50px;height: 50px;margin-top: 10px;margin-bottom: 10px" class="media-object img-rounded" th:src="${comment.user.face}" alt="">
                     </a>
                 </div>
                 <div class="media-body" style="padding-left: 10px;padding-top: 13px" th:id="${'comment-body-' + comment.id}">
                     <h5 class="media-heading">
-                        <span th:text="${comment.user.name}" style="font-size: 17px;"></span>
+                        <a th:href="@{'/information/'+ ${comment.user.uid}}" th:text="${comment.user.name}" style="font-size: 17px;color: #0f0f0f"></a>
                     </h5>
                     <div th:text="${comment.content}"></div>
                     <div class="menu">
@@ -178,14 +179,13 @@
             <h3><span style="padding-left: 8px"></span>提交回复</h3>
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
-                        <img style="width: 50px;height: 50px;margin-top: 10px;margin-bottom: 10px" class="media-object img-rounded" src="https://tvax1.sinaimg.cn/thumbnail/007E7MVRly1h68twaikmyj30jt0juabj.jpg" alt="">
-                    </a>
+                    <img style="width: 50px;height: 50px;margin-top: 10px;margin-bottom: 10px" th:if="${session.user} == null" class="media-object img-rounded" src="https://tva4.sinaimg.cn/thumbnail/007E7MVRly1h7ng839zhqj307o07o0t4.jpg" alt="">
+                    <img style="width: 50px;height: 50px;margin-top: 10px;margin-bottom: 10px" th:if="${session.user} != null" class="media-object img-rounded" th:src="${session.user.face}" alt="">
                 </div>
                 <div class="media-body" style="padding-left: 10px;padding-top: 20px">
                     <h5 class="media-heading">
                         <span th:if="${session.user} == null" >未登录</span>
-                        <span th:if="${session.user} != null" th:text="${session.user.getName()}"></span>
+                        <span th:if="${session.user} != null" th:text="${session.user.name}"></span>
                     </h5>
                 </div>
             </div>
