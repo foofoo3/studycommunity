@@ -1,5 +1,6 @@
 package com.demo.community.controller;
 
+import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.Admin;
 import com.demo.community.entity.User;
@@ -138,13 +139,17 @@ public class AdminController {
 
 
     @GetMapping("/adminDeletes")
-    public String adminDeletes(HttpServletRequest request,Model model){
+    public String adminDeletes(HttpServletRequest request,Model model,
+                               @RequestParam(name = "page",defaultValue = "1") Integer page,
+                               @RequestParam(name = "size",defaultValue = "5") Integer size){
         Admin admin = (Admin) request.getSession().getAttribute("admin");
         if (admin == null){
             throw new CustomizeException(CustomizeErrorCode.ADMIN_NOT_FOUND);
         }
 
-//        notificationService.list();
+        PaginationDTO paginationDTO = notificationService.adminList(admin.getId(), page, size);
+
+        model.addAttribute("pagination",paginationDTO);
 
         return "adminDeletes";
     }

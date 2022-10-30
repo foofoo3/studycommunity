@@ -15,7 +15,61 @@
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="margin-left: 13%;">
+            <h2><span class="glyphicon glyphicon-scissors" th:text=" ' ' + '我删除的问题及评论'"></span></h2>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                <div class="media" th:each="notification : ${pagination.data}">
+                    <div class="media-body" style="padding: 10px 10px 10px 30px;">
+                        <p class="media-heading" style="font-size: 16px;float: left;margin-right: 20px;">
+                            <span th:text="${notification.notifier_name  +' '+ notification.typeName +' '}"></span>
+                        <div style="font-size: 16px;width:600px;text-overflow :ellipsis;white-space :nowrap;overflow : hidden;">
+                            <a th:href="@{'/question/'+ ${notification.outerId}}"
+                               th:text="${notification.outer_title}" >
+                            </a>
+                        </div>
+                        <span style="float: right;color: #6e6e6e" th:text="${#dates.format(notification.gmt_create,'yyyy-MM-dd')}"></span>
+                        <span class="label label-warning" th:if="${notification.status == 2 || notification.status == 3}"> 管理员消息</span>
 
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <nav aria-label="Page navigation" style="display: block;text-align: center">
+                    <ul class="pagination">
+                        <!--                    第一页，上一页-->
+                        <li th:if="${pagination.showFirstPage}">
+                            <a th:href="@{adminDeletes(page=${1})}" aria-label="First">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li><li th:if="${pagination.showPrevious}">
+                        <a th:href="@{adminDeletes(page=${pagination.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                        <!--                    页码列表取页码并高亮-->
+                        <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page} ? 'active' : ''">
+                            <a th:href="@{adminDeletes(page=${page})}" th:text="${page}">
+                            </a></li>
+                        <!--                    下一页，最后一页-->
+                        <li th:if="${pagination.showNext}">
+                            <a th:href="@{adminDeletes(page=${pagination.page + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li><li th:if="${pagination.showEndPage}">
+                        <a th:href="@{adminDeletes(page=${pagination.totalPage})}" aria-label="Last">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div th:insert="~{footer :: foot}"></div>
 </body>

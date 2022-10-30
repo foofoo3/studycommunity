@@ -25,6 +25,7 @@ public class PaginationDTO<T> {
         if (totalPage == 0){
             totalPage = 1;
             page = 1;
+            this.page = page;
             pages.add(page);
         }else {
             //        计算页码列表

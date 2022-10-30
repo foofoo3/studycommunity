@@ -5,6 +5,8 @@ import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.User;
 import com.demo.community.enums.NotificationTypeEnum;
+import com.demo.community.exception.CustomizeErrorCode;
+import com.demo.community.exception.CustomizeException;
 import com.demo.community.sercive.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +26,11 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("/notification/{id}")
-    public String profile(@PathVariable(name = "id")Long id,HttpServletRequest request,HttpServletResponse response){
+    public String profile(@PathVariable(name = "id")Long id,HttpServletRequest request){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user==null) {
-            try {
-                response.sendRedirect("/resultLogin?=3");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
         }
 
         NotificationDTO notificationDTO = notificationService.read(id,user);

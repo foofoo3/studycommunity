@@ -29,7 +29,7 @@ public class NotificationService {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        Integer totalCount = notificationMapper.countByUid(uid);
+        int totalCount = notificationMapper.countByUid(uid);
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -47,8 +47,8 @@ public class NotificationService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        int count = notificationMapper.selectListCountByUid(uid);
-        if (count != 0) {
+
+        if (totalCount != 0) {
             List<Notification> notifications = notificationMapper.listByUid(uid, offset, size);
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {
@@ -125,5 +125,55 @@ public class NotificationService {
 
     public int deleteNotificationById(Integer id) {
         return notificationMapper.deleteById(id);
+    }
+
+    public PaginationDTO adminList(int adminId, Integer page, Integer size) {
+
+        PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
+        Integer totalPage;
+        //        搜索总数
+        int totalCount = notificationMapper.countByAdminId(adminId);
+        //        计算页码总大小
+        if (totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else {
+            totalPage = totalCount / size + 1;
+        }
+        //        超出页数范围判断,防止越界
+        if (page < 1){
+            page = 1;
+        }
+        if (page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
+        Integer offset =size *(page - 1);
+
+        if (totalCount != 0) {
+            List<Notification> notifications = notificationMapper.listByAdminId(adminId, offset, size);
+            List<NotificationDTO> notificationDTOList = new ArrayList<>();
+            if (notifications.size() == 0) {
+                return paginationDTO;
+            }
+
+            for (Notification notification : notifications) {
+                NotificationDTO notificationDTO = new NotificationDTO();
+                BeanUtils.copyProperties(notification, notificationDTO);
+                notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+                notificationDTOList.add(notificationDTO);
+            }
+
+            paginationDTO.setData(notificationDTOList);
+
+            return paginationDTO;
+
+        }else {
+            paginationDTO.setData(new ArrayList<>());
+
+            return paginationDTO;
+        }
+
     }
 }
