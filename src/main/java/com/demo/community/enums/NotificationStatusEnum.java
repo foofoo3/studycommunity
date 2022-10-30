@@ -4,7 +4,10 @@ package com.demo.community.enums;
  */
 public enum NotificationStatusEnum {
     UNREAD(0),
-    READ(1);
+    READ(1),
+    ADMIN_UNREAD(2),
+    ADMIN_READ(3);
+
     private int status;
 
     public int getStatus() {

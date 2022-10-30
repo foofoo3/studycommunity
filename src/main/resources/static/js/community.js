@@ -52,8 +52,10 @@ function comment(e){
 
 // 展开二级评论
 function collapseComments(e){
+    debugger
     let id = e.getAttribute("data-id");
     let uid = e.getAttribute("user");
+    let adminId = e.getAttribute("admin");
     let comments = $("#comment-" + id);
     //获取二级评论展开状态
     let collapse = e.getAttribute("collapse");
@@ -85,7 +87,7 @@ function collapseComments(e){
 
                     let mediaBodyEl;
                     debugger
-                    if(comment.user.uid == uid){
+                    if(comment.user.uid == uid || adminId != null){
                         mediaBodyEl = $("<div/>", {
                             "class": "media-body comment-body",
                         }).append($("<h5/>", {
@@ -99,7 +101,7 @@ function collapseComments(e){
                             "class": "community-menu pointer",
                             "style": "margin-left:10px",
                             "onclick":"trashSecondComment(" + comment.id + ")",
-                            "html": "&nbsp;删除评论"
+                            "html": "&nbsp;删除二级评论"
                         })).append($("<span/>", {
                             "class": "pull-right",
                             "html": moment(comment.gmt_create).format('YYYY-MM-DD')
@@ -165,7 +167,6 @@ function noLogin(){
 }
 
 function like(e){
-    debugger
     let id = e.getAttribute("data-id");
     let uid = e.getAttribute("value");
     let like = $("#like-" + id);

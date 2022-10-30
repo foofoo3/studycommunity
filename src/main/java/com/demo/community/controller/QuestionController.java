@@ -3,12 +3,12 @@ package com.demo.community.controller;
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.dto.QuestionDTO;
 import com.demo.community.dto.ResultDTO;
+import com.demo.community.entity.Admin;
+import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
-import com.demo.community.sercive.CommentService;
-import com.demo.community.sercive.LikeService;
-import com.demo.community.sercive.QuestionService;
-import com.demo.community.sercive.StarService;
+import com.demo.community.enums.NotificationTypeEnum;
+import com.demo.community.sercive.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +34,8 @@ public class QuestionController {
     private LikeService likeService;
     @Autowired
     private StarService starService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")Integer id, Model model, HttpServletRequest request,
@@ -91,8 +93,17 @@ public class QuestionController {
 
     @ResponseBody
     @PostMapping("/deleteQuestion/{id}")
-    public Object deleteQuestion(@PathVariable(name = "id")Integer id){
+    public Object deleteQuestion(@PathVariable(name = "id")Integer id,HttpServletRequest request){
+        Question question = questionService.getQuestionById(id);
+        Admin admin = (Admin) request.getSession().getAttribute("admin");
+
+//        删除问题
         int res = questionService.deleteQuestionById(id);
+
+//        如果为管理员删除则创建通知
+        if (admin != null){
+            notificationService.createAdminNotify(admin.getId(),id,question.getCreator(),admin.getName(),question.getTitle(), NotificationTypeEnum.DELETE_QUESTION);
+        }
         if (res != 0){
             return ResultDTO.okOf();
         }else {

@@ -15,4 +15,5 @@ public class NotificationDTO {
     private int outerId;
     private String typeName;
     private int type;
+
 }

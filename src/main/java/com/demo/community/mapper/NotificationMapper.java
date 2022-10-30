@@ -23,7 +23,7 @@ public interface NotificationMapper {
     @Select("select count(1) from notification where receiver = #{uid}")
     Integer countByUid(@Param("uid") int uid);
 
-    @Select("select count(1) from notification where receiver = #{uid} && status = 0")
+    @Select("select count(1) from notification where receiver = #{uid} && status = 0 || status = 2")
     Long unreadCountByUid(@Param("uid") int uid);
 
     @Select("select * from notification where id = #{id}")

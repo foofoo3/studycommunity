@@ -66,7 +66,7 @@ public class CommentService {
             }
             //    创建通知
             Question questionById = questionMapper.getQuestionById(dbcomment.getParent_id());
-            createNotify(comment,questionById.getId(),dbcomment.getCommentator(),commentator.getName(),questionById.getTitle(),NotificationTypeEnum.REPLY_COMMENT);
+            createNotify(comment,questionById.getId(),dbcomment.getCommentator(),commentator.getName(),dbcomment.getContent(),NotificationTypeEnum.REPLY_COMMENT);
         }else {
 //            回复问题
             Question question = questionMapper.getQuestionById(comment.getParent_id());
@@ -133,8 +133,7 @@ public class CommentService {
         return commentDTOS;
     };
 
-    public int deleteCommentById(Long id) {
-        int type = commentMapper.getTypeById(id);
+    public int deleteCommentById(Long id,int type) {
 //        判断删除评论类型
         if (type == 1){
 //            如果为评论则删除评论及它的二级评论
@@ -181,4 +180,7 @@ public class CommentService {
     }
 
 
+    public Comment getCommentById(Long id) {
+        return commentMapper.selectById(id);
+    }
 }

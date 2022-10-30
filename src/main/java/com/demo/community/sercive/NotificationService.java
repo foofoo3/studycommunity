@@ -2,6 +2,7 @@ package com.demo.community.sercive;
 
 import com.demo.community.dto.NotificationDTO;
 import com.demo.community.dto.PaginationDTO;
+import com.demo.community.entity.Comment;
 import com.demo.community.entity.Notification;
 import com.demo.community.entity.User;
 import com.demo.community.enums.NotificationStatusEnum;
@@ -72,6 +73,20 @@ public class NotificationService {
         }
     }
 
+    //    创建通知方法
+    public void createAdminNotify(int notifier, int outerId, int receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType) {
+        Notification notification = new Notification();
+        notification.setGmt_create(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(outerId);
+        notification.setNotifier(notifier);
+        notification.setReceiver(receiver);
+        notification.setNotifier_name(notifierName);
+        notification.setOuter_title(outerTitle);
+        notification.setStatus(NotificationStatusEnum.ADMIN_UNREAD.getStatus());
+        notificationMapper.insert(notification);
+    }
+
     public Long unreadCount(int uid) {
         return notificationMapper.unreadCountByUid(uid);
     }
@@ -84,14 +99,28 @@ public class NotificationService {
         if (!Objects.equals(notification.getReceiver(),user.getUid())){
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
         }
-//        状态更新为已读
-        notification.setStatus(NotificationStatusEnum.READ.getStatus());
-        notificationMapper.updateStatus(notification);
 
-        NotificationDTO notificationDTO = new NotificationDTO();
-        BeanUtils.copyProperties(notification,notificationDTO);
-        notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
-        return notificationDTO;
+        if (notification.getStatus() == 2){
+//            管理员消息
+            notification.setStatus(NotificationStatusEnum.ADMIN_READ.getStatus());
+            notificationMapper.updateStatus(notification);
+
+            NotificationDTO notificationDTO = new NotificationDTO();
+            BeanUtils.copyProperties(notification,notificationDTO);
+            notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+            return notificationDTO;
+
+        }else {
+//            状态更新为已读
+            notification.setStatus(NotificationStatusEnum.READ.getStatus());
+            notificationMapper.updateStatus(notification);
+
+            NotificationDTO notificationDTO = new NotificationDTO();
+            BeanUtils.copyProperties(notification,notificationDTO);
+            notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+            return notificationDTO;
+        }
+
     }
 
     public int deleteNotificationById(Integer id) {

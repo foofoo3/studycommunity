@@ -96,6 +96,9 @@
                 <a onclick="trashQuestion(this,'q')" class="community-menu pointer" th:value="${question.id}" th:if="${session.user != null && session.user.uid == question.creator}" style="margin-left: 10px">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除问题
                 </a>
+                <a onclick="trashQuestion(this,'q')" class="community-menu pointer" th:value="${question.id}" th:if="${session.admin != null}" style="margin-left: 10px">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除问题
+                </a>
             </div>
         </div>
         <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -138,12 +141,20 @@
                             <span class="glyphicon glyphicon-comment ico"></span>
                             <span th:text="${comment.comment_count}" style="font-size: 16px;"></span>
                         </span>
-                        <span th:if="${session.user == null}" th:data-id="${comment.id}" onclick="collapseComments(this)" th:user="0" class="comments pointer">
+                        <span th:if="${session.user == null && session.admin == null}" th:data-id="${comment.id}" onclick="collapseComments(this)" th:user="0" class="comments pointer">
+                            <span class="glyphicon glyphicon-comment ico"></span>
+                            <span th:text="${comment.comment_count}" style="font-size: 16px;"></span>
+                        </span>
+                        <span th:if="${session.admin != null}" th:data-id="${comment.id}" onclick="collapseComments(this)" th:user="0" th:admin="${session.admin.id}" class="comments pointer">
                             <span class="glyphicon glyphicon-comment ico"></span>
                             <span th:text="${comment.comment_count}" style="font-size: 16px;"></span>
                         </span>
 
                         <a onclick="trashComment(this)" class="community-menu pointer" th:value="${comment.id}" th:if="${session.user != null && session.user.uid == comment.user.uid}" style="margin-left: 10px">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除评论
+                        </a>
+
+                        <a onclick="trashComment(this)" class="community-menu pointer" th:value="${comment.id}" th:if="${session.admin != null}" style="margin-left: 10px">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;删除评论
                         </a>
 
