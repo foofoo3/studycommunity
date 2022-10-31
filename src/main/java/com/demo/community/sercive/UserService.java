@@ -7,9 +7,11 @@ import com.demo.community.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +34,8 @@ public class UserService {
     private NotificationMapper notificationMapper;
 
     public int insertUser(String name,int number, String password) {
-        log.info("name:{}", name);
-        log.info("number:{}", number);
-        log.info("password:{}", password);
+        log.info("注册name:{}", name);
+        log.info("注册number:{}", number);
 //        查询账号,用户名是否重复
         if (userMapper.SelectByNumber(number)!=null){
             return 0;
@@ -45,7 +46,9 @@ public class UserService {
         }else {
             String defaultDescription = "这个人很懒，什么都没留下";
             String defaultFace = "https://tva3.sinaimg.cn/thumbnail/007E7MVRly1h7ng9bwrwmj30io0iodgw.jpg";
-            int result = userMapper.InsertUser(name, number, password,defaultDescription,defaultFace);
+//            密码 MD5加密
+            String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+            int result = userMapper.InsertUser(name, number, md5Password,defaultDescription,defaultFace);
             if (result == 1) {
                 return 1;
             }
@@ -55,17 +58,19 @@ public class UserService {
 
 //    登录核对
     public int loginUser(int number, String password){
-        log.info("number:{}", number);
-        log.info("password:{}", password);
+
+        log.info("正在登录number:{}", number);
+
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
 
         User user = userMapper.SelectByNumber(number);
-        log.info("user:{}", user);
+        log.info("正在登录user:{}", user);
 
         if (user==null) {
             return 0;
-        }else if(!user.getPassword().equals(password)){
+        }else if(!user.getPassword().equals(md5Password)){
             return 2;
-        }else if (user.getPassword().equals(password)){
+        }else if (user.getPassword().equals(md5Password)){
             return 1;
         }
         return 1;
@@ -73,29 +78,36 @@ public class UserService {
 
 //    账号查询用户
     public User getUserByNumber(int number){
-        User currentUser = userMapper.SelectByNumber(number);
-        return currentUser;
+        return userMapper.SelectByNumber(number);
     }
 
 //    uid查找用户
     public User getUserByUid(int uid){
-        User currentUser = userMapper.SelectByUid(uid);
-        return currentUser;
+        return userMapper.SelectByUid(uid);
     }
 
-    //    名字查询用户
-    public User getUserByName(String name){
-        User currentUser = userMapper.SelectByName(name);
-        return currentUser;
+//    名字匹配用户名
+    public List<User> getUsersByName(String name){
+        return userMapper.SelectByName(name);
     }
 
     public int updateUser(User user, String name, String description, String oldPassword, String newPassword1, String newPassword2, HttpServletResponse response) {
 
+        String oldMd5Password = DigestUtils.md5DigestAsHex(oldPassword.getBytes(StandardCharsets.UTF_8));
+        String newMd5Password = DigestUtils.md5DigestAsHex(newPassword2.getBytes(StandardCharsets.UTF_8));
+
         if (oldPassword  == ""){
             oldPassword = null;
-        }else if (!Objects.equals(oldPassword, user.getPassword())){
+        }else if (!Objects.equals(oldMd5Password, user.getPassword())){
             try {
                 response.sendRedirect("resultRegister?=4");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }else if (newPassword1  == "" && newPassword2 == ""){
+            try {
+                response.sendRedirect("resultRegister?=5");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -111,7 +123,7 @@ public class UserService {
                 e.printStackTrace();
             }
             return 0;
-        }else if (oldPassword == null || !oldPassword.equals(user.getPassword())){
+        }else if (oldPassword == null || !oldMd5Password.equals(user.getPassword())){
             try {
                 response.sendRedirect("resultRegister?=4");
             } catch (IOException e) {
@@ -144,7 +156,7 @@ public class UserService {
             }
             return 0;
         }else {
-            user.setPassword(newPassword2);
+            user.setPassword(newMd5Password);
         }
 
         if (name == ""){

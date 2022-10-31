@@ -83,11 +83,11 @@
                     </div>
                     <div class="media-body" style="padding-left: 10px;padding-top: 20px">
                         <h5 class="media-heading">
-                            <span th:text="${user.name}" style="font-size: 20px"></span>
+                            <span th:text="${user.name}" style="font-size: 21px"></span>
                         </h5>
-                        <h5>
-                            <span style="font-size: 15px">uid：</span>
-                            <span th:text="${user.uid}" style="font-size: 15px"></span>
+                        <h5 style="font-size: 15px;color: #1195e7">
+                            <span >uid：</span>
+                            <span th:text="${user.uid}" ></span>
                         </h5>
                         <h5 th:if="${user.type != 1}" style="color: red"> 用户已被封禁</h5>
                         <a th:if="${session.admin != null && user.type == 1}" class="pointer" onclick="ban(this)" style="color: red" th:value="${user.uid}"> 封禁此用户</a>
@@ -98,7 +98,7 @@
                             <span style="font-size: 20px">自我介绍：</span>
                         </h5>
                         <h5 class="media-heading" style="margin-top: 20px">
-                            <p th:text="${user.description}" style="font-size: 18px;color: #818181;float: none"></p>
+                            <p th:text="${user.description}" style="margin-left: 15px;font-size: 18px;color: #818181;float: none"></p>
                         </h5>
                     </div>
                     <hr>

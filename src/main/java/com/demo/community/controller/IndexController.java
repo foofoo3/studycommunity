@@ -38,6 +38,8 @@ public class IndexController {
     private HotQuestionCache hotQuestionCache;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String index(Model model,
@@ -86,6 +88,35 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/searchUser")
+    public String searchUser(Model model, @RequestParam(name = "searchName") String searchName){
+
+        List<User> searchUsers = userService.getUsersByName(searchName);
+
+        //        一周热门问题前五
+        List<Question> hotQuestions;
+        List<Question> weekHotQuestions = hotQuestionCache.getWeekHotQuestions();
+        if (weekHotQuestions.size() <= 5){
+            hotQuestions = weekHotQuestions;
+        }else {
+            hotQuestions = weekHotQuestions.subList(0, 5);
+        }
+//        热门标签
+        List<String> tags = hotTagCache.getHots();
+//        管理员公告
+        Admin admin = adminService.selectadminById(1);
+        AdminAnnouncementDTO adminAnnouncementDTO = new AdminAnnouncementDTO();
+        adminAnnouncementDTO.setName(admin.getName());
+        adminAnnouncementDTO.setAnnouncement(admin.getAnnouncement());
+
+        model.addAttribute("users",searchUsers);
+        model.addAttribute("searchName",searchName);
+        model.addAttribute("hotQuestions",hotQuestions);
+        model.addAttribute("tags",tags);
+        model.addAttribute("announcement",adminAnnouncementDTO);
+
+        return "searchUsers";
+    }
 
 }
 

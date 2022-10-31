@@ -15,10 +15,9 @@
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">原校论坛</span>
-                </button>
-                <a class="navbar-brand" href="/">原校论坛</a>
+                <a href="/"><img style="padding: 5px 5px 10px 3px;" class="navbar-brand pointer"
+                                 src="https://tvax1.sinaimg.cn/large/007E7MVRly1h7om1756jsj305m018jr9.jpg" alt=""/>
+                </a>
                 <a class="navbar-brand" href="/">首页</a>
             </div>
 
@@ -30,6 +29,23 @@
                     </div>
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
+
+
+                <div class="btn-group" style="margin-top: 6px;margin-left: 15px">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        用户搜索 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <form class="navbar-form navbar-left" action="/searchUser" method="get">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="searchName" id="searchName" placeholder="请输入想要搜索的用户名" required>
+                                </div>
+                                <button type="submit" style="float: right;margin-top: 7px" class="btn btn-default">搜索用户</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
 
 
                 <a class="btn btn-default" style="font-size: 17px;margin-top: 6px;margin-left: 200px;color: #ff2e4b" href="/hotQuestion/1" role="button">
@@ -69,6 +85,7 @@
                         <li><a href="/?tag=军事学" style="text-align: center">军事学</a></li>
                     </ul>
                 </div>
+
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='/login' th:if="${session.user == null && session.admin == null}" style="font-size: 18px" >登录</a></li>

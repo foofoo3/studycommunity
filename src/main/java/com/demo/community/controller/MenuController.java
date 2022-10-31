@@ -2,19 +2,14 @@ package com.demo.community.controller;
 
 import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.cache.HotTagCache;
-import com.demo.community.dto.PaginationDTO;
-import com.demo.community.dto.QuestionDTO;
-import com.demo.community.dto.UserCountDTO;
-import com.demo.community.dto.UserStarsDTO;
+import com.demo.community.dto.*;
+import com.demo.community.entity.Admin;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.sercive.CountService;
-import com.demo.community.sercive.QuestionService;
-import com.demo.community.sercive.StarService;
-import com.demo.community.sercive.UserService;
+import com.demo.community.sercive.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +40,8 @@ public class MenuController {
     private HotTagCache hotTagCache;
     @Autowired
     private CountService countService;
+    @Autowired
+    private AdminService adminService;
 
 //  登录
     @GetMapping("/login")
@@ -100,9 +97,16 @@ public class MenuController {
         List<Question> dayHotQuestions = hotQuestionCache.getDayHotQuestions();
         List<Question> weekHotQuestions = hotQuestionCache.getWeekHotQuestions();
         List<Question> monthHotQuestions = hotQuestionCache.getMonthHotQuestions();
+        //        热门标签
         List<String> tags = hotTagCache.getHots();
+        //        管理员公告
+        Admin admin = adminService.selectadminById(1);
+        AdminAnnouncementDTO adminAnnouncementDTO = new AdminAnnouncementDTO();
+        adminAnnouncementDTO.setName(admin.getName());
+        adminAnnouncementDTO.setAnnouncement(admin.getAnnouncement());
 
         if (byTime == 1){
+//            当天
             for (Question question : dayHotQuestions) {
                 User user = userService.getUserByUid(question.getCreator());
                 QuestionDTO questionDTO = new QuestionDTO();
@@ -112,6 +116,7 @@ public class MenuController {
             }
             model.addAttribute("hotQuestions",hotQuestionDTOs);
         }else if (byTime == 2){
+//            上周
             for (Question question : weekHotQuestions) {
                 User user = userService.getUserByUid(question.getCreator());
                 QuestionDTO questionDTO = new QuestionDTO();
@@ -121,6 +126,7 @@ public class MenuController {
             }
             model.addAttribute("hotQuestions",hotQuestionDTOs);
         }else if (byTime == 3){
+//            上月
             for (Question question : monthHotQuestions) {
                 User user = userService.getUserByUid(question.getCreator());
                 QuestionDTO questionDTO = new QuestionDTO();
@@ -134,7 +140,9 @@ public class MenuController {
         }
 
         model.addAttribute("tags",tags);
+        model.addAttribute("announcement",adminAnnouncementDTO);
         model.addAttribute("byTime",byTime);
+
         return "hotQuestion";
     }
 }

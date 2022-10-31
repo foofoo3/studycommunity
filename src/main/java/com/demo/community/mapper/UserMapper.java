@@ -16,8 +16,8 @@ public interface UserMapper {
     @Select("SELECT * from user where number=#{number}")
     User SelectByNumber(@Param("number")int number);
 
-    @Select("SELECT * from user where name=#{name}")
-    User SelectByName(@Param("name")String name);
+    @Select("SELECT * from user where name regexp #{name}")
+    List<User> SelectByName(@Param("name")String name);
 
     @Select("SELECT * from user where uid=#{uid}")
     User SelectByUid(@Param("uid")int uid);

@@ -23,6 +23,7 @@ public class HotQuestionCache {
     private List<Question> monthHotQuestions = new ArrayList<>();
 
     public void updateDayQuestions(Map<Question,Integer> questionMap){
+//        十个问题
         PriorityQueue<HotQuestionDTO> priorityQueue = new PriorityQueue<>(10);
 
         questionMap.forEach((question,hot)->{
