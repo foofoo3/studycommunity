@@ -1,8 +1,6 @@
 package com.demo.community.sercive;
 
 import com.demo.community.entity.User;
-import com.demo.community.exception.CustomizeErrorCode;
-import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

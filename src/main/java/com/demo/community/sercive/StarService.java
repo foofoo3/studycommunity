@@ -1,8 +1,6 @@
 package com.demo.community.sercive;
 
-import com.demo.community.dto.NotificationDTO;
 import com.demo.community.dto.PaginationDTO;
-import com.demo.community.dto.QuestionDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;

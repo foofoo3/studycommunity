@@ -2,7 +2,6 @@ package com.demo.community.sercive;
 
 import com.demo.community.dto.NotificationDTO;
 import com.demo.community.dto.PaginationDTO;
-import com.demo.community.entity.Comment;
 import com.demo.community.entity.Notification;
 import com.demo.community.entity.User;
 import com.demo.community.enums.NotificationStatusEnum;

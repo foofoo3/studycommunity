@@ -3,7 +3,6 @@ package com.demo.community.mapper;
 
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
-import com.demo.community.enums.LikeOrStarTypeEnum;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

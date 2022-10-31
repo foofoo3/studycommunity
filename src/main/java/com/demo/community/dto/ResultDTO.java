@@ -3,7 +3,7 @@ package com.demo.community.dto;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import lombok.Data;
-import org.springframework.web.servlet.ModelAndView;
+
 /**
  * @author foofoo3
  */

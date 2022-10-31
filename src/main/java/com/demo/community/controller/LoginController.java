@@ -2,8 +2,6 @@ package com.demo.community.controller;
 
 import com.demo.community.entity.Admin;
 import com.demo.community.entity.User;
-import com.demo.community.exception.CustomizeErrorCode;
-import com.demo.community.exception.CustomizeException;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

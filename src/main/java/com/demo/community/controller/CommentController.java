@@ -5,7 +5,6 @@ import com.demo.community.dto.CommentDTO;
 import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.Admin;
 import com.demo.community.entity.Comment;
-import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.enums.NotificationTypeEnum;

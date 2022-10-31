@@ -1,7 +1,6 @@
 package com.demo.community.controller;
 
 import com.demo.community.dto.PaginationDTO;
-import com.demo.community.entity.Notification;
 import com.demo.community.entity.User;
 import com.demo.community.sercive.NotificationService;
 import com.demo.community.sercive.QuestionService;

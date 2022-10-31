@@ -5,7 +5,6 @@ import com.demo.community.cache.HotQuestionCache;
 import com.demo.community.cache.HotTagCache;
 import com.demo.community.dto.AdminAnnouncementDTO;
 import com.demo.community.dto.PaginationDTO;
-import com.demo.community.dto.QuestionDTO;
 import com.demo.community.entity.Admin;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
@@ -13,14 +12,12 @@ import com.demo.community.sercive.AdminService;
 import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
