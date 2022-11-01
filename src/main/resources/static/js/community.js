@@ -559,3 +559,32 @@ function cancellation(e){
         });
     }
 }
+
+function modifyFace() {
+    document.querySelector('#face').hidden = "";
+}
+
+function modifyName() {
+    document.querySelector('#name').type = "text";
+    document.querySelector('#submit').hidden = "";
+}
+
+function modifyDescription() {
+    document.querySelector('#description').hidden = "";
+    document.querySelector('#submit').hidden = "";
+}
+
+function modifyPassword() {
+    document.querySelector('#password').hidden = ""
+    document.querySelector('#submit').hidden = "";
+}
+
+function submit(){
+    var form = document.getElementById("form")
+    form.submit();
+}
+
+function modifyAnnouncement() {
+    document.querySelector('#announcement').hidden = "";
+    document.querySelector('#submit').hidden = "";
+}
