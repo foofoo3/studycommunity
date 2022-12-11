@@ -7,10 +7,10 @@ import com.demo.community.enums.NotificationTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.sercive.NotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 /**
@@ -18,7 +18,8 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class NotificationController {
-    @Autowired
+
+    @Resource
     private NotificationService notificationService;
 
     @GetMapping("/notification/{id}")

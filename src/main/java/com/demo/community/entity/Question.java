@@ -1,5 +1,6 @@
 package com.demo.community.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,6 @@ public class Question {
     private int like_count;
     private String tag;
     private int star_count;
+    @TableLogic //逻辑删除
+    private Integer deleted;
 }

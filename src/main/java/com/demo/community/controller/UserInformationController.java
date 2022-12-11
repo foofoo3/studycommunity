@@ -9,12 +9,13 @@ import com.demo.community.sercive.CountService;
 import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: foofoo3
@@ -22,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 public class UserInformationController {
-    @Autowired
+
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private QuestionService questionService;
-    @Autowired
+    @Resource
     private CountService countService;
 
     @GetMapping("/information/{uid}")

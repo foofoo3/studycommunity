@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class CustomizeErrorController implements ErrorController {
+
     private static final String ERROR_PATH = "/error";
+
 //    判断400,500 错误
     @RequestMapping(value=ERROR_PATH)
     public String handleError(HttpServletResponse response, Model model){

@@ -1,5 +1,6 @@
 package com.demo.community.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,6 @@ public class Comment {
     private Long like_count;
     private String content;
     private int comment_count;
+    @TableLogic //逻辑删除
+    private Integer deleted;
 }

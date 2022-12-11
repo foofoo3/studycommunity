@@ -4,12 +4,13 @@ import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.sercive.LikeService;
 import com.demo.community.sercive.StarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class LikeStarController {
-    @Autowired
+
+    @Resource
     private LikeService likeService;
-    @Autowired
+    @Resource
     private StarService starService;
+
     @ResponseBody
     @RequestMapping(value = "/commentLike",method = RequestMethod.POST)
     public Object like(@RequestBody LikeStar likeStar){

@@ -18,5 +18,4 @@ public class User {
     private String description;
     private String face;
     private int type;
-
 }

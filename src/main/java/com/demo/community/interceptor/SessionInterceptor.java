@@ -1,7 +1,7 @@
 package com.demo.community.interceptor;
 
 import com.demo.community.entity.User;
-import com.demo.community.sercive.NotificationService;
+import com.demo.community.sercive.impl.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
-    private NotificationService notificationService;
+    private NotificationServiceImpl notificationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

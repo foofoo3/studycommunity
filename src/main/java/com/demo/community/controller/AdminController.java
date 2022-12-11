@@ -9,11 +9,11 @@ import com.demo.community.exception.CustomizeException;
 import com.demo.community.sercive.AdminService;
 import com.demo.community.sercive.NotificationService;
 import com.demo.community.sercive.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,11 +24,12 @@ import java.util.List;
  */
 @Controller
 public class AdminController {
-    @Autowired
+
+    @Resource
     private AdminService adminService;
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private NotificationService notificationService;
 
     @GetMapping("/admin")

@@ -8,15 +8,18 @@ import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.sercive.*;
+import com.demo.community.sercive.AdminService;
+import com.demo.community.sercive.CountService;
+import com.demo.community.sercive.StarService;
+import com.demo.community.sercive.UserService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -28,17 +31,18 @@ import java.util.List;
 
 @Controller
 public class MenuController {
-    @Autowired
+
+    @Resource
     private StarService starService;
-    @Autowired
+    @Resource
     private HotQuestionCache hotQuestionCache;
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private HotTagCache hotTagCache;
-    @Autowired
+    @Resource
     private CountService countService;
-    @Autowired
+    @Resource
     private AdminService adminService;
 
 //  登录

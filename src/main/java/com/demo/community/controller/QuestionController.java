@@ -9,11 +9,11 @@ import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.enums.NotificationTypeEnum;
 import com.demo.community.sercive.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -26,15 +26,16 @@ import java.util.Random;
 
 @Controller
 public class QuestionController {
-    @Autowired
+
+    @Resource
     private QuestionService questionService;
-    @Autowired
+    @Resource
     private CommentService commentService;
-    @Autowired
+    @Resource
     private LikeService likeService;
-    @Autowired
+    @Resource
     private StarService starService;
-    @Autowired
+    @Resource
     private NotificationService notificationService;
 
     @GetMapping("/question/{id}")

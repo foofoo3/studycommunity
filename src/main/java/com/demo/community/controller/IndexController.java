@@ -12,12 +12,12 @@ import com.demo.community.sercive.AdminService;
 import com.demo.community.sercive.QuestionService;
 import com.demo.community.sercive.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -27,15 +27,16 @@ import java.util.List;
 @Slf4j
 @Controller
 public class IndexController {
-    @Autowired
+
+    @Resource
     private QuestionService questionService;
-    @Autowired
+    @Resource
     private HotTagCache hotTagCache;
-    @Autowired
+    @Resource
     private HotQuestionCache hotQuestionCache;
-    @Autowired
+    @Resource
     private AdminService adminService;
-    @Autowired
+    @Resource
     private UserService userService;
 
     @GetMapping("/")
