@@ -1,5 +1,6 @@
 package com.demo.community.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,6 @@ public class User {
     private String description;
     private String face;
     private int type;
+    @TableLogic //逻辑删除
+    private Integer deleted;
 }
