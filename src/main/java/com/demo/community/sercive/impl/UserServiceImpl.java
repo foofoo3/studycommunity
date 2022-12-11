@@ -1,7 +1,9 @@
 package com.demo.community.sercive.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.community.entity.Admin;
+import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.mapper.*;
 import com.demo.community.sercive.UserService;
@@ -13,9 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author foofoo3
@@ -236,12 +236,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int cancellationUser(int uid) {
-        questionMapper.deleteByCreator(uid);
-        commentMapper.deleteCommentByCommentator(uid);
-        likeStarMapper.deleteLikeOrStarByUid(uid);
-        notificationMapper.deleteByNotifier(uid);
+        Map<String,Object> questionMap = new HashMap<>();
+        questionMap.put("creator",uid);
+        questionMapper.deleteByMap(questionMap);
 
-        return userMapper.cancellationUser(uid);
+        Map<String,Object> commentMap = new HashMap<>();
+        commentMap.put("commentator",uid);
+        commentMapper.deleteByMap(commentMap);
+
+        Map<String,Object> likeStarMap = new HashMap<>();
+        likeStarMap.put("uid",uid);
+        likeStarMapper.deleteByMap(likeStarMap);
+
+        Map<String,Object> notificationMap = new HashMap<>();
+        notificationMap.put("notifier",uid);
+        notificationMapper.deleteByMap(notificationMap);
+
+        Map<String,Object> userMap = new HashMap<>();
+        userMap.put("uid",uid);
+        return userMapper.deleteByMap(userMap);
     }
 
 }
