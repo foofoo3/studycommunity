@@ -1,5 +1,7 @@
 package com.demo.community.sercive.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.demo.community.dto.CommentDTO;
 import com.demo.community.entity.Comment;
 import com.demo.community.entity.Notification;
@@ -60,26 +62,30 @@ public class CommentServiceImpl implements CommentService {
             if (dbcomment == null){
                 throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
             }
-            commentMapper.creat(comment);
+            commentMapper.insert(comment);
 //            评论数加一
             dbcomment.setComment_count(dbcomment.getComment_count());
-            int i = commentMapper.updateCommentCount(dbcomment);
+            UpdateWrapper<Comment> commentUpdateWrapper = new UpdateWrapper<>();
+            commentUpdateWrapper.setSql("'commentCount' = 'commentCount' + 1");
+            int i = commentMapper.update(dbcomment,commentUpdateWrapper);
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUNT);
             }
             //    创建通知
-            Question questionById = questionMapper.getQuestionById(dbcomment.getParent_id());
+            Question questionById = questionMapper.selectById(dbcomment.getParent_id());
             createNotify(comment,questionById.getId(),dbcomment.getCommentator(),commentator.getName(),dbcomment.getContent(),NotificationTypeEnum.REPLY_COMMENT);
         }else {
 //            回复问题
-            Question question = questionMapper.getQuestionById(comment.getParent_id());
+            Question question = questionMapper.selectById(comment.getParent_id());
             if (question == null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
             }
-            commentMapper.creat(comment);
+            commentMapper.insert(comment);
             //    回复数加一
             question.setComment_count(question.getComment_count());
-            int i = questionMapper.updateCommentCount(question);
+            UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+            questionUpdateWrapper.setSql("'commentCount' = 'commentCount' + 1");
+            int i = questionMapper.update(question,questionUpdateWrapper);
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
             }
@@ -111,9 +117,19 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDTO> listByParentId(int id, CommentTypeEnum type,int like) {
         List<Comment> comments;
         if (like == 1) {
-            comments = commentMapper.selectByPidAndTypeLike(id, type.getType());
+//            按点赞排序
+            QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+            wrapper.eq("parentId","id");
+            wrapper.eq("type","type");
+            wrapper.orderByDesc("likeCount");
+            comments = commentMapper.selectList(wrapper);
         } else{
-            comments = commentMapper.selectByPidAndType(id, type.getType());
+//            默认时间排序
+            QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+            wrapper.eq("parentId","id");
+            wrapper.eq("type","type");
+            wrapper.orderByDesc("gmtCreate");
+            comments = commentMapper.selectList(wrapper);
         }
         if (comments.size() == 0){
             return new ArrayList<>();
@@ -123,7 +139,7 @@ public class CommentServiceImpl implements CommentService {
         List<Integer> userIds = new ArrayList<>(commentators);
 
 //        获取评论人并转换为Map
-        List<User> users = userMapper.SelectByUidInList(userIds);
+        List<User> users = userMapper.selectBatchIds(userIds);
         Map<Integer,User> userMap = users.stream().collect(Collectors.toMap(User::getUid, user -> user));
 
 //        转换comment为commentDTO
@@ -137,46 +153,61 @@ public class CommentServiceImpl implements CommentService {
         return commentDTOS;
     };
 
+    @Transactional
     @Override
     public int deleteCommentById(Long id,int type) {
 //        判断删除评论类型
         if (type == 1){
 //            如果为评论则删除评论及它的二级评论
-            List<Comment> comments = commentMapper.selectByPidAndType(Math.toIntExact(id), CommentTypeEnum.COMMENT.getType());
+            QueryWrapper<Comment> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("parentId",id);
+            wrapper1.eq("type",CommentTypeEnum.COMMENT.getType());
+            wrapper1.orderByDesc("gmtCreate");
+            List<Comment> comments = commentMapper.selectList(wrapper1);
             if (comments.size() != 0){
-                int res = commentMapper.deleteByPidAndType(Math.toIntExact(id),CommentTypeEnum.COMMENT.getType());
+                QueryWrapper<Comment> wrapper2 = new QueryWrapper<>();
+                wrapper2.eq("parentId",id);
+                wrapper2.eq("type",CommentTypeEnum.COMMENT.getType());
+                int res = commentMapper.delete(wrapper2);
                 if (res != 0){
 //                    当前问题评论数减一
-                    Long qustionId = commentMapper.selectParentId(id);
-                    Question parentQuestion = questionMapper.getQuestionById(Math.toIntExact(qustionId));
+                    int questionId = commentMapper.selectById(id).getParent_id();
+                    Question parentQuestion = questionMapper.selectById(questionId);
                     parentQuestion.setComment_count(parentQuestion.getComment_count());
-                    int qr = questionMapper.reduceCommentCount(parentQuestion);
+                    UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+                    questionUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+                    int qr = questionMapper.update(parentQuestion,questionUpdateWrapper);
 //                    删除评论
-                    int resC = commentMapper.deleteComment(id);
+                    int resC = commentMapper.deleteById(id);
                     if (resC != 0 && qr != 0){
                         return 1;
                     }
                 }
             }else {
 //                    当前问题评论数减一
-                Long qustionId = commentMapper.selectParentId(id);
-                Question parentQuestion = questionMapper.getQuestionById(Math.toIntExact(qustionId));
+                int questionId = commentMapper.selectById(id).getParent_id();
+                Question parentQuestion = questionMapper.selectById(questionId);
                 parentQuestion.setComment_count(parentQuestion.getComment_count());
-                int qr = questionMapper.reduceCommentCount(parentQuestion);
-//                删除评论
-                int resC = commentMapper.deleteComment(id);
+                UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+                questionUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+                int qr = questionMapper.update(parentQuestion,questionUpdateWrapper);
+//                    删除评论
+                int resC = commentMapper.deleteById(id);
                 if (resC != 0 && qr != 0){
                     return 1;
                 }
             }
         }if (type == 2){
 //            当前评论评论数减一
-            Long commentId = commentMapper.selectParentId(id);
+            int commentId = commentMapper.selectById(id).getParent_id();
             Comment parentComment = commentMapper.selectById(commentId);
             parentComment.setComment_count(parentComment.getComment_count());
-            int cr = commentMapper.reduceCommentCount(parentComment);
+            UpdateWrapper<Comment> commentUpdateWrapper = new UpdateWrapper<>();
+            commentUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+            int cr = commentMapper.update(parentComment,commentUpdateWrapper);
+
 //            如果为二级评论则直接删除
-            int resS = commentMapper.deleteComment(id);
+            int resS = commentMapper.deleteById(id);
             if (resS != 0 && cr != 0){
                 return 1;
             }

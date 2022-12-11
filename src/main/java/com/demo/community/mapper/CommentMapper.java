@@ -42,7 +42,7 @@ public interface CommentMapper  extends BaseMapper<Comment> {
 //    @Delete("delete from comment where id = #{id}")
 //    int deleteComment(Long id);
 //
-//    @Delete("delete from comment where parent_id = #{parent_id} && type = #{type} ")
+//    @Delete("delete from comment where parent_id = #{parent_id} && type = #{type}")
 //    int deleteByPidAndType(@Param("parent_id") int parent_id, @Param("type") Integer type);
 //
 //    @Select("select parent_id from comment where id = #{id}")

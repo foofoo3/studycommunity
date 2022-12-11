@@ -1,5 +1,6 @@
 package com.demo.community.schedule;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.cache.HotTagCache;
 import com.demo.community.entity.Question;
 import com.demo.community.mapper.QuestionMapper;
@@ -34,7 +35,8 @@ public class HotTasks {
         Map<String, Integer> priorities = new HashMap<>();
 //        获得问题
         while (offset == 0 || list.size() == limit){
-            list = questionMapper.selectByRowbounds(offset,limit);
+            Page<Question> page = new Page<>(offset, limit);
+            list = (List<Question>) questionMapper.selectPage(page,null);
 //            循环问题标签并放入map集合
             for (Question question : list){
                 String tagString = question.getTag();
