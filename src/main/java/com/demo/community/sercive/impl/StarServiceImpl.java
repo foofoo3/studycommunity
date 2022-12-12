@@ -1,5 +1,9 @@
 package com.demo.community.sercive.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: foofoo3
@@ -33,10 +38,14 @@ public class StarServiceImpl implements StarService {
 //    收藏问题
     @Override
     public int questionStar(Long questionId, int uid) {
-        Question question = questionMapper.getQuestionById(Math.toIntExact(questionId));
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        questionQueryWrapper.eq("id",Math.toIntExact(questionId));
+        Question question = questionMapper.selectOne(questionQueryWrapper);
         question.setStar_count(question.getStar_count());
 //        问题收藏数加一
-        int i = questionMapper.StarPlus(question);
+        UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+        questionUpdateWrapper.setSql("'starCount' = 'starCount' + 1");
+        int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
         likeStar.setUid(uid);
@@ -56,13 +65,21 @@ public class StarServiceImpl implements StarService {
     //  问题取消收藏
     @Override
     public int questionStarCancel(Long questionId, int uid) {
-        Question question = questionMapper.getQuestionById(Math.toIntExact(questionId));
-        question.setLike_count(question.getLike_count());
-        //        问题点赞数减一
-        int i = questionMapper.starCancel(question);
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        questionQueryWrapper.eq("id",Math.toIntExact(questionId));
+        Question question = questionMapper.selectOne(questionQueryWrapper);
+        question.setStar_count(question.getLike_count());
+        //        问题收藏数减一
+        UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+        questionUpdateWrapper.setSql("'starCount' = 'starCount' - 1");
+        int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         if (i != 0){
-            int delete = likeStarMapper.deleteLikeOrStar(questionId,uid, LikeOrStarTypeEnum.QUESTION_STAR.getType());
+            QueryWrapper<LikeStar> deleteQueryWrapper = new QueryWrapper<>();
+            deleteQueryWrapper.eq("targetId",questionId)
+                    .eq("uid",uid)
+                    .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
+            int delete = likeStarMapper.delete(deleteQueryWrapper);
             if (delete != 0){
                 success = 1;
             }
@@ -72,7 +89,13 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public List<Integer> selectQuestionStar(User user) {
-        return likeStarMapper.selectQuestionLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid",user.getUid())
+                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
+        List<Long> collect = likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
+//        list<Long>转list<Integer>
+        return JSONArray.parseArray(collect.toString(), Integer.class);
     }
 
     @Override
@@ -80,7 +103,9 @@ public class StarServiceImpl implements StarService {
         PaginationDTO<UserStarsDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        Integer totalCount = likeStarMapper.starCountByUid(uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        QueryWrapper<LikeStar> likeStarWrapper = new JoinQueryW<>();
+        likeStarWrapper.
+        Integer totalCount = likeStarMapper.selectCount(uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
