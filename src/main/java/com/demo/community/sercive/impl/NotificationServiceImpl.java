@@ -1,5 +1,7 @@
 package com.demo.community.sercive.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.dto.NotificationDTO;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.entity.Notification;
@@ -51,7 +53,10 @@ public class NotificationServiceImpl implements NotificationService {
         Integer offset =size *(page - 1);
 
         if (totalCount != 0) {
-            List<Notification> notifications = notificationMapper.listByUid(uid, offset, size);
+            QueryWrapper<Notification> notificationQueryWrapper = new QueryWrapper<>();
+            notificationQueryWrapper.eq("receiver",uid)
+                    .orderByDesc("gmt_create");
+            List<Notification> notifications = (List<Notification>) notificationMapper.selectPage(new Page<>(offset,size),notificationQueryWrapper);
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {
                 return paginationDTO;
