@@ -139,7 +139,7 @@ public class StarServiceImpl implements StarService {
             List<Long> questionIds = myLikeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
             QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
             questionQueryWrapper.eq("id",questionIds);
-            List<Question> starquestions = (List<Question>) questionMapper.selectPage(new Page<Question>(offset,size),questionQueryWrapper);
+            List<Question> starquestions = (List<Question>) questionMapper.selectPage(new Page<>(offset,size),questionQueryWrapper);
             List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
 
             for (Question question : starquestions) {
