@@ -119,16 +119,16 @@ public class CommentServiceImpl implements CommentService {
         if (like == 1) {
 //            按点赞排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parentId","id");
-            wrapper.eq("type","type");
-            wrapper.orderByDesc("likeCount");
+            wrapper.eq("parentId","id")
+                    .eq("type","type")
+                    .orderByDesc("likeCount");
             comments = commentMapper.selectList(wrapper);
         } else{
 //            默认时间排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parentId","id");
-            wrapper.eq("type","type");
-            wrapper.orderByDesc("gmtCreate");
+            wrapper.eq("parentId","id")
+                    .eq("type","type")
+                    .orderByDesc("gmtCreate");
             comments = commentMapper.selectList(wrapper);
         }
         if (comments.size() == 0){
@@ -160,14 +160,14 @@ public class CommentServiceImpl implements CommentService {
         if (type == 1){
 //            如果为评论则删除评论及它的二级评论
             QueryWrapper<Comment> wrapper1 = new QueryWrapper<>();
-            wrapper1.eq("parentId",id);
-            wrapper1.eq("type",CommentTypeEnum.COMMENT.getType());
-            wrapper1.orderByDesc("gmtCreate");
+            wrapper1.eq("parentId",id)
+                    .eq("type",CommentTypeEnum.COMMENT.getType())
+                    .orderByDesc("gmtCreate");
             List<Comment> comments = commentMapper.selectList(wrapper1);
             if (comments.size() != 0){
                 QueryWrapper<Comment> wrapper2 = new QueryWrapper<>();
-                wrapper2.eq("parentId",id);
-                wrapper2.eq("type",CommentTypeEnum.COMMENT.getType());
+                wrapper2.eq("parentId",id)
+                        .eq("type",CommentTypeEnum.COMMENT.getType());
                 int res = commentMapper.delete(wrapper2);
                 if (res != 0){
 //                    当前问题评论数减一
