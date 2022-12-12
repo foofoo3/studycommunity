@@ -1,6 +1,7 @@
 package com.demo.community.sercive.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.dto.NotificationDTO;
 import com.demo.community.dto.PaginationDTO;
@@ -33,7 +34,9 @@ public class NotificationServiceImpl implements NotificationService {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        int totalCount = notificationMapper.countByUid(uid);
+        QueryWrapper<Notification> countWrapper = new QueryWrapper<>();
+        countWrapper.eq("receiver",uid);
+        int totalCount = Math.toIntExact(notificationMapper.selectCount(countWrapper));
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -96,7 +99,10 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     public Long unreadCount(int uid) {
-        return notificationMapper.unreadCountByUid(uid);
+        QueryWrapper<Notification> notificationQueryWrapper = new QueryWrapper<>();
+        notificationQueryWrapper.eq("receiver",uid)
+                .and(i -> i.eq("status",0).or().eq("status",2));
+        return notificationMapper.selectCount(notificationQueryWrapper);
     }
 
     @Override
@@ -111,8 +117,9 @@ public class NotificationServiceImpl implements NotificationService {
 
         if (notification.getStatus() == 2){
 //            管理员消息
-            notification.setStatus(NotificationStatusEnum.ADMIN_READ.getStatus());
-            notificationMapper.updateStatus(notification);
+            UpdateWrapper<Notification> notificationUpdateWrapper = new UpdateWrapper<>();
+            notificationUpdateWrapper.set("status",NotificationStatusEnum.ADMIN_READ.getStatus());
+            notificationMapper.update(notification,notificationUpdateWrapper);
 
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification,notificationDTO);
@@ -121,8 +128,9 @@ public class NotificationServiceImpl implements NotificationService {
 
         }else {
 //            状态更新为已读
-            notification.setStatus(NotificationStatusEnum.READ.getStatus());
-            notificationMapper.updateStatus(notification);
+            UpdateWrapper<Notification> notificationUpdateWrapper = new UpdateWrapper<>();
+            notificationUpdateWrapper.set("status",NotificationStatusEnum.ADMIN_READ.getStatus());
+            notificationMapper.update(notification,notificationUpdateWrapper);
 
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification,notificationDTO);
@@ -143,7 +151,10 @@ public class NotificationServiceImpl implements NotificationService {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        int totalCount = notificationMapper.countByAdminId(adminId);
+        QueryWrapper<Notification> notificationQueryWrapper = new QueryWrapper<>();
+        notificationQueryWrapper.eq("notifier",adminId)
+                .and(i -> i.eq("type",3).or().eq("type",4).or().eq("type",5));
+        int totalCount = Math.toIntExact(notificationMapper.selectCount(notificationQueryWrapper));
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -163,7 +174,11 @@ public class NotificationServiceImpl implements NotificationService {
         Integer offset =size *(page - 1);
 
         if (totalCount != 0) {
-            List<Notification> notifications = notificationMapper.listByAdminId(adminId, offset, size);
+            QueryWrapper<Notification> wrapper = new QueryWrapper<>();
+            wrapper.eq("notifier",adminId)
+                    .and(i -> i.eq("type",3).or().eq("type",4).or().eq("type",5))
+                    .orderByDesc("gmtCreate");
+            List<Notification> notifications = (List<Notification>) notificationMapper.selectPage(new Page<>(offset,size),wrapper);
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {
                 return paginationDTO;
