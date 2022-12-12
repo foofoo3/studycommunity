@@ -1,5 +1,8 @@
 package com.demo.community.sercive.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.demo.community.entity.Comment;
 import com.demo.community.entity.LikeStar;
 import com.demo.community.entity.Question;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: foofoo3
@@ -33,7 +37,9 @@ public class LikeServiceImpl implements LikeService {
         Comment comment = commentMapper.selectById(commentId);
         comment.setLike_count(comment.getLike_count());
 //        评论点赞数加一
-        int i = commentMapper.likePlus(comment);
+        UpdateWrapper<Comment> likeUpdateWrapper = new UpdateWrapper<>();
+        likeUpdateWrapper.setSql("'likeCount' = 'likeCount' + 1");
+        int i = commentMapper.update(comment,likeUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
         likeStar.setUid(uid);
@@ -57,10 +63,16 @@ public class LikeServiceImpl implements LikeService {
         Comment comment = commentMapper.selectById(commentId);
         comment.setLike_count(comment.getLike_count());
         //        评论点赞数减一
-        int i = commentMapper.likeReduce(comment);
+        UpdateWrapper<Comment> likeUpdateWrapper = new UpdateWrapper<>();
+        likeUpdateWrapper.setSql("'likeCount' = 'likeCount' - 1");
+        int i = commentMapper.update(comment,likeUpdateWrapper);
         int success = 0;
         if (i != 0){
-            int delete = likeStarMapper.deleteLikeOrStar(commentId,uid, LikeOrStarTypeEnum.COMMENT_LIKE.getType());
+            QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
+            wrapper.eq("targetId",commentId)
+                    .eq("uid",uid)
+                    .eq("type",LikeOrStarTypeEnum.COMMENT_LIKE.getType());
+            int delete = likeStarMapper.delete(wrapper);
             if (delete != 0){
                 success = 1;
             }
@@ -70,16 +82,25 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<Long> selectCommentLike(User user,Integer questionId) {
-        return likeStarMapper.selectCommentLikeByUid(user.getUid(),LikeOrStarTypeEnum.COMMENT_LIKE.getType(),questionId);
+        QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid",user.getUid())
+                .eq("type",LikeOrStarTypeEnum.COMMENT_LIKE.getType())
+                .eq("parentId",questionId);
+        List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
+        return likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
     }
 
     //    问题增加点赞数
     @Override
     public int questionLikePlus(Long questionId, int uid) {
-        Question question = questionMapper.getQuestionById(Math.toIntExact(questionId));
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        questionQueryWrapper.eq("id",Math.toIntExact(questionId));
+        Question question = questionMapper.selectOne(questionQueryWrapper);
         question.setLike_count(question.getLike_count());
 //        问题点赞数加一
-        int i = questionMapper.likePlus(question);
+        UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+        questionUpdateWrapper.setSql("'likeCount' = 'likeCount' + 1");
+        int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
         likeStar.setUid(uid);
@@ -99,13 +120,21 @@ public class LikeServiceImpl implements LikeService {
     //    问题减少点赞数
     @Override
     public int questionLikeReduce(Long questionId, int uid) {
-        Question question = questionMapper.getQuestionById(Math.toIntExact(questionId));
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        questionQueryWrapper.eq("id",Math.toIntExact(questionId));
+        Question question = questionMapper.selectOne(questionQueryWrapper);
         question.setLike_count(question.getLike_count());
         //        问题点赞数减一
-        int i = questionMapper.likeReduce(question);
+        UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+        questionUpdateWrapper.setSql("'likeCount' = 'likeCount' - 1");
+        int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         if (i != 0){
-            int delete = likeStarMapper.deleteLikeOrStar(questionId,uid, LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+            QueryWrapper<LikeStar> deleteQueryWrapper = new QueryWrapper<>();
+            deleteQueryWrapper.eq("targetId",questionId)
+                    .eq("uid",uid)
+                    .eq("type",LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+            int delete = likeStarMapper.delete(deleteQueryWrapper);
             if (delete != 0){
                 success = 1;
             }
@@ -115,7 +144,13 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<Integer> selectQuestionLike(User user) {
-        return likeStarMapper.selectQuestionLikeOrStarByUid(user.getUid(),LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+        QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid",user.getUid())
+                .eq("type",LikeOrStarTypeEnum.QUESTION_LIKE.getType());
+        List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
+        List<Long> collect = likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
+//        list<Long>转list<Integer>
+        return JSONArray.parseArray(collect.toString(), Integer.class);
     }
 
 
