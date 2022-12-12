@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
@@ -103,9 +104,14 @@ public class StarServiceImpl implements StarService {
         PaginationDTO<UserStarsDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        QueryWrapper<LikeStar> likeStarWrapper = new JoinQueryW<>();
-        likeStarWrapper.
-        Integer totalCount = likeStarMapper.selectCount(uid,LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid",uid)
+                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
+        List<Long> targetIds = likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
+        QueryWrapper<Question> countQueryWrapper = new QueryWrapper<>();
+        countQueryWrapper.eq("id",targetIds);
+        Integer totalCount = Math.toIntExact(questionMapper.selectCount(countQueryWrapper));
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -123,17 +129,31 @@ public class StarServiceImpl implements StarService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        int starCount = likeStarMapper.selectLikeOrStarCountByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType());
+        QueryWrapper<LikeStar> likeStarQueryWrapper = new QueryWrapper<>();
+        likeStarQueryWrapper.eq("uid",uid)
+                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType())
+                .orderByDesc("gmtCreate");
+        int starCount = Math.toIntExact(likeStarMapper.selectCount(likeStarQueryWrapper));
         if (starCount != 0) {
-            List<Question> starquestions = likeStarMapper.starQuestionByUid(uid, LikeOrStarTypeEnum.QUESTION_STAR.getType(), offset, size);
+            List<LikeStar> myLikeStars = likeStarMapper.selectList(likeStarQueryWrapper);
+            List<Long> questionIds = myLikeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
+            QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+            questionQueryWrapper.eq("id",questionIds);
+            List<Question> starquestions = (List<Question>) questionMapper.selectPage(new Page<Question>(offset,size),questionQueryWrapper);
             List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
 
             for (Question question : starquestions) {
-                User creator = userMapper.SelectByUid(question.getCreator());
+                QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+                userQueryWrapper.eq("uid",question.getCreator());
+                User creator = userMapper.selectOne(userQueryWrapper);
                 UserStarsDTO userStarsDTO = new UserStarsDTO();
                 BeanUtils.copyProperties(question, userStarsDTO);
                 userStarsDTO.setUser(creator);
-                Long starTime = likeStarMapper.selectStarTime((long) question.getId(), uid, LikeOrStarTypeEnum.QUESTION_STAR.getType());
+                QueryWrapper<LikeStar> starQueryWrapper = new QueryWrapper<>();
+                starQueryWrapper.eq("targetId",(long) question.getId())
+                        .eq("uid",uid)
+                        .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
+                Long starTime = likeStarMapper.selectOne(starQueryWrapper).getGmt_create();
                 userStarsDTO.setStar_time(starTime);
 
                 userStarsDTOs.add(userStarsDTO);
