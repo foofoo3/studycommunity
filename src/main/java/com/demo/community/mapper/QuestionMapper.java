@@ -3,11 +3,8 @@ package com.demo.community.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.demo.community.dto.QuestionQueryDTO;
 import com.demo.community.entity.Question;
-import com.demo.community.entity.User;
-import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 /**
  * @author foofoo3
  */
