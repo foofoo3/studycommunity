@@ -121,15 +121,15 @@ public class CommentServiceImpl implements CommentService {
         if (like == 1) {
 //            按点赞排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parent_id","id")
-                    .eq("type","type")
+            wrapper.eq("parent_id",id)
+                    .eq("type",type.getType())
                     .orderByDesc("like_count");
             comments = commentMapper.selectList(wrapper);
         } else{
 //            默认时间排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parent_id","id")
-                    .eq("type","type")
+            wrapper.eq("parent_id",id)
+                    .eq("type",type.getType())
                     .orderByDesc("gmt_create");
             comments = commentMapper.selectList(wrapper);
         }
