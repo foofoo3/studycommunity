@@ -84,27 +84,27 @@ public class QuestionServiceImpl implements QuestionService {
             page = paginationDTO.getTotalPage();
         }
 
-        Integer offset = 0;
-        if (page != 0 ) {
-            offset = size * (page - 1);
-        }
+//        Integer offset = 1;
+//        if (page != 0 ) {
+//            offset = size * (page - 1);
+//        }
 //        questionQueryDTO.setSize(size);
 //        questionQueryDTO.setPage(offset);
 
         List<Question> questions;
-        Page<Question> questionPage = new Page<>(offset,size);
+        Page<Question> questionPage = new Page<>(page,size);
         if (type == 2){
             questionQueryWrapper.orderByDesc("likeCount");
-            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
+            questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }else if (type == 3){
             questionQueryWrapper.orderByDesc("starCount");
-            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
+            questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }else if (type == 1){
-            questionQueryWrapper.orderByDesc("gmtCreate");
-            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
+            questionQueryWrapper.orderByDesc("gmt_create");
+            questions = questionMapper.selectPage(questionPage, questionQueryWrapper).getRecords();
         }else {
             questionQueryWrapper.orderByDesc("gmtCreate");
-            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
+            questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -126,7 +126,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public PaginationDTO list(int uid, Integer page, Integer size) {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalPage;
+        int totalPage;
         //        搜索总数
         QueryWrapper<Question> questionQueryWrapper1 = new QueryWrapper<>();
         questionQueryWrapper1.eq("creator",uid);
@@ -147,7 +147,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         paginationDTO.setPagination(totalPage,page);
 
-        Integer offset =size *(page - 1);
+//        Integer offset =size *(page - 1);
         QueryWrapper<Question> questionQueryWrapper2 = new QueryWrapper<>();
         questionQueryWrapper2.eq("creator",uid);
         int count = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper2));
@@ -155,7 +155,7 @@ public class QuestionServiceImpl implements QuestionService {
             QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
             questionQueryWrapper.eq("creator",uid)
                     .orderByDesc("gmtCreate");
-            List<Question> questions = (List<Question>) questionMapper.selectPage(new Page<>(offset,size),questionQueryWrapper);
+            List<Question> questions = questionMapper.selectPage(new Page<>(page,size),questionQueryWrapper).getRecords();
             List<QuestionDTO> questionDTOList = new ArrayList<>();
 
             for (Question question : questions) {
@@ -238,7 +238,7 @@ public class QuestionServiceImpl implements QuestionService {
             return new ArrayList<>();
         }
         String[] tags = StringUtils.split(queryDTO.getTag(), "，");
-        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        String regexpTag = String.join("|", tags);
         Question question = new Question();
         question.setId(queryDTO.getId());
         question.setTag(regexpTag);

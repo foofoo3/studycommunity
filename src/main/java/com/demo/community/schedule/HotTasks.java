@@ -36,7 +36,8 @@ public class HotTasks {
 //        获得问题
         while (offset == 0 || list.size() == limit){
             Page<Question> page = new Page<>(offset, limit);
-            list = (List<Question>) questionMapper.selectPage(page,null);
+            Page<Question> questionPage = questionMapper.selectPage(page, null);
+            list = questionPage.getRecords();
 //            循环问题标签并放入map集合
             for (Question question : list){
                 String tagString = question.getTag();

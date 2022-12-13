@@ -4,5 +4,10 @@
       "name": "logging.mybatis-plus.global-config.db-config.logic-delete-value",
       "type": "java.lang.String",
       "description": "Description for logging.mybatis-plus.global-config.db-config.logic-delete-value."
-  }
-] }
+    },
+    {
+      "name": "logging.mybatis-plus.configuration.log-impl",
+      "type": "java.lang.String",
+      "description": "Description for logging.mybatis-plus.configuration.log-impl."
+    }
+  ] }

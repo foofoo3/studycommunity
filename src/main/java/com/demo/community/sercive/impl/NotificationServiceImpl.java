@@ -32,7 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public PaginationDTO list(int uid, Integer page, Integer size) {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalPage;
+        int totalPage;
         //        搜索总数
         QueryWrapper<Notification> countWrapper = new QueryWrapper<>();
         countWrapper.eq("receiver",uid);
@@ -53,13 +53,13 @@ public class NotificationServiceImpl implements NotificationService {
 
         paginationDTO.setPagination(totalPage,page);
 
-        Integer offset =size *(page - 1);
+//        Integer offset =size *(page - 1);
 
         if (totalCount != 0) {
             QueryWrapper<Notification> notificationQueryWrapper = new QueryWrapper<>();
             notificationQueryWrapper.eq("receiver",uid)
                     .orderByDesc("gmt_create");
-            List<Notification> notifications = (List<Notification>) notificationMapper.selectPage(new Page<>(offset,size),notificationQueryWrapper);
+            List<Notification> notifications = notificationMapper.selectPage(new Page<>(page,size),notificationQueryWrapper).getRecords();
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {
                 return paginationDTO;
@@ -149,7 +149,7 @@ public class NotificationServiceImpl implements NotificationService {
     public PaginationDTO adminList(int adminId, Integer page, Integer size) {
 
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalPage;
+        int totalPage;
         //        搜索总数
         QueryWrapper<Notification> notificationQueryWrapper = new QueryWrapper<>();
         notificationQueryWrapper.eq("notifier",adminId)
@@ -171,14 +171,14 @@ public class NotificationServiceImpl implements NotificationService {
 
         paginationDTO.setPagination(totalPage,page);
 
-        Integer offset =size *(page - 1);
+//        Integer offset =size *(page - 1);
 
         if (totalCount != 0) {
             QueryWrapper<Notification> wrapper = new QueryWrapper<>();
             wrapper.eq("notifier",adminId)
                     .and(i -> i.eq("type",3).or().eq("type",4).or().eq("type",5))
                     .orderByDesc("gmtCreate");
-            List<Notification> notifications = (List<Notification>) notificationMapper.selectPage(new Page<>(offset,size),wrapper);
+            List<Notification> notifications = notificationMapper.selectPage(new Page<>(page,size),wrapper).getRecords();
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {
                 return paginationDTO;

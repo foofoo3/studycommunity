@@ -102,7 +102,7 @@ public class StarServiceImpl implements StarService {
     @Override
     public PaginationDTO userStarList(int uid, Integer page, Integer size) {
         PaginationDTO<UserStarsDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalPage;
+        int totalPage;
         //        搜索总数
         QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
         wrapper.eq("uid",uid)
@@ -128,7 +128,7 @@ public class StarServiceImpl implements StarService {
 
         paginationDTO.setPagination(totalPage,page);
 
-        Integer offset =size *(page - 1);
+//        Integer offset =size *(page - 1);
         QueryWrapper<LikeStar> likeStarQueryWrapper = new QueryWrapper<>();
         likeStarQueryWrapper.eq("uid",uid)
                 .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType())
@@ -139,7 +139,7 @@ public class StarServiceImpl implements StarService {
             List<Long> questionIds = myLikeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
             QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
             questionQueryWrapper.eq("id",questionIds);
-            List<Question> starquestions = (List<Question>) questionMapper.selectPage(new Page<>(offset,size),questionQueryWrapper);
+            List<Question> starquestions = questionMapper.selectPage(new Page<>(page,size),questionQueryWrapper).getRecords();
             List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
 
             for (Question question : starquestions) {
