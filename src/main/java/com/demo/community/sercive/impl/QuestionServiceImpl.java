@@ -56,13 +56,13 @@ public class QuestionServiceImpl implements QuestionService {
         if (search == null && tag == null){
             totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
         }else if (search != null && tag == null){
-            questionQueryWrapper.like("search",search);
+            questionQueryWrapper.like("title",search);
             totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
         }else if (search == null && tag != null){
             questionQueryWrapper.like("tag",tag);
             totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
         }else {
-            questionQueryWrapper.like("search",search)
+            questionQueryWrapper.like("title",search)
                     .like("tag",tag);
             totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
         }
@@ -94,16 +94,16 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questions;
         Page<Question> questionPage = new Page<>(page,size);
         if (type == 2){
-            questionQueryWrapper.orderByDesc("likeCount");
+            questionQueryWrapper.orderByDesc("like_count");
             questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }else if (type == 3){
-            questionQueryWrapper.orderByDesc("starCount");
+            questionQueryWrapper.orderByDesc("star_count");
             questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }else if (type == 1){
             questionQueryWrapper.orderByDesc("gmt_create");
             questions = questionMapper.selectPage(questionPage, questionQueryWrapper).getRecords();
         }else {
-            questionQueryWrapper.orderByDesc("gmtCreate");
+            questionQueryWrapper.orderByDesc("gmt_create");
             questions = questionMapper.selectPage(questionPage,questionQueryWrapper).getRecords();
         }
 
@@ -154,7 +154,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (count != 0){
             QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
             questionQueryWrapper.eq("creator",uid)
-                    .orderByDesc("gmtCreate");
+                    .orderByDesc("gmt_create");
             List<Question> questions = questionMapper.selectPage(new Page<>(page,size),questionQueryWrapper).getRecords();
             List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -188,7 +188,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
-        User user = userMapper.selectById(question.getCreator());
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("uid",question.getCreator());
+        User user = userMapper.selectOne(userQueryWrapper);
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -225,8 +227,9 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionMapper.selectById(id);
         question.setView_count(question.getView_count());
         UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-        questionUpdateWrapper.setSql("'viewCount' = 'viewCount' + 1");
-        int update = questionMapper.update(question,questionUpdateWrapper);
+        questionUpdateWrapper.eq("id",question.getId());
+        questionUpdateWrapper.setSql("view_count = view_count + 1");
+        int update = questionMapper.update(question, questionUpdateWrapper);
         if (update != 1){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }

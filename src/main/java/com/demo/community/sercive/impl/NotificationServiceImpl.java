@@ -177,7 +177,7 @@ public class NotificationServiceImpl implements NotificationService {
             QueryWrapper<Notification> wrapper = new QueryWrapper<>();
             wrapper.eq("notifier",adminId)
                     .and(i -> i.eq("type",3).or().eq("type",4).or().eq("type",5))
-                    .orderByDesc("gmtCreate");
+                    .orderByDesc("gmt_create");
             List<Notification> notifications = notificationMapper.selectPage(new Page<>(page,size),wrapper).getRecords();
             List<NotificationDTO> notificationDTOList = new ArrayList<>();
             if (notifications.size() == 0) {

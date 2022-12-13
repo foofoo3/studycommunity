@@ -66,7 +66,8 @@ public class CommentServiceImpl implements CommentService {
 //            评论数加一
             dbcomment.setComment_count(dbcomment.getComment_count());
             UpdateWrapper<Comment> commentUpdateWrapper = new UpdateWrapper<>();
-            commentUpdateWrapper.setSql("'commentCount' = 'commentCount' + 1");
+            commentUpdateWrapper.eq("id",dbcomment.getId());
+            commentUpdateWrapper.setSql("comment_count = comment_count + 1");
             int i = commentMapper.update(dbcomment,commentUpdateWrapper);
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUNT);
@@ -84,7 +85,8 @@ public class CommentServiceImpl implements CommentService {
             //    回复数加一
             question.setComment_count(question.getComment_count());
             UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-            questionUpdateWrapper.setSql("'commentCount' = 'commentCount' + 1");
+            questionUpdateWrapper.eq("id",question.getId());
+            questionUpdateWrapper.setSql("comment_count = comment_count + 1");
             int i = questionMapper.update(question,questionUpdateWrapper);
             if (i != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
@@ -119,16 +121,16 @@ public class CommentServiceImpl implements CommentService {
         if (like == 1) {
 //            按点赞排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parentId","id")
+            wrapper.eq("parent_id","id")
                     .eq("type","type")
-                    .orderByDesc("likeCount");
+                    .orderByDesc("like_count");
             comments = commentMapper.selectList(wrapper);
         } else{
 //            默认时间排序
             QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-            wrapper.eq("parentId","id")
+            wrapper.eq("parent_id","id")
                     .eq("type","type")
-                    .orderByDesc("gmtCreate");
+                    .orderByDesc("gmt_create");
             comments = commentMapper.selectList(wrapper);
         }
         if (comments.size() == 0){
@@ -160,13 +162,13 @@ public class CommentServiceImpl implements CommentService {
         if (type == 1){
 //            如果为评论则删除评论及它的二级评论
             QueryWrapper<Comment> wrapper1 = new QueryWrapper<>();
-            wrapper1.eq("parentId",id)
+            wrapper1.eq("parent_id",id)
                     .eq("type",CommentTypeEnum.COMMENT.getType())
-                    .orderByDesc("gmtCreate");
+                    .orderByDesc("gmt_create");
             List<Comment> comments = commentMapper.selectList(wrapper1);
             if (comments.size() != 0){
                 QueryWrapper<Comment> wrapper2 = new QueryWrapper<>();
-                wrapper2.eq("parentId",id)
+                wrapper2.eq("parent_id",id)
                         .eq("type",CommentTypeEnum.COMMENT.getType());
                 int res = commentMapper.delete(wrapper2);
                 if (res != 0){
@@ -175,7 +177,8 @@ public class CommentServiceImpl implements CommentService {
                     Question parentQuestion = questionMapper.selectById(questionId);
                     parentQuestion.setComment_count(parentQuestion.getComment_count());
                     UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-                    questionUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+                    questionUpdateWrapper.eq("id",parentQuestion.getId());
+                    questionUpdateWrapper.setSql("comment_count = comment_count - 1");
                     int qr = questionMapper.update(parentQuestion,questionUpdateWrapper);
 //                    删除评论
                     int resC = commentMapper.deleteById(id);
@@ -189,7 +192,8 @@ public class CommentServiceImpl implements CommentService {
                 Question parentQuestion = questionMapper.selectById(questionId);
                 parentQuestion.setComment_count(parentQuestion.getComment_count());
                 UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-                questionUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+                questionUpdateWrapper.eq("id",parentQuestion.getId());
+                questionUpdateWrapper.setSql("comment_count = comment_count - 1");
                 int qr = questionMapper.update(parentQuestion,questionUpdateWrapper);
 //                    删除评论
                 int resC = commentMapper.deleteById(id);
@@ -203,7 +207,8 @@ public class CommentServiceImpl implements CommentService {
             Comment parentComment = commentMapper.selectById(commentId);
             parentComment.setComment_count(parentComment.getComment_count());
             UpdateWrapper<Comment> commentUpdateWrapper = new UpdateWrapper<>();
-            commentUpdateWrapper.setSql("'commentCount' = 'commentCount' - 1");
+            commentUpdateWrapper.eq("id",parentComment.getId());
+            commentUpdateWrapper.setSql("comment_count = comment_count - 1");
             int cr = commentMapper.update(parentComment,commentUpdateWrapper);
 
 //            如果为二级评论则直接删除

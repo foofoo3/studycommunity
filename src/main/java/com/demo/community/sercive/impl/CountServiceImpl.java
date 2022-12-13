@@ -59,7 +59,7 @@ public class CountServiceImpl implements CountService {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("commentator",uid);
         List<Comment> comments = commentMapper.selectList(wrapper);
-        for (Comment comment: comments){
+        for (Comment comment : comments){
             likes += comment.getLike_count();
         }
         return likes;

@@ -45,7 +45,8 @@ public class StarServiceImpl implements StarService {
         question.setStar_count(question.getStar_count());
 //        问题收藏数加一
         UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-        questionUpdateWrapper.setSql("'starCount' = 'starCount' + 1");
+        questionUpdateWrapper.eq("id",question.getId());
+        questionUpdateWrapper.setSql("star_count = star_count + 1");
         int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
@@ -72,12 +73,13 @@ public class StarServiceImpl implements StarService {
         question.setStar_count(question.getLike_count());
         //        问题收藏数减一
         UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-        questionUpdateWrapper.setSql("'starCount' = 'starCount' - 1");
+        questionUpdateWrapper.eq("id",question.getId());
+        questionUpdateWrapper.setSql("star_count = star_count - 1");
         int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         if (i != 0){
             QueryWrapper<LikeStar> deleteQueryWrapper = new QueryWrapper<>();
-            deleteQueryWrapper.eq("targetId",questionId)
+            deleteQueryWrapper.eq("target_id",questionId)
                     .eq("uid",uid)
                     .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
             int delete = likeStarMapper.delete(deleteQueryWrapper);
@@ -103,15 +105,25 @@ public class StarServiceImpl implements StarService {
     public PaginationDTO userStarList(int uid, Integer page, Integer size) {
         PaginationDTO<UserStarsDTO> paginationDTO = new PaginationDTO<>();
         int totalPage;
+        List<Question> questions = null;
+        List<Integer> questionIds = null;
         //        搜索总数
+        Integer totalCount;
         QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
         wrapper.eq("uid",uid)
-                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
+                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType())
+                .orderByDesc("gmt_create");
         List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
-        List<Long> targetIds = likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
-        QueryWrapper<Question> countQueryWrapper = new QueryWrapper<>();
-        countQueryWrapper.eq("id",targetIds);
-        Integer totalCount = Math.toIntExact(questionMapper.selectCount(countQueryWrapper));
+        if (likeStars.size() == 0){
+            totalCount = 0;
+        }else {
+            List<Long> collect = likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
+            questionIds = JSONArray.parseArray(collect.toString(),Integer.class);
+            questions = questionMapper.selectBatchIds(questionIds);
+            totalCount = questions.size();
+        }
+
+
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -128,21 +140,22 @@ public class StarServiceImpl implements StarService {
 
         paginationDTO.setPagination(totalPage,page);
 
-//        Integer offset =size *(page - 1);
-        QueryWrapper<LikeStar> likeStarQueryWrapper = new QueryWrapper<>();
-        likeStarQueryWrapper.eq("uid",uid)
-                .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType())
-                .orderByDesc("gmtCreate");
-        int starCount = Math.toIntExact(likeStarMapper.selectCount(likeStarQueryWrapper));
-        if (starCount != 0) {
-            List<LikeStar> myLikeStars = likeStarMapper.selectList(likeStarQueryWrapper);
-            List<Long> questionIds = myLikeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
-            QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
-            questionQueryWrapper.eq("id",questionIds);
-            List<Question> starquestions = questionMapper.selectPage(new Page<>(page,size),questionQueryWrapper).getRecords();
+        Integer offset =size *(page - 1);
+        if (totalCount != 0) {
+//            QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+//            questionQueryWrapper.eq("id",questionIds);
+//            List<Question> starQuestions = questionMapper.selectPage(new Page<>(page,size),questionQueryWrapper).getRecords();
+//           分页
+            List<Question> starQuestions;
+            if (offset + size <= questions.size()){
+                starQuestions = questions.subList(offset, offset + size);
+            }else {
+                starQuestions = questions.subList(offset, questions.size());
+            }
+
             List<UserStarsDTO> userStarsDTOs = new ArrayList<>();
 
-            for (Question question : starquestions) {
+            for (Question question : starQuestions) {
                 QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
                 userQueryWrapper.eq("uid",question.getCreator());
                 User creator = userMapper.selectOne(userQueryWrapper);
@@ -150,7 +163,7 @@ public class StarServiceImpl implements StarService {
                 BeanUtils.copyProperties(question, userStarsDTO);
                 userStarsDTO.setUser(creator);
                 QueryWrapper<LikeStar> starQueryWrapper = new QueryWrapper<>();
-                starQueryWrapper.eq("targetId",(long) question.getId())
+                starQueryWrapper.eq("target_id",(long) question.getId())
                         .eq("uid",uid)
                         .eq("type",LikeOrStarTypeEnum.QUESTION_STAR.getType());
                 Long starTime = likeStarMapper.selectOne(starQueryWrapper).getGmt_create();

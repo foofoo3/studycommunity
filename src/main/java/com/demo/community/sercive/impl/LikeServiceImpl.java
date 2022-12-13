@@ -38,7 +38,8 @@ public class LikeServiceImpl implements LikeService {
         comment.setLike_count(comment.getLike_count());
 //        评论点赞数加一
         UpdateWrapper<Comment> likeUpdateWrapper = new UpdateWrapper<>();
-        likeUpdateWrapper.setSql("'likeCount' = 'likeCount' + 1");
+        likeUpdateWrapper.eq("id",comment.getId());
+        likeUpdateWrapper.setSql("like_count = like_count + 1");
         int i = commentMapper.update(comment,likeUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
@@ -64,12 +65,13 @@ public class LikeServiceImpl implements LikeService {
         comment.setLike_count(comment.getLike_count());
         //        评论点赞数减一
         UpdateWrapper<Comment> likeUpdateWrapper = new UpdateWrapper<>();
-        likeUpdateWrapper.setSql("'likeCount' = 'likeCount' - 1");
+        likeUpdateWrapper.eq("id",comment.getId());
+        likeUpdateWrapper.setSql("like_count = like_count - 1");
         int i = commentMapper.update(comment,likeUpdateWrapper);
         int success = 0;
         if (i != 0){
             QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
-            wrapper.eq("targetId",commentId)
+            wrapper.eq("target_id",commentId)
                     .eq("uid",uid)
                     .eq("type",LikeOrStarTypeEnum.COMMENT_LIKE.getType());
             int delete = likeStarMapper.delete(wrapper);
@@ -85,7 +87,7 @@ public class LikeServiceImpl implements LikeService {
         QueryWrapper<LikeStar> wrapper = new QueryWrapper<>();
         wrapper.eq("uid",user.getUid())
                 .eq("type",LikeOrStarTypeEnum.COMMENT_LIKE.getType())
-                .eq("parentId",questionId);
+                .eq("parent_id",questionId);
         List<LikeStar> likeStars = likeStarMapper.selectList(wrapper);
         return likeStars.stream().map(LikeStar::getTarget_id).collect(Collectors.toList());
     }
@@ -99,7 +101,8 @@ public class LikeServiceImpl implements LikeService {
         question.setLike_count(question.getLike_count());
 //        问题点赞数加一
         UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-        questionUpdateWrapper.setSql("'likeCount' = 'likeCount' + 1");
+        questionUpdateWrapper.eq("id",question.getId());
+        questionUpdateWrapper.setSql("like_count = like_count + 1");
         int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         LikeStar likeStar = new LikeStar();
@@ -126,12 +129,13 @@ public class LikeServiceImpl implements LikeService {
         question.setLike_count(question.getLike_count());
         //        问题点赞数减一
         UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
-        questionUpdateWrapper.setSql("'likeCount' = 'likeCount' - 1");
+        questionUpdateWrapper.eq("id",question.getId());
+        questionUpdateWrapper.setSql("like_count = like_count - 1");
         int i = questionMapper.update(question,questionUpdateWrapper);
         int success = 0;
         if (i != 0){
             QueryWrapper<LikeStar> deleteQueryWrapper = new QueryWrapper<>();
-            deleteQueryWrapper.eq("targetId",questionId)
+            deleteQueryWrapper.eq("target_id",questionId)
                     .eq("uid",uid)
                     .eq("type",LikeOrStarTypeEnum.QUESTION_LIKE.getType());
             int delete = likeStarMapper.delete(deleteQueryWrapper);
