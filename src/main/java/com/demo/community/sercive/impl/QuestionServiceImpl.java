@@ -1,8 +1,10 @@
 package com.demo.community.sercive.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.QuestionDTO;
-import com.demo.community.dto.QuestionQueryDTO;
 import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
@@ -44,11 +46,27 @@ public class QuestionServiceImpl implements QuestionService {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
 
-        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
-        questionQueryDTO.setSearch(search);
-        questionQueryDTO.setTag(tag);
+
+//        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+//        questionQueryDTO.setSearch(search);
+//        questionQueryDTO.setTag(tag);
         //        总页数
-        Integer totalCount = questionMapper.countBySearch(questionQueryDTO);
+        int totalCount;
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        if (search == null && tag == null){
+            totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
+        }else if (search != null && tag == null){
+            questionQueryWrapper.like("search",search);
+            totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
+        }else if (search == null && tag != null){
+            questionQueryWrapper.like("tag",tag);
+            totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
+        }else {
+            questionQueryWrapper.like("search",search)
+                    .like("tag",tag);
+            totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper));
+        }
+
 
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -70,24 +88,31 @@ public class QuestionServiceImpl implements QuestionService {
         if (page != 0 ) {
             offset = size * (page - 1);
         }
-        questionQueryDTO.setSize(size);
-        questionQueryDTO.setPage(offset);
+//        questionQueryDTO.setSize(size);
+//        questionQueryDTO.setPage(offset);
 
         List<Question> questions;
+        Page<Question> questionPage = new Page<>(offset,size);
         if (type == 2){
-            questions = questionMapper.listLike(questionQueryDTO);
+            questionQueryWrapper.orderByDesc("likeCount");
+            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
         }else if (type == 3){
-            questions = questionMapper.listStar(questionQueryDTO);
+            questionQueryWrapper.orderByDesc("starCount");
+            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
         }else if (type == 1){
-            questions = questionMapper.listTime(questionQueryDTO);
+            questionQueryWrapper.orderByDesc("gmtCreate");
+            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
         }else {
-            questions = questionMapper.listTime(questionQueryDTO);
+            questionQueryWrapper.orderByDesc("gmtCreate");
+            questions = (List<Question>) questionMapper.selectPage(questionPage,questionQueryWrapper);
         }
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
-            User user = userMapper.SelectByUid(question.getCreator());
+            QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+            userQueryWrapper.eq("uid",question.getCreator());
+            User user = userMapper.selectOne(userQueryWrapper);
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
@@ -103,7 +128,9 @@ public class QuestionServiceImpl implements QuestionService {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Integer totalPage;
         //        搜索总数
-        Integer totalCount = questionMapper.countByUid(uid);
+        QueryWrapper<Question> questionQueryWrapper1 = new QueryWrapper<>();
+        questionQueryWrapper1.eq("creator",uid);
+        Integer totalCount = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper1));
         //        计算页码总大小
         if (totalCount % size == 0){
             totalPage = totalCount / size;
@@ -121,13 +148,20 @@ public class QuestionServiceImpl implements QuestionService {
         paginationDTO.setPagination(totalPage,page);
 
         Integer offset =size *(page - 1);
-        int count = questionMapper.countByUid(uid);
+        QueryWrapper<Question> questionQueryWrapper2 = new QueryWrapper<>();
+        questionQueryWrapper2.eq("creator",uid);
+        int count = Math.toIntExact(questionMapper.selectCount(questionQueryWrapper2));
         if (count != 0){
-            List<Question> questions = questionMapper.listByUid(uid,offset,size);
+            QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+            questionQueryWrapper.eq("creator",uid)
+                    .orderByDesc("gmtCreate");
+            List<Question> questions = (List<Question>) questionMapper.selectPage(new Page<>(offset,size),questionQueryWrapper);
             List<QuestionDTO> questionDTOList = new ArrayList<>();
 
             for (Question question : questions) {
-                User user = userMapper.SelectByUid(question.getCreator());
+                QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+                userQueryWrapper.eq("uid",question.getCreator());
+                User user = userMapper.selectOne(userQueryWrapper);
                 QuestionDTO questionDTO = new QuestionDTO();
                 BeanUtils.copyProperties(question,questionDTO);
                 questionDTO.setUser(user);
@@ -148,13 +182,13 @@ public class QuestionServiceImpl implements QuestionService {
 //    通过id查问题详情
     @Override
     public QuestionDTO getById(Integer id) {
-        Question question = questionMapper.getQuestionById(id);
+        Question question = questionMapper.selectById(id);
         if (question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
-        User user = userMapper.SelectByUid(question.getCreator());
+        User user = userMapper.selectById(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -164,7 +198,7 @@ public class QuestionServiceImpl implements QuestionService {
     public void create(Question question) {
         question.setGmt_create(System.currentTimeMillis());
         question.setGmt_modified(question.getGmt_create());
-        questionMapper.create(question);
+        questionMapper.insert(question);
     }
 
     //    修改问题
@@ -174,7 +208,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionById.setTitle(title);
         questionById.setDescription(description);
         questionById.setTag(tag);
-        int update = questionMapper.update(questionById);
+        int update = questionMapper.updateById(questionById);
         if (update != 1){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }
@@ -182,15 +216,17 @@ public class QuestionServiceImpl implements QuestionService {
 //    通过id查找问题
     @Override
     public Question getQuestionById(Integer id) {
-        return questionMapper.getQuestionById(id);
+        return questionMapper.selectById(id);
     }
 
 //    浏览数加一
     @Override
     public void incView(Integer id) {
-        Question question = questionMapper.getQuestionById(id);
+        Question question = questionMapper.selectById(id);
         question.setView_count(question.getView_count());
-        int update = questionMapper.updateViewCount(question);
+        UpdateWrapper<Question> questionUpdateWrapper = new UpdateWrapper<>();
+        questionUpdateWrapper.setSql("'viewCount' = 'viewCount' + 1");
+        int update = questionMapper.update(question,questionUpdateWrapper);
         if (update != 1){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUNT);
         }
@@ -207,7 +243,10 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(queryDTO.getId());
         question.setTag(regexpTag);
 
-        List<Question> questions = questionMapper.selectSimilarQuestion(question);
+        QueryWrapper<Question> questionQueryWrapper = new QueryWrapper<>();
+        questionQueryWrapper.ne("id",question.getId())
+                .like("tag",question.getTag());
+        List<Question> questions = questionMapper.selectList(questionQueryWrapper);
         List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(q,questionDTO);
