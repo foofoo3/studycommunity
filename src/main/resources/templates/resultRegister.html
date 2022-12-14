@@ -42,6 +42,15 @@
         }else if (pa[1]==="10"){
             alert("修改成功，请稍等后即可看见新头像")
             window.location.replace("/")
+        }else {
+            alert("标题不能超过40个字")
+            let r = pa.toString().split("&")
+            let id = r[1]
+            if (id === "0"){
+                window.location.replace("/publish")
+            }else {
+                window.location.replace("/publish/"+id)
+            }
         }
     }
     document.write(a());

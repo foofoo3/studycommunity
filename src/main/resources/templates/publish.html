@@ -72,13 +72,13 @@
                             <div role="tabpanel" class="tab-style" th:id="${selectCategory.categoryName}"
                                  th:each="selectCategory : ${tags}" th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
                                 <span class="label label-info label-style" th:each="selectTag : ${selectCategory.tags}">
-                                        <a class="glyphicon glyphicon-tags" th:text="${' '+selectTag}" onclick="selectTag(this)"
+                                        <a class="glyphicon glyphicon-tags pointer" th:text="${' '+selectTag}" onclick="selectTag(this)"
                                            th:data-tag="${selectTag}" style="color: #ffffff;"></a>
                                 </span>
                             </div>
                         </div>
                         <div style="padding-left: 10px;margin-top: 5px">
-                            <span>点击上方默认标签 自动加入标签栏</span>
+                            <span>点击上方默认标签 自动加入标签栏 自定义标签请用逗号（中文）隔开</span>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
             <h3 th:if="${id != 0}" th:text="问题修改指南"></h3>
             <hr>
             <br>
-            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
+            • 问题标题: 请用精简的语言描述您发布的问题，不超过40字<br>
             <br>
             • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
             <br>

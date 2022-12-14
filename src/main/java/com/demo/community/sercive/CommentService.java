@@ -14,7 +14,7 @@ public interface CommentService {
 
     void creat(Comment comment, User user);
 
-    List<CommentDTO> listByParentId(int id, CommentTypeEnum comment, int i);
+    List<CommentDTO> listByParentId(Long id, CommentTypeEnum comment, int i);
 
     Comment getCommentById(Long id);
 

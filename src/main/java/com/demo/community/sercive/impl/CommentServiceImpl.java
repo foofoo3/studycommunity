@@ -116,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
 
 //    返回评论列表
     @Override
-    public List<CommentDTO> listByParentId(int id, CommentTypeEnum type,int like) {
+    public List<CommentDTO> listByParentId(Long id, CommentTypeEnum type,int like) {
         List<Comment> comments;
         if (like == 1) {
 //            按点赞排序

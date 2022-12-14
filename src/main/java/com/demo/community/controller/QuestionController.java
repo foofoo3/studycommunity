@@ -67,9 +67,9 @@ public class QuestionController {
 
 //        判断是否按喜欢排序
         if (like != null) {
-            comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION, like);
+            comments = commentService.listByParentId(Long.valueOf(id), CommentTypeEnum.QUESTION, like);
         }else {
-            comments = commentService.listByParentId(id, CommentTypeEnum.QUESTION,0);
+            comments = commentService.listByParentId(Long.valueOf(id), CommentTypeEnum.QUESTION,0);
         }
 
 //        查询用户喜欢评论id

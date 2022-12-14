@@ -47,7 +47,13 @@ public class PublishController {
         if (user==null){
             throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
         }else {
-            if(tag.contains(",")){
+            if (title.length() > 40){
+                try {
+                    response.sendRedirect("/resultRegister?=false&"+id);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else if(tag.contains(",")){
                 try {
                     response.sendRedirect("/resultLogin?=false&"+id);
                 } catch (IOException e) {
