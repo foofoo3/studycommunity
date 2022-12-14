@@ -30,7 +30,9 @@ public class HotQuestions {
     @Scheduled(fixedRate = 1000 * 60 * 60)
     public void hotQuestionsScheduledByDay() {
         QueryWrapper<Question> queryDayWrapper = new QueryWrapper<>();
-        queryDayWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
+        queryDayWrapper.ge("gmt_create",System.currentTimeMillis() - (1000*60*24));
+        queryDayWrapper.lt("gmt_create",System.currentTimeMillis());
+//        queryDayWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
         List<Question> questions= questionMapper.selectList(queryDayWrapper);
         Map<Question, Integer> priorities = new HashMap<>();
 
@@ -50,7 +52,9 @@ public class HotQuestions {
     @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
     public void hotQuestionsScheduledByWeek() {
         QueryWrapper<Question> queryWeekWrapper = new QueryWrapper<>();
-        queryWeekWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
+        queryWeekWrapper.ge("gmt_create",System.currentTimeMillis() - (1000*60*60*24*7));
+        queryWeekWrapper.lt("gmt_create",System.currentTimeMillis());
+//        queryWeekWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
         List<Question> questions= questionMapper.selectList(queryWeekWrapper);
         Map<Question, Integer> priorities = new HashMap<>();
 
@@ -67,7 +71,9 @@ public class HotQuestions {
     @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
     public void hotQuestionsScheduledByMonth() {
         QueryWrapper<Question> queryMonthWrapper = new QueryWrapper<>();
-        queryMonthWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
+        queryMonthWrapper.ge("gmt_create",System.currentTimeMillis() - (1000L *60*60*24*31));
+        queryMonthWrapper.lt("gmt_create",System.currentTimeMillis());
+//        queryMonthWrapper.apply("DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(from_unixtime(gmt_create/1000,'%Y-%m-%d')) ORDER BY like_count desc limit 0,10");
         List<Question> questions= questionMapper.selectList(queryMonthWrapper);
         Map<Question, Integer> priorities = new HashMap<>();
 
