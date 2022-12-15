@@ -1,9 +1,6 @@
 package com.demo.community.sercive.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.demo.community.entity.Admin;
-import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.mapper.*;
 import com.demo.community.sercive.UserService;
