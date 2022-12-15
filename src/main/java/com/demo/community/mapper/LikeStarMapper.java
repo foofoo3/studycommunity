@@ -17,7 +17,7 @@ import java.util.List;
  * @Author: foofoo3
  */
 @Repository
-public interface LikeStarMapper  extends BaseMapper<LikeStar> {
+public interface LikeStarMapper extends BaseMapper<LikeStar> {
 //
 //    @Insert("insert into like_and_star values (#{type},#{uid},#{target_id},null,#{gmt_create},#{parent_id});")
 //    int insert(LikeStar likeStar);
