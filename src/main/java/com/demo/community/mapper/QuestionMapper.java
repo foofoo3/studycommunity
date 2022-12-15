@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author foofoo3
  */
 @Repository
-public interface QuestionMapper  extends BaseMapper<Question> {
+public interface QuestionMapper extends BaseMapper<Question> {
 //    @Insert("insert into question(id,title,description,gmt_create,gmt_modified,creator,tag) values (null,#{title}, #{description}, #{gmt_create},#{gmt_modified},#{creator},#{tag});")
 //    void create(Question question);
 //
