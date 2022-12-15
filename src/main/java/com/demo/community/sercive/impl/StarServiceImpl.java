@@ -1,10 +1,8 @@
 package com.demo.community.sercive.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.dto.UserStarsDTO;
 import com.demo.community.entity.LikeStar;
