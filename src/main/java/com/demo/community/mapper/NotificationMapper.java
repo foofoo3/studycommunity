@@ -11,7 +11,7 @@ import java.util.List;
  * @author foofoo3
  */
 @Repository
-public interface NotificationMapper  extends BaseMapper<Notification> {
+public interface NotificationMapper extends BaseMapper<Notification> {
 
 //    @Insert("insert into notification(id,notifier,receiver,outerId,type,gmt_create,status,notifier_name,outer_title) values (null,#{notifier}, #{receiver},#{outerId},#{type}, #{gmt_create},#{status},#{notifier_name},#{outer_title});")
 //    void insert(Notification notification);
