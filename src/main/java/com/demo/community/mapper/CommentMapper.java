@@ -11,7 +11,7 @@ import java.util.List;
  * @author foofoo3
  */
 @Repository
-public interface CommentMapper  extends BaseMapper<Comment> {
+public interface CommentMapper extends BaseMapper<Comment> {
 //    @Insert("insert into comment(id,parent_id,type,commentator,gmt_create,gmt_modified,content) values (null,#{parent_id}, #{type},#{commentator}, #{gmt_create},#{gmt_modified},#{content});")
 //    void creat(Comment comment);
 //
