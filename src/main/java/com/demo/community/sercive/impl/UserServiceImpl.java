@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             return 3;
         }else {
             String defaultDescription = "这个人很懒，什么都没留下";
-            String defaultFace = "https://tva3.sinaimg.cn/thumbnail/007E7MVRly1h7ng9bwrwmj30io0iodgw.jpg";
+            String defaultFace = "/images/dface.jpg";
 //            密码 MD5加密
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
             User user = new User();

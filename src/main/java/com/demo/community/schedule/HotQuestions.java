@@ -46,9 +46,6 @@ public class HotQuestions {
 
 //    上一周查询 每周一更新
 //    @Scheduled(cron = "0 0 0 ? * MON")
-
-
-
     @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
     public void hotQuestionsScheduledByWeek() {
         QueryWrapper<Question> queryWeekWrapper = new QueryWrapper<>();
