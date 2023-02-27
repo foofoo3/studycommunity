@@ -8,7 +8,7 @@ import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.enums.CommentTypeEnum;
 import com.demo.community.enums.NotificationTypeEnum;
-import com.demo.community.sercive.*;
+import com.demo.community.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

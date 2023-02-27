@@ -1,4 +1,4 @@
-package com.demo.community.sercive;
+package com.demo.community.service;
 
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.entity.User;

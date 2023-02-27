@@ -1,7 +1,7 @@
 package com.demo.community.interceptor;
 
 import com.demo.community.entity.User;
-import com.demo.community.sercive.impl.NotificationServiceImpl;
+import com.demo.community.service.impl.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;

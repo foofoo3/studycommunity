@@ -1,4 +1,4 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -16,7 +16,7 @@ import com.demo.community.mapper.CommentMapper;
 import com.demo.community.mapper.NotificationMapper;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.mapper.UserMapper;
-import com.demo.community.sercive.CommentService;
+import com.demo.community.service.CommentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

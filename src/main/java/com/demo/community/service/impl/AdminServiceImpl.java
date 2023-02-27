@@ -1,9 +1,9 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.community.entity.Admin;
 import com.demo.community.mapper.AdminMapper;
-import com.demo.community.sercive.AdminService;
+import com.demo.community.service.AdminService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

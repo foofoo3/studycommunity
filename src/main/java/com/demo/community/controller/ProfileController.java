@@ -2,8 +2,8 @@ package com.demo.community.controller;
 
 import com.demo.community.dto.PaginationDTO;
 import com.demo.community.entity.User;
-import com.demo.community.sercive.NotificationService;
-import com.demo.community.sercive.QuestionService;
+import com.demo.community.service.NotificationService;
+import com.demo.community.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -5,7 +5,7 @@ import com.demo.community.entity.Question;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.sercive.QuestionService;
+import com.demo.community.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,9 +1,9 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.community.entity.User;
 import com.demo.community.mapper.*;
-import com.demo.community.sercive.UserService;
+import com.demo.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;

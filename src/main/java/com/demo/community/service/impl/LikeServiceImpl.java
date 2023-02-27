@@ -1,4 +1,4 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,7 +11,7 @@ import com.demo.community.enums.LikeOrStarTypeEnum;
 import com.demo.community.mapper.CommentMapper;
 import com.demo.community.mapper.LikeStarMapper;
 import com.demo.community.mapper.QuestionMapper;
-import com.demo.community.sercive.LikeService;
+import com.demo.community.service.LikeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

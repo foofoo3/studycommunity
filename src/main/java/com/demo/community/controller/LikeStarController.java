@@ -2,8 +2,8 @@ package com.demo.community.controller;
 
 import com.demo.community.dto.ResultDTO;
 import com.demo.community.entity.LikeStar;
-import com.demo.community.sercive.LikeService;
-import com.demo.community.sercive.StarService;
+import com.demo.community.service.LikeService;
+import com.demo.community.service.StarService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

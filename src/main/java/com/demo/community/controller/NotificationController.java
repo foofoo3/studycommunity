@@ -6,7 +6,7 @@ import com.demo.community.entity.User;
 import com.demo.community.enums.NotificationTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.sercive.NotificationService;
+import com.demo.community.service.NotificationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

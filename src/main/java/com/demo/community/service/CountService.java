@@ -1,4 +1,4 @@
-package com.demo.community.sercive;
+package com.demo.community.service;
 
 /**
  * @Author: foofoo3

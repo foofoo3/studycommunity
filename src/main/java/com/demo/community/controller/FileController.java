@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.demo.community.entity.User;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
-import com.demo.community.sercive.UserService;
+import com.demo.community.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -11,7 +11,7 @@ import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.QuestionMapper;
 import com.demo.community.mapper.UserMapper;
-import com.demo.community.sercive.QuestionService;
+import com.demo.community.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

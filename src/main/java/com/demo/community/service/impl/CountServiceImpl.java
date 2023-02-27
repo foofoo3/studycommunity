@@ -1,11 +1,11 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.demo.community.entity.Comment;
 import com.demo.community.entity.Question;
 import com.demo.community.mapper.CommentMapper;
 import com.demo.community.mapper.QuestionMapper;
-import com.demo.community.sercive.CountService;
+import com.demo.community.service.CountService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

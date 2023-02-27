@@ -1,4 +1,4 @@
-package com.demo.community.sercive.impl;
+package com.demo.community.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -12,7 +12,7 @@ import com.demo.community.enums.NotificationTypeEnum;
 import com.demo.community.exception.CustomizeErrorCode;
 import com.demo.community.exception.CustomizeException;
 import com.demo.community.mapper.NotificationMapper;
-import com.demo.community.sercive.NotificationService;
+import com.demo.community.service.NotificationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
