@@ -37,7 +37,7 @@ public class HotQuestions {
         Map<Question, Integer> priorities = new HashMap<>();
 
         for (Question question : questions){
-            Integer hot = question.getComment_count() + (question.getStar_count() * 2) + (question.getLike_count() * 3);
+            Integer hot = question.getComment_count() + (question.getLike_count() * 2) + (question.getStar_count() * 3);
             priorities.put(question,hot);
         }
 
@@ -56,7 +56,7 @@ public class HotQuestions {
         Map<Question, Integer> priorities = new HashMap<>();
 
         for (Question question : questions){
-            Integer hot = question.getComment_count() + (question.getStar_count() * 2) + (question.getLike_count() * 3);
+            Integer hot = question.getComment_count() + (question.getLike_count() * 2) + (question.getStar_count() * 3);
             priorities.put(question,hot);
         }
 
@@ -75,7 +75,7 @@ public class HotQuestions {
         Map<Question, Integer> priorities = new HashMap<>();
 
         for (Question question : questions){
-            Integer hot = question.getComment_count() + (question.getStar_count() * 2) + (question.getLike_count() * 3);
+            Integer hot = question.getComment_count() + (question.getLike_count() * 2) + (question.getStar_count() * 3);
             priorities.put(question,hot);
         }
 
