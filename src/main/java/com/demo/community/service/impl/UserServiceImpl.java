@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
             user.setNumber(number);
             user.setPassword(md5Password);
             user.setDescription(defaultDescription);
+            user.setType(1);
             user.setFace(defaultFace);
             int result = userMapper.insert(user);
             if (result == 1) {
