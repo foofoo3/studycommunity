@@ -117,9 +117,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         if (notification.getStatus() == 2){
 //            管理员消息
-            UpdateWrapper<Notification> notificationUpdateWrapper = new UpdateWrapper<>();
-            notificationUpdateWrapper.set("status",NotificationStatusEnum.ADMIN_READ.getStatus());
-            notificationMapper.update(notification,notificationUpdateWrapper);
+            notification.setStatus(NotificationStatusEnum.ADMIN_READ.getStatus());
+            notificationMapper.updateById(notification);
 
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification,notificationDTO);
@@ -128,9 +127,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         }else {
 //            状态更新为已读
-            UpdateWrapper<Notification> notificationUpdateWrapper = new UpdateWrapper<>();
-            notificationUpdateWrapper.set("status",NotificationStatusEnum.ADMIN_READ.getStatus());
-            notificationMapper.update(notification,notificationUpdateWrapper);
+            notification.setStatus(NotificationStatusEnum.READ.getStatus());
+            notificationMapper.updateById(notification);
 
             NotificationDTO notificationDTO = new NotificationDTO();
             BeanUtils.copyProperties(notification,notificationDTO);
